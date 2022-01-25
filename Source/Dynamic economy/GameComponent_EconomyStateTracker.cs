@@ -19,37 +19,8 @@ namespace DynamicEconomy
         protected List<SettlementPriceModifier> settlementPriceModifiers;
 
 
-        protected float daysSinceLastEconomicEvent;
-        protected int failedEventRolls;
-        protected int ticksSinceLastEventRoll;
-
-        public bool CanRollForEconomicEvent => ticksSinceLastEventRoll >= 60000;
-
-        public float RumorsListeningSuccessChance(Pawn pawn)
-        {
-            float preChance = Math.Min(daysSinceLastEconomicEvent / 40f * 0.5f, 0.5f) + Math.Min(failedEventRolls * 0.025f, 0.5f);
-
-
-            return Math.Min(preChance * pawn.GetStatValue(StatDefOf.NegotiationAbility), 1f);
-
-        }
-        public bool RollForEconomicEvent(Pawn pawn)
-        {
-            bool res = Rand.Chance(RumorsListeningSuccessChance(pawn));
-
-            if (res)
-            {
-                daysSinceLastEconomicEvent = 0f;
-                failedEventRolls = 0;
-            }
-            else
-                failedEventRolls++;
-
-            ticksSinceLastEventRoll = 0;
-
-            return res;
-        }
-
+        private EconomicEventsManager _eventsManager;
+        public EconomicEventsManager EconomicEventsManager => _eventsManager;
 
 
         protected SettlementPriceModifier GetOrCreateIfNeededSettlementModifier(Settlement settlement)
@@ -125,12 +96,14 @@ namespace DynamicEconomy
         public override void StartedNewGame()
         {
             base.StartedNewGame();
+            _eventsManager = new EconomicEventsManager();
             _instance = this;
         }
 
         public override void LoadedGame()
         {
             base.LoadedGame();
+            _eventsManager = new EconomicEventsManager();
             _instance = this;
         }
 
@@ -144,8 +117,7 @@ namespace DynamicEconomy
             base.GameComponentTick();
             if (Find.TickManager.TicksGame%2000==0)
             {
-                ticksSinceLastEventRoll += 2000;
-                daysSinceLastEconomicEvent += 0.03333f;         //2k ticks / 60k ticks in day
+                _eventsManager.TickLong();
 
                 foreach (var mod in settlementPriceModifiers)
                 {
@@ -166,6 +138,7 @@ namespace DynamicEconomy
         {
             base.ExposeData();
             Scribe_Collections.Look(ref settlementPriceModifiers, "settlementPriceModifiers", LookMode.Deep);
+            Scribe_Deep.Look(ref _eventsManager, "eventsManager");
         }
 
 

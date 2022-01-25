@@ -161,4 +161,25 @@ namespace DynamicEconomy
 
         }
     }
+
+    [HarmonyPatch(typeof(Building_CommsConsole), "GetFloatMenuOptions")]
+    public class GetCompDEEventRollMenuOptions
+    {
+        public static IEnumerable<FloatMenuOption> Postfix(IEnumerable<FloatMenuOption> res, Building_CommsConsole __instance,  Pawn myPawn)
+        {
+            bool itWorks = false;
+            foreach (var op in res)
+            {
+                if (!op.Disabled)
+                    itWorks = true;
+                yield return op;
+            }
+
+            if (itWorks)
+            {
+                foreach (var op in __instance.GetComp<CompDEEventRoll>().CompFloatMenuOptions(myPawn))
+                    yield return op;
+            }
+        }
+    }
 }
