@@ -43,18 +43,26 @@ namespace DynamicEconomy
                 var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
                 Settlement settlementOfTrade = TradeSession.trader as Settlement;
 
+                //TODO searching for modifier 3 times is not good. optimize
+
+                var modType = ComplexPriceModifier.GetModifierCategoryFor(__instance.ThingDef, out _);
+                if (modType==ModifierCategory.Constant || modType==ModifierCategory.None)
+                {
+                    __result += ("\n\nUnaffected by any factors.");
+                    return;
+                }
 
                 if (action == TradeAction.PlayerBuys)
                 {
-                    __result += ("\n\n" + "Colony's import volumes multipiler: x" + gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, Factor.Dynamic).ToString("F2"));
-                    float factorEvent = gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, Factor.Event);
+                    __result += ("\n\n" + "Colony's import volumes multipiler: x" + gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, ConsideredFactors.Dynamic).ToString("F2"));
+                    float factorEvent = gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, ConsideredFactors.Event);
                     if (factorEvent != 1f)
                         __result += "\n" + "Event price multipiler: x" + factorEvent.ToString("F2");
                 }
                 else if (action==TradeAction.PlayerSells)
                 {
-                    __result += ("\n\n" + "Colony's export volumes modifier: x" + gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, Factor.Dynamic).ToString("F2"));
-                    float factorEvent = gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, Factor.Event);
+                    __result += ("\n\n" + "Colony's export volumes modifier: x" + gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, ConsideredFactors.Dynamic).ToString("F2"));
+                    float factorEvent = gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, ConsideredFactors.Event);
                     if (factorEvent != 1f)
                         __result += "\n" + "Event price multipiler: x" + factorEvent.ToString("F2");
                 }
@@ -101,21 +109,36 @@ namespace DynamicEconomy
                 if (settlementOfTrade != null)
                     Log.Message("Traded with settlement");
 
+                
+
                 foreach (var transfer in __state[0])
                 {
+
+                    //Debug part
                     ThingCategoryDef cat;
                     var type = ComplexPriceModifier.GetModifierCategoryFor(transfer.First, out cat);
 
-                    Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + " and its defining category is " + cat.defName);
+                    if (cat != null)
+                        Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + "-type and its defining category is " + cat.defName);
+                    else
+                        Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + "-type and has no defining category");
+
+                    //end of debug part
 
                     gameComp.RecordThingTransfer(transfer.First, transfer.Second, TradeAction.PlayerBuys, settlementOfTrade);
                 }
                 foreach (var transfer in __state[1])
                 {
+                    //Debug
                     ThingCategoryDef cat;
                     var type = ComplexPriceModifier.GetModifierCategoryFor(transfer.First, out cat);
 
-                    Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + " and its defining category is " + cat.defName);
+                    if (cat != null)
+                        Log.Message("Sold " + transfer.First.defName + ", which is " + type.ToString() + "-type and its defining category is " + cat.defName);
+                    else
+                        Log.Message("Sold " + transfer.First.defName + ", which is " + type.ToString() + "-type and has no defining category");
+
+                    // end of debug
 
                     gameComp.RecordThingTransfer(transfer.First, transfer.Second, TradeAction.PlayerSells, settlementOfTrade);
                 }
@@ -132,7 +155,7 @@ namespace DynamicEconomy
             if (__result == 1)
                 return __result;
 
-            var gameComp = Current.Game.GetComponent<GameComponent_EconomyStateTracker>();
+            var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
             float modifier = gameComp.GetPriceMultipilerFor(def, TradeAction.PlayerBuys);
             return modifier > 1 ? (int)Math.Floor(__result * modifier) : __result;              //leaving it linear is ok, i guess. sqrt(modifier) had too little effect
 

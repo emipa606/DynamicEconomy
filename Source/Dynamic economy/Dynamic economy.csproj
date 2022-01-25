@@ -67,6 +67,7 @@
     <Compile Include="DynamicEconomyDefOf.cs" />
     <Compile Include="DynamicEconomyMod.cs" />
     <Compile Include="HarmonyPatches.cs" />
+    <Compile Include="PriceModifierCategoryDefExtension.cs" />
     <Compile Include="Quests.cs" />
     <Compile Include="PriceModifiers.cs" />
     <Compile Include="GameComponent_EconomyStateTracker.cs" />

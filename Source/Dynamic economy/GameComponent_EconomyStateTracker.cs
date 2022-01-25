@@ -10,6 +10,7 @@ using RimWorld;
 
 namespace DynamicEconomy
 {
+    
     public class GameComponent_EconomyStateTracker : GameComponent
     {
         private static GameComponent_EconomyStateTracker _instance;
@@ -77,7 +78,7 @@ namespace DynamicEconomy
 
         public float GetPriceMultipilerFor(Tradeable tradeable, Settlement settlementOfTrade=null) => GetPriceMultipilerFor(tradeable.ThingDef, tradeable.ActionToDo, settlementOfTrade);
 
-        public float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, Settlement settlementOfTrade=null, Factor factor=Factor.All)
+        public float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, Settlement settlementOfTrade=null, ConsideredFactors factor=ConsideredFactors.All)
         {
             if (action == TradeAction.None)
                 return 1f;
@@ -115,7 +116,7 @@ namespace DynamicEconomy
             if (debugMod == null)
                 Log.Message("modifier was not created");
             else
-                Log.Message("DEBUG sell=" + debugMod.colonySellsFactor + " buy=" + debugMod.colonyBuysFactor + " sellEv=" + debugMod.colonySellsFactorEvent + " buyEv=" + debugMod.colonyBuysFactorEvent);
+                Log.Message("DEBUG sell=" + debugMod.playerSellsFactor + " buy=" + debugMod.playerBuysFactor + " sellEv=" + debugMod.playerSellsFactorEvent + " buyEv=" + debugMod.playerBuysFactorEvent);
         }
 
 

@@ -11,13 +11,13 @@ namespace DynamicEconomy
 {
     public enum ModifierCategory
     {
-        None,
+        None,              
         Constant,
         Standalone,
         Group
     }
 
-    public enum Factor
+    public enum ConsideredFactors
     {
         Dynamic,
         Event,
@@ -28,40 +28,40 @@ namespace DynamicEconomy
 
     public class TradeablePriceModifier : IExposable
     {
-        public float colonySellsFactor;
-        public float colonyBuysFactor;
+        public float playerSellsFactor;
+        public float playerBuysFactor;
 
-        public float colonyBuysFactorEvent;
-        public float colonySellsFactorEvent;
+        public float playerBuysFactorEvent;
+        public float playerSellsFactorEvent;
 
         public float baseSellFactor;
         public float baseBuyFactor;
 
-        public float GetPriceMultipiler(TradeAction action, Factor factor=Factor.All)
+        public float GetPriceMultipiler(TradeAction action, ConsideredFactors factor=ConsideredFactors.All)
         {
             switch(factor)
             {
-                case Factor.Dynamic:
-                    return action == TradeAction.PlayerBuys ? colonyBuysFactor : (action == TradeAction.PlayerSells ? colonySellsFactor : 1f);
+                case ConsideredFactors.Dynamic:
+                    return action == TradeAction.PlayerBuys ? playerBuysFactor : (action == TradeAction.PlayerSells ? playerSellsFactor : 1f);
 
-                case Factor.Event:
-                    return action == TradeAction.PlayerBuys ? colonyBuysFactorEvent : (action == TradeAction.PlayerSells ? colonySellsFactorEvent : 1f);
+                case ConsideredFactors.Event:
+                    return action == TradeAction.PlayerBuys ? playerBuysFactorEvent : (action == TradeAction.PlayerSells ? playerSellsFactorEvent : 1f);
 
-                case Factor.All:
+                case ConsideredFactors.All:
                 default:
-                    return action == TradeAction.PlayerBuys ? colonyBuysFactorEvent*colonyBuysFactor : (action == TradeAction.PlayerSells ? colonySellsFactorEvent*colonySellsFactor : 1f);
+                    return action == TradeAction.PlayerBuys ? playerBuysFactorEvent*playerBuysFactor : (action == TradeAction.PlayerSells ? playerSellsFactorEvent*playerSellsFactor : 1f);
             }    
         }
-        public bool HasNoEffect =>colonyBuysFactor == 1f && colonySellsFactor == 1f && colonyBuysFactorEvent==1f && colonySellsFactorEvent==1f;
+        public bool HasNoEffect =>playerBuysFactor == 1f && playerSellsFactor == 1f && playerBuysFactorEvent==1f && playerSellsFactorEvent==1f;
 
 
         public void ResetFactors()
         {
-            colonyBuysFactor = baseBuyFactor;
-            colonySellsFactor = baseSellFactor;
+            playerBuysFactor = baseBuyFactor;
+            playerSellsFactor = baseSellFactor;
 
-            colonyBuysFactorEvent = 1f;
-            colonySellsFactorEvent = 1f;
+            playerBuysFactorEvent = 1f;
+            playerSellsFactorEvent = 1f;
         }
 
 
@@ -75,41 +75,41 @@ namespace DynamicEconomy
 
         public void TickLongUpdate()
         {
-            colonySellsFactor += DESettings.priceFactorGrowthRate;
-            if (colonySellsFactor > 1)
-                colonySellsFactor = 1;
+            playerSellsFactor += DESettings.sellingPriceFactorGrowthRate;
+            if (playerSellsFactor > 1)
+                playerSellsFactor = 1;
 
-            colonyBuysFactor *= (1 - DESettings.priceFactorDropRate);
-            if (colonyBuysFactor < 1)
-                colonyBuysFactor = 1;
+            playerBuysFactor *= (1 - DESettings.buyingPriceFactorDropRate);
+            if (playerBuysFactor < 1)
+                playerBuysFactor = 1;
 
 
-            if (colonySellsFactorEvent < 1f)
+            if (playerSellsFactorEvent < 1f)
             {
-                colonySellsFactorEvent += DESettings.priceFactorGrowthRate;
-                if (colonySellsFactorEvent > 1f)
-                    colonySellsFactorEvent = 1;
+                playerSellsFactorEvent += DESettings.sellingPriceFactorGrowthRate;
+                if (playerSellsFactorEvent > 1f)
+                    playerSellsFactorEvent = 1;
 
             }
-            else if (colonySellsFactorEvent > 1f)
+            else if (playerSellsFactorEvent > 1f)
             {
-                colonySellsFactorEvent *= 1 - DESettings.priceFactorDropRate;
-                if (colonySellsFactorEvent < 1f)
-                    colonySellsFactorEvent = 1;
+                playerSellsFactorEvent *= 1 - DESettings.buyingPriceFactorDropRate;
+                if (playerSellsFactorEvent < 1f)
+                    playerSellsFactorEvent = 1;
             }
 
-            if (colonyBuysFactorEvent < 1f)
+            if (playerBuysFactorEvent < 1f)
             {
-                colonyBuysFactorEvent += DESettings.priceFactorGrowthRate;
-                if (colonyBuysFactorEvent > 1f)
-                    colonyBuysFactorEvent = 1;
+                playerBuysFactorEvent += DESettings.sellingPriceFactorGrowthRate;
+                if (playerBuysFactorEvent > 1f)
+                    playerBuysFactorEvent = 1;
 
             }
-            else if (colonyBuysFactorEvent > 1f)
+            else if (playerBuysFactorEvent > 1f)
             {
-                colonyBuysFactorEvent *= 1 - DESettings.priceFactorDropRate;
-                if (colonyBuysFactorEvent < 1f)
-                    colonyBuysFactorEvent = 1;
+                playerBuysFactorEvent *= 1 - DESettings.buyingPriceFactorDropRate;
+                if (playerBuysFactorEvent < 1f)
+                    playerBuysFactorEvent = 1;
             }
         }
 
@@ -122,11 +122,11 @@ namespace DynamicEconomy
 
             if (action == TradeAction.PlayerBuys)
             {
-                colonyBuysFactor += baseTotalPrice / 7000f;                //TODO replace 7k with external var
+                playerBuysFactor += baseTotalPrice / 7000f;                //TODO replace 7k with external var
             }
             else
             {
-                colonySellsFactor /= (1f + baseTotalPrice / 7000f);        //TODO replace 7k with external var
+                playerSellsFactor /= (1f + baseTotalPrice / 7000f);        //TODO replace 7k with external var
             }
         }
 
@@ -139,23 +139,23 @@ namespace DynamicEconomy
 
         public void ForceSetFactors(float colonySellsFactor, float colonyBuysFactor)
         {
-            this.colonyBuysFactor = colonyBuysFactor;
-            this.colonySellsFactor = colonySellsFactor;
+            this.playerBuysFactor = colonyBuysFactor;
+            this.playerSellsFactor = colonySellsFactor;
         }
 
         public void SetEventFactors(float colonySellsFactor, float colonyBuysFactor)
         {
-            this.colonySellsFactorEvent = colonySellsFactor;
-            this.colonyBuysFactorEvent = colonyBuysFactor;
+            this.playerSellsFactorEvent = colonySellsFactor;
+            this.playerBuysFactorEvent = colonyBuysFactor;
         }
 
         public virtual void ExposeData()
         {
-            Scribe_Values.Look(ref colonySellsFactor, "colonySellsF");
-            Scribe_Values.Look(ref colonyBuysFactor, "colonyBuysF");
+            Scribe_Values.Look(ref playerSellsFactor, "colonySellsF");
+            Scribe_Values.Look(ref playerBuysFactor, "colonyBuysF");
 
-            Scribe_Values.Look(ref colonySellsFactorEvent, "colonySellsFEvent");
-            Scribe_Values.Look(ref colonyBuysFactorEvent, "colonyBuysFEvent");
+            Scribe_Values.Look(ref playerSellsFactorEvent, "colonySellsFEvent");
+            Scribe_Values.Look(ref playerBuysFactorEvent, "colonyBuysFEvent");
 
             Scribe_Values.Look(ref baseSellFactor, "colonySellsBase");
             Scribe_Values.Look(ref baseBuyFactor, "colonyBuysBase");
@@ -208,9 +208,6 @@ namespace DynamicEconomy
 
 
 
-
-
-
     public class ComplexPriceModifier : IExposable
     {
         public List<ThingPriceModifier> thingPriceModifiers;
@@ -242,9 +239,12 @@ namespace DynamicEconomy
                     modifier = new ThingCategoryPriceModifier(thingCategory);
                     thingCategoryPriceModifiers.Add((ThingCategoryPriceModifier)modifier);
                 }
-
-                Log.Message("Found modifier for " + thingDef.defName);
+                else
+                {
+                    Log.Message("Found modifier for " + thingDef.defName);
+                }
             }
+            
 
             return modifier;
         }
@@ -272,7 +272,7 @@ namespace DynamicEconomy
 
         //TODO find a better place for this
 
-        private static List<ThingCategoryDef> groupableThingsCategories = new List<ThingCategoryDef>()                  //apparel and other stuff  that should be grouped
+        /*private static List<ThingCategoryDef> groupableThingsCategories = new List<ThingCategoryDef>()                  //apparel and other stuff  that should be grouped
         {
             ThingCategoryDefOf.Apparel,
             ThingCategoryDefOf.Weapons,
@@ -283,7 +283,7 @@ namespace DynamicEconomy
         private static List<ThingCategoryDef> standaloneThingsCategories = new List<ThingCategoryDef>() {               //steel, wood, components etc. 
             ThingCategoryDefOf.ResourcesRaw,
             ThingCategoryDefOf.Manufactured
-        };                 
+        };                 */
 
         public ComplexPriceModifier()
         {
@@ -293,7 +293,7 @@ namespace DynamicEconomy
 
         }
 
-        public virtual float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, Factor factor = Factor.All)
+        public virtual float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, ConsideredFactors factor = ConsideredFactors.All)
         {
             ThingCategoryDef thingCat;
             var type = GetModifierCategoryFor(thingDef, out thingCat);
@@ -315,7 +315,6 @@ namespace DynamicEconomy
 
                 return modifier.GetPriceMultipiler(action, factor);
             }
-
             return 1f;
         }
 
@@ -327,7 +326,7 @@ namespace DynamicEconomy
 
             var modifier = GetOrCreateIfNeededTradeablePriceModifier(thingDef);
             if (modifier!=null)
-                modifier.RecordNewDeal(action, totalCost);
+                modifier.RecordNewDeal(action, totalCost);          // mb divide totalCost by current multipiler?
         }
 
         public virtual void TickLong()
@@ -348,11 +347,25 @@ namespace DynamicEconomy
 
         
 
-        public static ModifierCategory GetModifierCategoryFor(ThingDef thingDef, out ThingCategoryDef definigCategory)              
+        public static ModifierCategory GetModifierCategoryFor(ThingDef thingDef, out ThingCategoryDef definingCategory)              
         {
-            //Works for O(n^2) in worst case scenario, but category tree isnt that big. Has to be tested anyway
+            if (thingDef==null || thingDef.thingCategories.Count==0)
+            {
+                definingCategory = null;
+                return ModifierCategory.None;
+            }
 
-            ThingCategoryDef node = thingDef.thingCategories.Last();        //I hope the last ones in te list are going to be last categories in ierarchy
+            var thingSpecificMod = thingDef.GetModExtension<PriceModifierCategoryDefExtension>();
+            if (thingSpecificMod != null)
+            {
+                definingCategory = null;
+                return thingSpecificMod.category;
+            }
+
+            var node = thingDef.thingCategories[0];                           // It appears that almost every thing has only one category
+                                                                              
+
+            /*ThingCategoryDef node = thingDef.thingCategories.Last();        
             bool isLast = false;
             while (!isLast)
             {
@@ -366,40 +379,34 @@ namespace DynamicEconomy
                         break;
                     }
                 }
-            }
+            }*/
 
-            for (int i=0;i<thingDef.thingCategories.Count;i++)
+            while(node!=null)
             {
-                if (groupableThingsCategories.Contains(node))
+                var extension = node.GetModExtension<PriceModifierCategoryDefExtension>();
+                if (extension != null && extension.category != ModifierCategory.None)
                 {
-                    definigCategory = node;
-                    return ModifierCategory.Group;
+                    definingCategory = node;
+                    return extension.category;
                 }
-
-                if (standaloneThingsCategories.Contains(node))
-                {
-                    definigCategory = node;
-                    return ModifierCategory.Standalone;
-                }
-
                 node = node.parent;
             }
 
-            definigCategory = null;
-            return ModifierCategory.Constant;
-
-                              
+            definingCategory = null;
+            return ModifierCategory.None;
         }
 
         public static ModifierCategory GetModifierCategoryFor(ThingCategoryDef thingCategoryDef)
         {
-            if (standaloneThingsCategories.Contains(thingCategoryDef))
-                return ModifierCategory.Standalone;
+            if (thingCategoryDef == null)
+                return ModifierCategory.None;
 
-            if (groupableThingsCategories.Contains(thingCategoryDef))
-                return ModifierCategory.Group;
 
-            else return ModifierCategory.Constant;
+            var extension = thingCategoryDef.GetModExtension<PriceModifierCategoryDefExtension>();
+            if (extension != null && extension.category != ModifierCategory.None)
+                return extension.category;
+
+            return ModifierCategory.None;
         }
 
         public void SetBaseModifier(ThingDef def, float baseSellFactor, float baseBuyFactor)
@@ -407,7 +414,7 @@ namespace DynamicEconomy
             var modifier = GetOrCreateIfNeededTradeablePriceModifier(def);
             if (modifier==null)
             {
-                Log.Error("tried to set base multipilers for None-category thing");
+                Log.Error("tried to set base multipilers for None- or constant-category thing");    //TODO make const category available for setting base mods
                 return;
             }
 
@@ -426,9 +433,6 @@ namespace DynamicEconomy
             Scribe_Collections.Look(ref thingPriceModifiers, "thingsMods", LookMode.Deep);
         }
     }
-
-
-
 
 
 

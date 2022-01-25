@@ -11,9 +11,6 @@ using RimWorld.QuestGen;
 
 namespace DynamicEconomy
 {
-    
-
-
     public class QuestNode_HighDemand_GetEventModifiers : QuestNode
     {
         [NoTranslate]

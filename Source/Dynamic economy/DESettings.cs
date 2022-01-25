@@ -10,11 +10,11 @@ namespace DynamicEconomy
 {
     class DESettings : ModSettings
     {
-        public const float DefaultPriceFactorDropRate = 0.003f;
-        public const float DefaultPriceFactorGrowthRate = 0.003f;
+        public const float DefaultBuyingPriceFactorDropRate = 0.003f;
+        public const float DefaultSellinPriceFactorGrowthRate = 0.002f;
 
-        public static float priceFactorDropRate;
-        public static float priceFactorGrowthRate;
+        public static float buyingPriceFactorDropRate;
+        public static float sellingPriceFactorGrowthRate;
 
 
 
@@ -25,10 +25,10 @@ namespace DynamicEconomy
             listingStandard.Begin(inRect);
 
             listingStandard.Label("Price factor drop rate multipiler");
-            priceFactorDropRate = listingStandard.Slider(priceFactorDropRate/DefaultPriceFactorDropRate, 0.01f, 10f)*DefaultPriceFactorDropRate;
+            buyingPriceFactorDropRate = listingStandard.Slider(buyingPriceFactorDropRate/DefaultBuyingPriceFactorDropRate, 0.01f, 10f)*DefaultBuyingPriceFactorDropRate;            //TODO make it logarithmic
 
             listingStandard.Label("Price factor growth rate multipiler");
-            priceFactorGrowthRate = listingStandard.Slider(priceFactorGrowthRate / DefaultPriceFactorGrowthRate, 0.01f, 10f) * DefaultPriceFactorGrowthRate;
+            sellingPriceFactorGrowthRate = listingStandard.Slider(sellingPriceFactorGrowthRate / DefaultSellinPriceFactorGrowthRate, 0.01f, 10f) * DefaultSellinPriceFactorGrowthRate;
 
             listingStandard.End();
         }
@@ -36,8 +36,8 @@ namespace DynamicEconomy
         public override void ExposeData()
         {
             base.ExposeData();
-            Scribe_Values.Look(ref priceFactorDropRate, "priceFDropRate", DefaultPriceFactorDropRate);
-            Scribe_Values.Look(ref priceFactorGrowthRate, "priceFGrowthRate", DefaultPriceFactorGrowthRate);
+            Scribe_Values.Look(ref buyingPriceFactorDropRate, "priceFDropRate", DefaultBuyingPriceFactorDropRate);
+            Scribe_Values.Look(ref sellingPriceFactorGrowthRate, "priceFGrowthRate", DefaultSellinPriceFactorGrowthRate);
         }
     }
 }
