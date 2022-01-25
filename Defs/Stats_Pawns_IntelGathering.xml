@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <StatDef>
+    <defName>IntelGatheringAbility</defName>
+    <label>intel gathering ability</label>
+    <description>How effective this person is at collecting intel via comms console listening. It affects chance of finding out profitable markets.</description>
+    <category>PawnSocial</category>
+    <defaultBaseValue>1</defaultBaseValue>
+    <minValue>0.4</minValue>
+    <toStringStyle>PercentTwo</toStringStyle>
+    <skillNeedFactors>
+      <li Class="SkillNeed_BaseBonus">
+        <skill>Social</skill>
+        <baseValue>0.4</baseValue>
+        <bonusPerLevel>0.075</bonusPerLevel>
+      </li>
+    </skillNeedFactors>
+    <capacityFactors>
+      <li>
+        <capacity>Talking</capacity>
+        <weight>0.5</weight>
+        <allowedDefect>0.8</allowedDefect>
+        <max>1</max>
+      </li>
+      <li>
+        <capacity>Hearing</capacity>
+        <weight>0.9</weight>
+        <allowedDefect>0.05</allowedDefect>
+        <max>1</max>
+      </li>
+    </capacityFactors>
+    <displayPriorityInCategory>1900</displayPriorityInCategory>
+  </StatDef>
+  </Defs>

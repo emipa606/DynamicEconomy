@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+<QuestScriptDef>
+  <defName>HighDemandQuest</defName>
+    <autoAccept>true</autoAccept>
+    <defaultChallengeRating>0</defaultChallengeRating>
+    <isRootSpecial>true</isRootSpecial>
+    <questNameRules>
+      <rulesStrings>
+
+        <!-- quest name single -->
+        <li>questName->[supplyNoun] [requestWord]</li>
+        <li>questName->[supplyNoun] for [settlementName]</li>
+
+        <!-- pieces -->
+        <li>supplyNoun->supplies</li>
+        <li>supplyNoun->goods</li>
+        <li>supplyNoun->cargo</li>
+
+        <li>requestWord->requied</li>
+        <li>requestWord->request</li>
+        <li>requestWord->needed</li>
+      </rulesStrings>
+    </questNameRules>
+    <questDescriptionRules>
+      <rulesStrings>
+        <li>questDescription->[settlement_label] needs [demandedThingCategoryDefName]. [reasonInfo]. \n
+          Price modifier starts at x[buyFactorS] and will smoothly return back to default. This is an opportunity to sell things abobe market price.</li>
+
+        <li>reasonInfo(demandedThingCategoryDefName==Medicine)->They were raided by pirates and many of them were injured. They will pay much more for any medicines, be it healroot or glittermed</li>
+        <li>reasonInfo(demandedThingCategoryDefName==Medicine)->A virulent disease broke out within their community, bringing almost everyone to bed. They will pay much more for any medicines, be it healroot or glittermed</li>
+        <li>reasonInfo(demandedThingCategoryDefName==FoodMeals)->All of their cooks got depression and they lack cooked food. They will pay much more for any meal, be it N.Paste or gourmet</li>
+        <li>reasonInfo(demandedThingCategoryDefName==BuildingsArt)->They seek for somethng beatiful, something to be put in the center of the settlement. They will pay much more for sculptures</li>
+        <li>reasonInfo(demandedThingCategoryDefName==Drugs)->Hardships of the rim broke many of their people bringing them to drug addiction. They will pay much more for drugs, be it a beer or a yayo</li>
+        <li>reasonInfo(demandedThingCategoryDefName==Weapons)->They are preparing for pirate raid, but they have little weaponry remaining. They will pay much more for weapons</li>
+        <li>reasonInfo(demandedThingCategoryDefName==Apparel)->Their inner route caravan, which was supposed to bring them new clothes, went missing. They will pay much more for any apparel</li>
+
+      </rulesStrings>
+    </questDescriptionRules>
+    <root Class="QuestNode_Sequence">
+      <nodes>
+        <li Class="QuestNode_GetMap" />
+
+        <li Class="QuestNode_GetNearbySettlement">
+          <maxTileDistance>32</maxTileDistance>
+          <storeAs>settlement</storeAs>
+        </li>
+
+        <li Class="DynamicEconomy.QuestNode_HighDemand_GetEventModifiers">
+          <storeCategoryAs>category</storeCategoryAs>
+          <storePlayerSellsFactorAs>sellFactor</storePlayerSellsFactorAs>
+          <storePlayerBuysFactorAs>buyFactor</storePlayerBuysFactorAs>
+        </li>
+
+        <li Class="DynamicEconomy.QuestNode_EventModifier_GenStrings">
+          <category>$category</category>
+          <storeCategoryStringAs>demandedThingCategoryDefName</storeCategoryStringAs>
+
+          <playerBuysFactor>$buyFactor</playerBuysFactor>
+          <storeBuyFactorStringAs>buyFactorS</storeBuyFactorStringAs>
+
+          <playerSellsFactor>$sellFactor</playerSellsFactor>
+          <storeSellFactorStringAs>sellFactorS</storeSellFactorStringAs>
+        </li>
+
+        <li Class="DynamicEconomy.QuestNode_HighDemand_Init">
+          <playerSellsFactor>$sellFactor</playerSellsFactor>
+          <playerBuysFactor>$buyFactor</playerBuysFactor>
+          <requestedCategoryDef>$category</requestedCategoryDef>
+          <settlement>$settlement</settlement>
+        </li>
+
+        <!-- auto end. yep, thats it-->
+        <li Class="QuestNode_End">
+            <outcome>Success</outcome>
+        </li>
+      </nodes>
+    </root>
+  </QuestScriptDef>
+</Defs>
