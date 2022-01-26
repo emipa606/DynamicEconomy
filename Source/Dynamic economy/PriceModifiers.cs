@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Verse;
 using RimWorld;
 using RimWorld.Planet;
+using System.Xml;
 
 namespace DynamicEconomy
 {
@@ -19,19 +20,67 @@ namespace DynamicEconomy
 
     public enum ConsideredFactors
     {
+        Base,
         Dynamic,
         Event,
         All
     }
 
     
+    // xml stuff
+
+    public class BiomeThingPriceMultipiler
+    {
+        public string thingDefName="";
+        public float baseMultipiler = 1f;
+
+        public void LoadDataFromXmlCustom(XmlNode xmlRoot)
+        {
+            if (xmlRoot.ChildNodes.Count != 1)
+            {
+                Log.Error("Biome thing price multipiler error at " + xmlRoot.OuterXml);
+                return;
+            }
+
+            thingDefName = xmlRoot.Name;
+            baseMultipiler = ParseHelper.ParseFloat(xmlRoot.FirstChild.Value);
+        }
+    }
+
+    public class BiomeCategoryPriceMultipiler
+    {
+        public string categoryDefName = "";
+        public float baseMultipiler = 1f;
+
+        public void LoadDataFromXmlCustom(XmlNode xmlRoot)
+        {
+            if (xmlRoot.ChildNodes.Count != 1)
+            {
+                Log.Error("Biome thing price multipiler error at " + xmlRoot.OuterXml);
+                return;
+            }
+
+            categoryDefName = xmlRoot.Name;
+            baseMultipiler = ParseHelper.ParseFloat(xmlRoot.FirstChild.Value);
+        }
+    }
+
+
+
+    /// <summary>
+    /// A simple price modifier, contains only multipilers and provides methods for them
+    /// </summary>
+    /// No info about what price of which thing is multipiled
 
     public class TradeablePriceModifier : IExposable
     {
+        public const float BaseCostToDoubleFactor = 7000f;
+        public static float CostToDoubleFactor => DESettings.costToDoublePriceMultipiler*BaseCostToDoubleFactor;
+
         public float playerSellsFactor;
         public float playerBuysFactor;
 
-        public float playerBuysFactorEvent;
+        public float playerBuysFactorEvent;                     // unaffected by trades              
         public float playerSellsFactorEvent;
 
         public float baseSellFactor;
@@ -41,24 +90,28 @@ namespace DynamicEconomy
         {
             switch(factor)
             {
-                case ConsideredFactors.Dynamic:
+
+                case ConsideredFactors.Dynamic:                 
                     return action == TradeAction.PlayerBuys ? playerBuysFactor : (action == TradeAction.PlayerSells ? playerSellsFactor : 1f);
 
                 case ConsideredFactors.Event:
                     return action == TradeAction.PlayerBuys ? playerBuysFactorEvent : (action == TradeAction.PlayerSells ? playerSellsFactorEvent : 1f);
 
+                case ConsideredFactors.Base:
+                    return action == TradeAction.PlayerBuys ? baseBuyFactor : (action == TradeAction.PlayerSells ? baseSellFactor : 1f);
+
                 case ConsideredFactors.All:
                 default:
-                    return action == TradeAction.PlayerBuys ? playerBuysFactorEvent*playerBuysFactor : (action == TradeAction.PlayerSells ? playerSellsFactorEvent*playerSellsFactor : 1f);
+                    return action == TradeAction.PlayerBuys ? playerBuysFactorEvent*playerBuysFactor*baseBuyFactor : (action == TradeAction.PlayerSells ? playerSellsFactorEvent*playerSellsFactor*baseSellFactor : 1f);
             }    
         }
-        public bool HasNoEffect =>playerBuysFactor == 1f && playerSellsFactor == 1f && playerBuysFactorEvent==1f && playerSellsFactorEvent==1f;
+        //public bool HasNoEffect =>playerBuysFactor == 1f && playerSellsFactor == 1f && playerBuysFactorEvent==1f && playerSellsFactorEvent==1f;
 
 
         public void ResetFactors()
         {
-            playerBuysFactor = baseBuyFactor;
-            playerSellsFactor = baseSellFactor;
+            playerBuysFactor = 1f;
+            playerSellsFactor = 1f;
 
             playerBuysFactorEvent = 1f;
             playerSellsFactorEvent = 1f;
@@ -122,11 +175,11 @@ namespace DynamicEconomy
 
             if (action == TradeAction.PlayerBuys)
             {
-                playerBuysFactor += baseTotalPrice / 7000f;                //TODO replace 7k with external var
+                playerBuysFactor += baseTotalPrice / CostToDoubleFactor;                
             }
             else
             {
-                playerSellsFactor /= (1f + baseTotalPrice / 7000f);        //TODO replace 7k with external var
+                playerSellsFactor /= (float)Math.Pow(2, baseTotalPrice / CostToDoubleFactor);        
             }
         }
 
@@ -178,6 +231,7 @@ namespace DynamicEconomy
             this.def = def;
         }
 
+
         public override void ExposeData()
         {
             base.ExposeData();
@@ -206,14 +260,16 @@ namespace DynamicEconomy
 
 
 
-
+    /// <summary>
+    /// Contains all the info and provides methods needed to get price multipiler for any thing
+    /// </summary>
 
     public class ComplexPriceModifier : IExposable
     {
         public List<ThingPriceModifier> thingPriceModifiers;
         public List<ThingCategoryPriceModifier> thingCategoryPriceModifiers;
 
-        protected TradeablePriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingDef thingDef)         //returns null for ModifierCategory.None
+        public TradeablePriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingDef thingDef)         //returns null for ModifierCategory.None
         {
             ThingCategoryDef thingCategory;
             var modCategory = GetModifierCategoryFor(thingDef, out thingCategory);
@@ -228,7 +284,7 @@ namespace DynamicEconomy
                 }
                 else
                 {
-                    Log.Message("Found modifier for " + thingDef.defName);
+                    //Log.Message("Found modifier for " + thingDef.defName);
                 }
             }
             else if (modCategory == ModifierCategory.Group)
@@ -241,7 +297,7 @@ namespace DynamicEconomy
                 }
                 else
                 {
-                    Log.Message("Found modifier for " + thingDef.defName);
+                    //Log.Message("Found modifier for " + thingDef.defName);
                 }
             }
             
@@ -271,8 +327,6 @@ namespace DynamicEconomy
                 return null;
             }
         }
-
-
 
         public ComplexPriceModifier()
         {
@@ -334,7 +388,6 @@ namespace DynamicEconomy
             }
         }
 
-        
 
         public static ModifierCategory GetModifierCategoryFor(ThingDef thingDef, out ThingCategoryDef definingCategory)              
         {
@@ -427,6 +480,24 @@ namespace DynamicEconomy
             if (settlement != null && settlement.Faction != Faction.OfPlayer)
             {
                 forPlayerSettlement = false;
+
+                var extension = settlement.Biome.GetModExtension<LocalPriceModifierDefExtension>();
+                foreach (var biomeMod in extension.thingPriceMultipilers)
+                {
+                    thingPriceModifiers.Add(new ThingPriceModifier(
+                        DefDatabase<ThingDef>.GetNamed(biomeMod.thingDefName),
+                        biomeMod.baseMultipiler,
+                        biomeMod.baseMultipiler));
+                }
+
+                foreach (var biomeMod in extension.categoryPriceMultipilers)
+                {
+                    thingCategoryPriceModifiers.Add(new ThingCategoryPriceModifier(
+                        DefDatabase<ThingCategoryDef>.GetNamed(biomeMod.categoryDefName),
+                        biomeMod.baseMultipiler,
+                        biomeMod.baseMultipiler));
+                }
+
                 this.settlement = settlement;
             }
             else

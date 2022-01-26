@@ -8,6 +8,7 @@ using RimWorld.Planet;
 using RimWorld;
 
 
+
 namespace DynamicEconomy
 {
     
@@ -23,9 +24,12 @@ namespace DynamicEconomy
         public EconomicEventsManager EconomicEventsManager => _eventsManager;
 
 
-        protected SettlementPriceModifier GetOrCreateIfNeededSettlementModifier(Settlement settlement)
+
+        public SettlementPriceModifier GetOrCreateIfNeededSettlementModifier(Settlement settlement)
         {
             SettlementPriceModifier modifier;
+            
+            
             if (settlement != null && settlement.Faction != Faction.OfPlayer)
             {
                 modifier = settlementPriceModifiers.Find(mod => mod.Settlement == settlement);
@@ -48,7 +52,6 @@ namespace DynamicEconomy
                     settlementPriceModifiers.Add(modifier);
                 }
             }
-
             
 
             return modifier;
@@ -93,12 +96,12 @@ namespace DynamicEconomy
 
             modifier.AddEventModifier(thingCategoryDef, playerSellsFactor, playerBuysFactor);
 
-            var debugMod = GetOrCreateIfNeededSettlementModifier(targetSettlement).thingCategoryPriceModifiers.Find(mod => mod.Def == thingCategoryDef);
+            /*var debugMod = GetOrCreateIfNeededSettlementModifier(targetSettlement).thingCategoryPriceModifiers.Find(mod => mod.Def == thingCategoryDef);
 
             if (debugMod == null)
                 Log.Message("modifier was not created");
             else
-                Log.Message("DEBUG sell=" + debugMod.playerSellsFactor + " buy=" + debugMod.playerBuysFactor + " sellEv=" + debugMod.playerSellsFactorEvent + " buyEv=" + debugMod.playerBuysFactorEvent + "TOTAL SELL MUL = " + debugMod.GetPriceMultipiler(TradeAction.PlayerSells));
+                Log.Message("DEBUG sell=" + debugMod.playerSellsFactor + " buy=" + debugMod.playerBuysFactor + " sellEv=" + debugMod.playerSellsFactorEvent + " buyEv=" + debugMod.playerBuysFactorEvent + "TOTAL SELL MUL = " + debugMod.GetPriceMultipiler(TradeAction.PlayerSells));*/
         }
 
 

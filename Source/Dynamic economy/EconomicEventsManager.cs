@@ -12,15 +12,20 @@ namespace DynamicEconomy
 {
     public class EconomicEventsManager : IExposable
     {
+        public const int EconomicEventRollCooldownTicks = 60000;
+        public const int DaysTillMaxTimeBonus = 60;
+        public const int XPBonus = 1250;
+
+
         public float daysSinceLastEconomicEvent;
         public float failedEventRollsBonus;
         public int ticksSinceLastEventRoll;
 
-        public bool CanRollForEconomicEvent => ticksSinceLastEventRoll>=60000;        
+        public bool CanRollForEconomicEvent => ticksSinceLastEventRoll>=EconomicEventRollCooldownTicks;        
 
         public float EventRollSuccessChance(Pawn pawn)
         {
-            float preChance = Math.Min(daysSinceLastEconomicEvent / 60f * 0.5f, 0.5f) + Math.Min(failedEventRollsBonus, 0.5f);
+            float preChance = Math.Min((daysSinceLastEconomicEvent / DaysTillMaxTimeBonus) * 0.5f, 0.5f) + Math.Min(failedEventRollsBonus, 0.5f);
 
             return Math.Min(preChance * pawn.GetStatValue(StatDefOf.NegotiationAbility), 1f);
 
@@ -41,7 +46,7 @@ namespace DynamicEconomy
                 failedEventRollsBonus += pawn.GetStatValue(StatDefOf.NegotiationAbility) * 0.025f;
 
 
-            pawn.skills.Learn(SkillDefOf.Social, 1250);
+            pawn.skills.Learn(SkillDefOf.Social, XPBonus);
             ticksSinceLastEventRoll = 0;
 
             return res;
@@ -57,7 +62,7 @@ namespace DynamicEconomy
         {
             Scribe_Values.Look(ref daysSinceLastEconomicEvent, "daysSinceLastEconomicEvent", 0f);
             Scribe_Values.Look(ref failedEventRollsBonus, "failedEventRollsBonus", 0f);
-            Scribe_Values.Look(ref ticksSinceLastEventRoll, "ticksSinceLastEventRoll", 60000, true);
+            Scribe_Values.Look(ref ticksSinceLastEventRoll, "ticksSinceLastEventRoll", 60000);         
         }
     }
 

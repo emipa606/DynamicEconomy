@@ -43,26 +43,34 @@ namespace DynamicEconomy
                 var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
                 Settlement settlementOfTrade = TradeSession.trader as Settlement;
 
-                //TODO searching for modifier 3 times is not good. optimize
+                
+                var mod = gameComp.GetOrCreateIfNeededSettlementModifier(settlementOfTrade).GetOrCreateIfNeededTradeablePriceModifier(__instance.ThingDef);
 
-                var modType = ComplexPriceModifier.GetModifierCategoryFor(__instance.ThingDef, out _);
-                if (modType==ModifierCategory.Constant || modType==ModifierCategory.None)
+                __result += "\n";
+                float localMul = mod.GetPriceMultipiler(action, ConsideredFactors.Base);
+                if (settlementOfTrade!=null && localMul!=1f)
                 {
-                    __result += ("\n\nUnaffected by any factors.");
-                    return;
+                    __result += "\nLocal multipiler: x" + localMul.ToString("F2");
                 }
+
 
                 if (action == TradeAction.PlayerBuys)
                 {
-                    __result += ("\n\n" + "Colony's import volumes multipiler: x" + gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, ConsideredFactors.Dynamic).ToString("F2"));
-                    float factorEvent = gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, ConsideredFactors.Event);
+                    float factorDynamic = mod.GetPriceMultipiler(action, ConsideredFactors.Dynamic);
+                    if (factorDynamic!=1f)
+                        __result += ("\n" + "Player's purchases volumes multipiler: x" + factorDynamic.ToString("F2"));
+
+                    float factorEvent = mod.GetPriceMultipiler(action, ConsideredFactors.Event);
                     if (factorEvent != 1f)
                         __result += "\n" + "Event price multipiler: x" + factorEvent.ToString("F2");
                 }
                 else if (action==TradeAction.PlayerSells)
                 {
-                    __result += ("\n\n" + "Colony's export volumes modifier: x" + gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, ConsideredFactors.Dynamic).ToString("F2"));
-                    float factorEvent = gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade, ConsideredFactors.Event);
+                    float factorDynamic = mod.GetPriceMultipiler(action, ConsideredFactors.Dynamic);
+                    if (factorDynamic != 1f)
+                        __result += ("\n" + "Player's sales volumes multipiler: x" + factorDynamic.ToString("F2"));
+
+                    float factorEvent = mod.GetPriceMultipiler(action, ConsideredFactors.Event);
                     if (factorEvent != 1f)
                         __result += "\n" + "Event price multipiler: x" + factorEvent.ToString("F2");
                 }
