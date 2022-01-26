@@ -14,5 +14,10 @@ namespace DynamicEconomy
         public static QuestScriptDef HighDemandQuest;
 
         public static JobDef GatherInfo;
+        
+        public static ConstantPriceModsDef Hillness_Flat;
+        public static ConstantPriceModsDef Hillness_SmallHills;
+        public static ConstantPriceModsDef Hillness_LargeHills;
+        public static ConstantPriceModsDef Hillness_Mountainous;
     }
 }

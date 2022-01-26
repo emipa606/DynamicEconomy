@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RimWorld.Planet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,16 +8,11 @@ using Verse;
 
 namespace DynamicEconomy
 {
-    public class PriceModifierCategoryDefExtension : DefModExtension
-    {
-        public ModifierCategory category=ModifierCategory.None;
-    }
-
-
-
-    public class LocalPriceModifierDefExtension : DefModExtension
+    public class ConstantPriceModsDef : Def
     {
         public List<BaseThingPriceMultipilerInfo> thingPriceMultipilers = new List<BaseThingPriceMultipilerInfo>();
         public List<BaseCategoryPriceMultipilerInfo> categoryPriceMultipilers = new List<BaseCategoryPriceMultipilerInfo>();
+
+        // TODO add some methods ie GetPriceMods
     }
 }

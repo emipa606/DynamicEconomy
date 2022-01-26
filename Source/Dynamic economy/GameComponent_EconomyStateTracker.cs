@@ -23,9 +23,12 @@ namespace DynamicEconomy
         private EconomicEventsManager _eventsManager;
         public EconomicEventsManager EconomicEventsManager => _eventsManager;
 
+        private float _recentTurnover;
+        public float TraderSilverMultipiler => 1f + _recentTurnover / 3500f;     //tmp placeholder, replace
 
 
-        public SettlementPriceModifier GetOrCreateIfNeededSettlementModifier(Settlement settlement)
+
+        public SettlementPriceModifier GetOrCreateIfNeededSettlementModifier(Settlement settlement)       // can return null for unaffected things
         {
             SettlementPriceModifier modifier;
             
@@ -78,6 +81,7 @@ namespace DynamicEconomy
         public void RecordThingTransfer(ThingDef def, float totalCost, TradeAction action, Settlement settlementOfTrade=null)
         {
             var modifier = GetOrCreateIfNeededSettlementModifier(settlementOfTrade);
+            _recentTurnover += totalCost;
 
             modifier.RecordNewDeal(def, totalCost, action);
             settlementPriceModifiers.Add(modifier);
@@ -131,6 +135,8 @@ namespace DynamicEconomy
             base.GameComponentTick();
             if (Find.TickManager.TicksGame%2000==0)
             {
+                _recentTurnover *= 0.999f;          //TODO replace with value from settings
+
                 _eventsManager.TickLong();
 
                 foreach (var mod in settlementPriceModifiers)

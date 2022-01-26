@@ -29,7 +29,7 @@ namespace DynamicEconomy
     
     // xml stuff
 
-    public class BiomeThingPriceMultipiler
+    public class BaseThingPriceMultipilerInfo
     {
         public string thingDefName="";
         public float baseMultipiler = 1f;
@@ -47,7 +47,7 @@ namespace DynamicEconomy
         }
     }
 
-    public class BiomeCategoryPriceMultipiler
+    public class BaseCategoryPriceMultipilerInfo
     {
         public string categoryDefName = "";
         public float baseMultipiler = 1f;
@@ -482,20 +482,71 @@ namespace DynamicEconomy
                 forPlayerSettlement = false;
 
                 var extension = settlement.Biome.GetModExtension<LocalPriceModifierDefExtension>();
+
+                var hills = Find.WorldGrid[settlement.Tile].hilliness;
+                ConstantPriceModsDef hillModDef;
+                switch(hills)
+                {
+                    
+                    case Hilliness.Flat:
+                        hillModDef = DynamicEconomyDefOf.Hillness_Flat;
+                        break;
+
+                    case Hilliness.SmallHills:
+                        hillModDef = DynamicEconomyDefOf.Hillness_SmallHills;
+                        break;
+
+                    case Hilliness.LargeHills:
+                        hillModDef = DynamicEconomyDefOf.Hillness_LargeHills;
+                        break;
+
+                    case Hilliness.Mountainous:
+                        hillModDef = DynamicEconomyDefOf.Hillness_Mountainous;
+                        break;
+
+                    default:
+                        Log.Error("Settlement is placed in " + hills.ToString() + " region for which there is no base modifier");
+                        hillModDef = null;
+                        break;
+
+                }
+
+                if (hillModDef != null)
+                {
+                    // it is safe to add mods directly since lists are empty at this moment
+
+                    foreach (var mod in hillModDef.categoryPriceMultipilers)
+                    {
+                        thingCategoryPriceModifiers.Add(new ThingCategoryPriceModifier(
+                            DefDatabase<ThingCategoryDef>.GetNamed(mod.categoryDefName),
+                            mod.baseMultipiler,
+                            mod.baseMultipiler));
+                    }
+
+                    foreach (var mod in hillModDef.thingPriceMultipilers)
+                    {
+                        thingPriceModifiers.Add(new ThingPriceModifier(
+                            DefDatabase<ThingDef>.GetNamed(mod.thingDefName),
+                            mod.baseMultipiler,
+                            mod.baseMultipiler));
+                    }
+                }
+
+
                 foreach (var biomeMod in extension.thingPriceMultipilers)
                 {
-                    thingPriceModifiers.Add(new ThingPriceModifier(
-                        DefDatabase<ThingDef>.GetNamed(biomeMod.thingDefName),
-                        biomeMod.baseMultipiler,
-                        biomeMod.baseMultipiler));
+                    var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingDef>.GetNamed(biomeMod.thingDefName));
+
+                    mod.baseBuyFactor *= biomeMod.baseMultipiler;
+                    mod.baseSellFactor *= biomeMod.baseMultipiler;
                 }
 
                 foreach (var biomeMod in extension.categoryPriceMultipilers)
                 {
-                    thingCategoryPriceModifiers.Add(new ThingCategoryPriceModifier(
-                        DefDatabase<ThingCategoryDef>.GetNamed(biomeMod.categoryDefName),
-                        biomeMod.baseMultipiler,
-                        biomeMod.baseMultipiler));
+                    var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingCategoryDef>.GetNamed(biomeMod.categoryDefName));
+
+                    mod.baseBuyFactor *= biomeMod.baseMultipiler;
+                    mod.baseSellFactor *= biomeMod.baseMultipiler;
                 }
 
                 this.settlement = settlement;

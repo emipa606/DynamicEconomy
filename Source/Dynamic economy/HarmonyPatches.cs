@@ -46,6 +46,13 @@ namespace DynamicEconomy
                 
                 var mod = gameComp.GetOrCreateIfNeededSettlementModifier(settlementOfTrade).GetOrCreateIfNeededTradeablePriceModifier(__instance.ThingDef);
 
+                if (mod==null)
+                {
+                    __result += "\n\nPrice is not affected by any factors";
+                    return;
+                }
+
+
                 __result += "\n";
                 float localMul = mod.GetPriceMultipiler(action, ConsideredFactors.Base);
                 if (settlementOfTrade!=null && localMul!=1f)
@@ -162,8 +169,14 @@ namespace DynamicEconomy
         {
             if (__result == 1)
                 return __result;
-
             var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
+
+            if (def==ThingDefOf.Silver)
+            {
+                return (int)(__result * gameComp.TraderSilverMultipiler);
+            }
+
+            
             float modifier = gameComp.GetPriceMultipilerFor(def, TradeAction.PlayerBuys);
             return modifier > 1 ? (int)Math.Floor(__result * modifier) : __result;              //leaving it linear is ok, i guess. sqrt(modifier) had too little effect
 

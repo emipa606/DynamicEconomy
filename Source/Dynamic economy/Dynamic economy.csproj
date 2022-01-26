@@ -69,6 +69,7 @@
     <Compile Include="EconomicEventsManager.cs" />
     <Compile Include="HarmonyPatches.cs" />
     <Compile Include="DefModExtensions.cs" />
+    <Compile Include="ConstantPriceModsDef.cs" />
     <Compile Include="Quests.cs" />
     <Compile Include="PriceModifiers.cs" />
     <Compile Include="GameComponent_EconomyStateTracker.cs" />
