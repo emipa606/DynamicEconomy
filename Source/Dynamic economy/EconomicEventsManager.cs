@@ -16,7 +16,7 @@ namespace DynamicEconomy
         public float failedEventRollsBonus;
         public int ticksSinceLastEventRoll;
 
-        public bool CanRollForEconomicEvent => ticksSinceLastEventRoll>=60000;        //DEBUG replace with 1 day cd
+        public bool CanRollForEconomicEvent => ticksSinceLastEventRoll>=60000;        
 
         public float EventRollSuccessChance(Pawn pawn)
         {
@@ -35,12 +35,13 @@ namespace DynamicEconomy
                 failedEventRollsBonus = 0f;
 
                 QuestUtility.GenerateQuestAndMakeAvailable(DynamicEconomyDefOf.HighDemandQuest, 50);
-
                 Find.LetterStack.ReceiveLetter("High tariffs", "One of your colonists found out that one of nearby settlements requires specific supplies. This can be a good opportunity to make some profitable trades.\n\nCheck quest log for more info.", LetterDefOf.NewQuest);
             }
             else
                 failedEventRollsBonus += pawn.GetStatValue(StatDefOf.NegotiationAbility) * 0.025f;
 
+
+            pawn.skills.Learn(SkillDefOf.Social, 1250);
             ticksSinceLastEventRoll = 0;
 
             return res;

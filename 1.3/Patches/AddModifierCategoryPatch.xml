@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Patch>
     
+
     <Operation Class="PatchOperationAddModExtension">
         <xpath>Defs/ThingCategoryDef[defName="Foods" or defName="FoodMeals" or defName="FoodRaw" or defName="MeatRaw" or defName="PlantFoodRaw" or defName="AnimalProductRaw" or defName="Medicine" or defName="Drugs" or defName="Animals" or defName="Apparel" or defName="ApparelArmor" or defName="MortarShells" or defName="Wools" or defName="Weapons" or defName="Leathers" or defName="Textiles" or defName="StoneBlocks" or defName="BodyParts" or defName="BodyPartsNatural"]</xpath>
         <value>
@@ -11,7 +12,7 @@
     </Operation>
 
     <Operation Class="PatchOperationAddModExtension">
-        <xpath>Defs/ThingCategoryDef[defName="Manufactured" or defName="ResourcesRaw"]</xpath>
+        <xpath>Defs/ThingCategoryDef[defName="Manufactured" or defName="ResourcesRaw" or defName="Items"]</xpath>
         <value>
             <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
                 <category>Standalone</category>
@@ -24,6 +25,15 @@
         <value>
             <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
                 <category>Constant</category>
+            </li>
+        </value>
+    </Operation>
+
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/ThingDef[defName="ThrumboHorn" or defName="ElephantTusk" or defName="AIPersonaCore" or defName="Luciferium"]</xpath>
+        <value>
+            <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
+                <category>Standalone</category>
             </li>
         </value>
     </Operation>

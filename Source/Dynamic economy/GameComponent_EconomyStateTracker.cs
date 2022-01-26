@@ -29,10 +29,13 @@ namespace DynamicEconomy
             if (settlement != null && settlement.Faction != Faction.OfPlayer)
             {
                 modifier = settlementPriceModifiers.Find(mod => mod.Settlement == settlement);
-
+                
                 if (modifier == null)
+                {
+                    Log.Message("Created modifier for " + settlement.Label);
                     modifier = new SettlementPriceModifier(settlement);
-
+                    settlementPriceModifiers.Add(modifier);
+                }
             }
 
             else
@@ -40,9 +43,13 @@ namespace DynamicEconomy
                 modifier = settlementPriceModifiers.Find(mod => mod.ForPlayerSettlement);
 
                 if (modifier == null)
+                {
                     modifier = new SettlementPriceModifier(null);
-
+                    settlementPriceModifiers.Add(modifier);
+                }
             }
+
+            
 
             return modifier;
         }
@@ -78,16 +85,20 @@ namespace DynamicEconomy
         {
             ComplexPriceModifier modifier = GetOrCreateIfNeededSettlementModifier(targetSettlement);
 
+            if (targetSettlement==null)
+            {
+                Log.Warning("Setted an event modifier for null(player) settlement");
+            }
             
 
             modifier.AddEventModifier(thingCategoryDef, playerSellsFactor, playerBuysFactor);
 
-            var debugMod = modifier.thingCategoryPriceModifiers.Find(mod => mod.Def == thingCategoryDef);
+            var debugMod = GetOrCreateIfNeededSettlementModifier(targetSettlement).thingCategoryPriceModifiers.Find(mod => mod.Def == thingCategoryDef);
 
             if (debugMod == null)
                 Log.Message("modifier was not created");
             else
-                Log.Message("DEBUG sell=" + debugMod.playerSellsFactor + " buy=" + debugMod.playerBuysFactor + " sellEv=" + debugMod.playerSellsFactorEvent + " buyEv=" + debugMod.playerBuysFactorEvent);
+                Log.Message("DEBUG sell=" + debugMod.playerSellsFactor + " buy=" + debugMod.playerBuysFactor + " sellEv=" + debugMod.playerSellsFactorEvent + " buyEv=" + debugMod.playerBuysFactorEvent + "TOTAL SELL MUL = " + debugMod.GetPriceMultipiler(TradeAction.PlayerSells));
         }
 
 

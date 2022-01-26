@@ -249,7 +249,7 @@ namespace DynamicEconomy
             return modifier;
         }
 
-        protected ThingCategoryPriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingCategoryDef thingCategoryDef)         //returns null for ModifierCategory.None or Constant
+        protected ThingCategoryPriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingCategoryDef thingCategoryDef)         //returns null for ModifierCategory != Group
         {
             var modCategory = GetModifierCategoryFor(thingCategoryDef);
             ThingCategoryPriceModifier modifier;
@@ -266,24 +266,13 @@ namespace DynamicEconomy
                 return modifier;
             }
             else
+            {
+                Log.Error("Cant get modifier for " + modCategory.ToString() + "-type thing category");
                 return null;
+            }
         }
 
 
-        //TODO find a better place for this
-
-        /*private static List<ThingCategoryDef> groupableThingsCategories = new List<ThingCategoryDef>()                  //apparel and other stuff  that should be grouped
-        {
-            ThingCategoryDefOf.Apparel,
-            ThingCategoryDefOf.Weapons,
-            ThingCategoryDefOf.BuildingsArt,
-            ThingCategoryDefOf.Medicine
-        };
-
-        private static List<ThingCategoryDef> standaloneThingsCategories = new List<ThingCategoryDef>() {               //steel, wood, components etc. 
-            ThingCategoryDefOf.ResourcesRaw,
-            ThingCategoryDefOf.Manufactured
-        };                 */
 
         public ComplexPriceModifier()
         {
@@ -349,11 +338,12 @@ namespace DynamicEconomy
 
         public static ModifierCategory GetModifierCategoryFor(ThingDef thingDef, out ThingCategoryDef definingCategory)              
         {
-            if (thingDef==null || thingDef.thingCategories.Count==0)
+            if (thingDef==null)
             {
                 definingCategory = null;
                 return ModifierCategory.None;
             }
+            
 
             var thingSpecificMod = thingDef.GetModExtension<PriceModifierCategoryDefExtension>();
             if (thingSpecificMod != null)
@@ -362,24 +352,14 @@ namespace DynamicEconomy
                 return thingSpecificMod.category;
             }
 
-            var node = thingDef.thingCategories[0];                           // It appears that almost every thing has only one category
+            if (thingDef.thingCategories.Count == 0)
+            {
+                definingCategory = null;
+                return ModifierCategory.None;
+            }
+            var node = thingDef.thingCategories[0];                          
                                                                               
 
-            /*ThingCategoryDef node = thingDef.thingCategories.Last();        
-            bool isLast = false;
-            while (!isLast)
-            {
-                isLast = true;
-                foreach (var child in node.childCategories)
-                {
-                    if (thingDef.thingCategories.Contains(child))
-                    {
-                        node = child;
-                        isLast = false;
-                        break;
-                    }
-                }
-            }*/
 
             while(node!=null)
             {

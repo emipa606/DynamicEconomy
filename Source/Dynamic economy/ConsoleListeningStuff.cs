@@ -32,7 +32,12 @@ namespace DynamicEconomy
 
             yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.InteractionCell).FailOn((to => !(Console.CanUseCommsNow)));
 
-            yield return Toils_General.Wait((int)(BaseTimeToDoTicks * pawn.GetStatValue(StatDefOf.NegotiationAbility)), TargetIndex.A).FailOn((to => !(Console.CanUseCommsNow)));
+            yield return Toils_General.WaitWith(
+                TargetIndex.A, 
+                (int)(BaseTimeToDoTicks * pawn.GetStatValue(StatDefOf.NegotiationAbility)),
+                useProgressBar: true)
+                .FailOn(to => !(Console.CanUseCommsNow));
+
             yield return Toils_General.Do(() => manager.RollForEconomicEvent(pawn));
         }
     }

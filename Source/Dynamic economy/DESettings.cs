@@ -24,10 +24,10 @@ namespace DynamicEconomy
             Listing_Standard listingStandard = new Listing_Standard();
             listingStandard.Begin(inRect);
 
-            listingStandard.Label("Price factor drop rate multipiler");
+            listingStandard.Label("Price factor drop rate multipiler: " + buyingPriceFactorDropRate / DefaultBuyingPriceFactorDropRate);
             buyingPriceFactorDropRate = listingStandard.Slider(buyingPriceFactorDropRate/DefaultBuyingPriceFactorDropRate, 0.01f, 10f)*DefaultBuyingPriceFactorDropRate;            //TODO make it logarithmic
 
-            listingStandard.Label("Price factor growth rate multipiler");
+            listingStandard.Label("Price factor growth rate multipiler: " + sellingPriceFactorGrowthRate / DefaultBuyingPriceFactorDropRate);
             sellingPriceFactorGrowthRate = listingStandard.Slider(sellingPriceFactorGrowthRate / DefaultSellinPriceFactorGrowthRate, 0.01f, 10f) * DefaultSellinPriceFactorGrowthRate;
 
             listingStandard.End();
