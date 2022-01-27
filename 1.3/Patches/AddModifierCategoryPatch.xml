@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Patch>
     <Operation Class="PatchOperationAddModExtension">
-        <xpath>Defs/ThingCategoryDef[defName="Foods" or defName="FoodMeals" or defName="FoodRaw" or defName="MeatRaw" or defName="PlantFoodRaw" or defName="AnimalProductRaw" or defName="Medicine" or defName="Drugs" or defName="Animals" or defName="Apparel" or defName="ApparelArmor" or defName="MortarShells" or defName="Wools" or defName="Weapons" or defName="Leathers" or defName="Textiles" or defName="StoneBlocks" or defName="BodyParts" or defName="BodyPartsNatural"]</xpath>
+        <xpath>Defs/ThingCategoryDef[defName="BuildingsArt" or defName="Foods" or defName="FoodMeals" or defName="FoodRaw" or defName="MeatRaw" or defName="PlantFoodRaw" or defName="AnimalProductRaw" or defName="Medicine" or defName="Drugs" or defName="Animals" or defName="Apparel" or defName="ApparelArmor" or defName="MortarShells" or defName="Wools" or defName="Weapons" or defName="Leathers" or defName="Textiles" or defName="StoneBlocks" or defName="BodyParts" or defName="BodyPartsNatural"]</xpath>
         <value>
             <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
                 <category>Group</category>
@@ -27,8 +27,9 @@
         </value>
     </Operation>
 
+    <!-- Penoxy should be separate from addictive drug-->
     <Operation Class="PatchOperationAddModExtension">
-        <xpath>Defs/ThingDef[defName="ThrumboHorn" or defName="ElephantTusk" or defName="AIPersonaCore" or defName="Luciferium"]</xpath>
+        <xpath>Defs/ThingDef[defName="ThrumboHorn" or defName="ElephantTusk" or defName="AIPersonaCore" or defName="Luciferium" or defName="Penoxycyline"]</xpath>
         <value>
             <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
                 <category>Standalone</category>

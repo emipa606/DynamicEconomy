@@ -305,7 +305,7 @@ namespace DynamicEconomy
             return modifier;
         }
 
-        protected ThingCategoryPriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingCategoryDef thingCategoryDef)         //returns null for ModifierCategory != Group
+        public ThingCategoryPriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingCategoryDef thingCategoryDef)         //returns null for ModifierCategory != Group
         {
             var modCategory = GetModifierCategoryFor(thingCategoryDef);
             ThingCategoryPriceModifier modifier;
@@ -323,7 +323,7 @@ namespace DynamicEconomy
             }
             else
             {
-                Log.Error("Cant get modifier for " + modCategory.ToString() + "-type thing category");
+                Log.Error("Cant get modifier for " + modCategory.ToString() + "-type thing category defName=" + thingCategoryDef.defName);
                 return null;
             }
         }
@@ -378,13 +378,19 @@ namespace DynamicEconomy
             {
                 thingPriceModifiers[i].TickLongUpdate();
                 // if (thingPriceModifiers[i].HasNoEffect)
+                // {
                 //     thingPriceModifiers.RemoveAt(i);
+                //     i--;
+                // }
             }
             for (int i = 0; i < thingCategoryPriceModifiers.Count; i++)
             {
                 thingCategoryPriceModifiers[i].TickLongUpdate();
                 // if (thingCategoryPriceModifiers[i].HasNoEffect)
+                // {
                 //     thingCategoryPriceModifiers.RemoveAt(i);
+                //     i--;
+                // }
             }
         }
 
@@ -480,8 +486,10 @@ namespace DynamicEconomy
             if (settlement != null && settlement.Faction != Faction.OfPlayer)
             {
                 forPlayerSettlement = false;
+                this.settlement = settlement;
 
-                var extension = settlement.Biome.GetModExtension<LocalPriceModifierDefExtension>();
+
+                
 
                 var hills = Find.WorldGrid[settlement.Tile].hilliness;
                 ConstantPriceModsDef hillModDef;
@@ -533,6 +541,13 @@ namespace DynamicEconomy
                 }
 
 
+                var extension = settlement.Biome.GetModExtension<LocalPriceModifierDefExtension>();
+                if (extension==null)
+                {
+                    Log.Warning("Havent found any biome modifier for " + settlement.Biome.defName);
+                    return;
+                }    
+
                 foreach (var biomeMod in extension.thingPriceMultipilers)
                 {
                     var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingDef>.GetNamed(biomeMod.thingDefName));
@@ -549,7 +564,7 @@ namespace DynamicEconomy
                     mod.baseSellFactor *= biomeMod.baseMultipiler;
                 }
 
-                this.settlement = settlement;
+                
             }
             else
             {

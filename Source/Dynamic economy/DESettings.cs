@@ -12,7 +12,7 @@ namespace DynamicEconomy
     class DESettings : ModSettings
     {
         public const float DefaultBuyingPriceFactorDropRate = 0.001f;           //Per tickLong
-        public const float DefaultSellinPriceFactorGrowthRate = 0.0004f;
+        public const float DefaultSellinPriceFactorGrowthRate = 0.0006f;
 
         public static float buyingPriceFactorDropRate;
         public static float sellingPriceFactorGrowthRate;
