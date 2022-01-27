@@ -22,6 +22,8 @@ namespace DynamicEconomy
         public static float turnoverEffectOnTraderCurrencyMultipiler;
         public static float turnoverEffectDropRateMultipiler;
 
+        public static float randyCoinRandomOfsettMultipiler;
+
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
@@ -49,6 +51,9 @@ namespace DynamicEconomy
             listingStandard.Label("Currently it takes around " + ((int)Math.Log(0.5f, (1 - turnoverEffectDropRateMultipiler*GameComponent_EconomyStateTracker.BaseTurnoverEffectDrop)) * 2000).ToStringTicksToDays() + " for currency multipiler to be halfed");
             turnoverEffectDropRateMultipiler = listingStandard.Slider(turnoverEffectDropRateMultipiler, 0.05f, 10f);
 
+            listingStandard.Label("Psicoin price randomness multipiler: " + randyCoinRandomOfsettMultipiler.ToString("F2"));
+            randyCoinRandomOfsettMultipiler = listingStandard.Slider(randyCoinRandomOfsettMultipiler, 0.01f, 10f);
+
             listingStandard.End();
         }
 
@@ -60,6 +65,7 @@ namespace DynamicEconomy
             Scribe_Values.Look(ref costToDoublePriceMultipiler, "costToDoublePriceMultipiler", 1f);
             Scribe_Values.Look(ref turnoverEffectOnTraderCurrencyMultipiler, "turnoverEffectOnTraderCurrencyMultipiler", 1f);
             Scribe_Values.Look(ref turnoverEffectDropRateMultipiler, "turnoverEffectDropRateMultipiler", 1f);
+            Scribe_Values.Look(ref randyCoinRandomOfsettMultipiler, "randyCoinRandomOfsettMultipiler", 1f);
         }
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+  <ThoughtDef>
+    <defName>PsiCoinMiningThought</defName>
+    <workerClass>ThoughtWorker_Hediff</workerClass>
+    <hediff>PsiCoinMining</hediff>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>light psicoin mining</label>
+        <description>This damn implant messes up with my head, it feels as if.. wait, what was I thinking about?</description>
+        <baseMoodEffect>-7</baseMoodEffect>
+      </li>
+      <li>
+        <label>hard psicoin mining</label>
+        <description>..due to PLEASE undetermined MAKE our homeland IT to live is to STOP optimal way of...</description>
+        <baseMoodEffect>-30</baseMoodEffect>
+      </li>
+    </stages>
+  </ThoughtDef>
+</Defs>

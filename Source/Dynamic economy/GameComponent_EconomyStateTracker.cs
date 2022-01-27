@@ -19,6 +19,8 @@ namespace DynamicEconomy
 
         protected List<SettlementPriceModifier> settlementPriceModifiers;
 
+        private PsiCoinManager _psiCoinManager;
+        public PsiCoinManager PsiCoinManager => _psiCoinManager;
 
         private EconomicEventsManager _eventsManager;
         public EconomicEventsManager EconomicEventsManager => _eventsManager;
@@ -117,14 +119,13 @@ namespace DynamicEconomy
         public override void StartedNewGame()
         {
             base.StartedNewGame();
-            _eventsManager = new EconomicEventsManager();
+            
             _instance = this;
         }
 
         public override void LoadedGame()
         {
             base.LoadedGame();
-            _eventsManager = new EconomicEventsManager();
             _instance = this;
         }
 
@@ -138,8 +139,8 @@ namespace DynamicEconomy
             base.GameComponentTick();
             if (Find.TickManager.TicksGame%2000==0)
             {
-                _recentTurnover *= (1-BaseTurnoverEffectDrop*DESettings.turnoverEffectDropRateMultipiler);        
-
+                _recentTurnover *= (1-BaseTurnoverEffectDrop*DESettings.turnoverEffectDropRateMultipiler);
+                _psiCoinManager.TickLong();
                 _eventsManager.TickLong();
 
                 foreach (var mod in settlementPriceModifiers)
@@ -154,14 +155,23 @@ namespace DynamicEconomy
 
         public GameComponent_EconomyStateTracker(Game game)
         {
-            settlementPriceModifiers = new List<SettlementPriceModifier>();
+            //settlementPriceModifiers = new List<SettlementPriceModifier>();
+            _eventsManager = new EconomicEventsManager();
+            _psiCoinManager = new PsiCoinManager();
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
+
+            _eventsManager = new EconomicEventsManager();
+            _psiCoinManager = new PsiCoinManager();
+
             Scribe_Collections.Look(ref settlementPriceModifiers, "settlementPriceModifiers", LookMode.Deep);
             Scribe_Deep.Look(ref _eventsManager, "eventsManager");
+            Scribe_Deep.Look(ref _psiCoinManager,"psiCoinManager");
+
+            
         }
 
 

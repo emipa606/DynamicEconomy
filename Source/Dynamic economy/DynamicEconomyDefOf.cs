@@ -14,7 +14,12 @@ namespace DynamicEconomy
         public static QuestScriptDef HighDemandQuest;
 
         public static JobDef GatherInfo;
-        
+
+        public static ThingDef PsiCoin;
+
+        public static HediffDef PsiCoinMining;
+
+
         public static ConstantPriceModsDef Hillness_Flat;
         public static ConstantPriceModsDef Hillness_SmallHills;
         public static ConstantPriceModsDef Hillness_LargeHills;

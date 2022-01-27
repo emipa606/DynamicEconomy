@@ -52,6 +52,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.TextCoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\RimWorldWin64_Data\Managed\UnityEngine.TextCoreModule.dll</HintPath>
@@ -70,6 +74,7 @@
     <Compile Include="HarmonyPatches.cs" />
     <Compile Include="DefModExtensions.cs" />
     <Compile Include="ConstantPriceModsDef.cs" />
+    <Compile Include="PsiCoinStuff.cs" />
     <Compile Include="Quests.cs" />
     <Compile Include="PriceModifiers.cs" />
     <Compile Include="GameComponent_EconomyStateTracker.cs" />

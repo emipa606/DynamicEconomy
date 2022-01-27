@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HarmonyLib;
 using Verse;
+
 using RimWorld;
 using RimWorld.Planet;
 
@@ -129,31 +130,35 @@ namespace DynamicEconomy
                 foreach (var transfer in __state[0])
                 {
 
-                    //Debug part
-                    ThingCategoryDef cat;
-                    var type = ComplexPriceModifier.GetModifierCategoryFor(transfer.First, out cat);
+                    if (Prefs.DevMode)
+                    {
+                        //This part can slow the game
+                        ThingCategoryDef cat;
+                        var type = ComplexPriceModifier.GetModifierCategoryFor(transfer.First, out cat);
 
-                    if (cat != null)
-                        Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + "-type and its defining category is " + cat.defName);
-                    else
-                        Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + "-type and has no defining category");
+                        if (cat != null)
+                            Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + "-type and its defining category is " + cat.defName);
+                        else
+                            Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + "-type and has no defining category");
 
-                    //end of debug part
+                    }
 
                     gameComp.RecordThingTransfer(transfer.First, transfer.Second, TradeAction.PlayerBuys, settlementOfTrade);
                 }
                 foreach (var transfer in __state[1])
                 {
-                    //Debug
-                    ThingCategoryDef cat;
-                    var type = ComplexPriceModifier.GetModifierCategoryFor(transfer.First, out cat);
+                    if (Prefs.DevMode)
+                    {
+                        //This part can slow the game
+                        ThingCategoryDef cat;
+                        var type = ComplexPriceModifier.GetModifierCategoryFor(transfer.First, out cat);
 
-                    if (cat != null)
-                        Log.Message("Sold " + transfer.First.defName + ", which is " + type.ToString() + "-type and its defining category is " + cat.defName);
-                    else
-                        Log.Message("Sold " + transfer.First.defName + ", which is " + type.ToString() + "-type and has no defining category");
-
-                    // end of debug
+                        if (cat != null)
+                            Log.Message("Sold " + transfer.First.defName + ", which is " + type.ToString() + "-type and its defining category is " + cat.defName);
+                        else
+                            Log.Message("Sold " + transfer.First.defName + ", which is " + type.ToString() + "-type and has no defining category");
+                    }
+                    
 
                     gameComp.RecordThingTransfer(transfer.First, transfer.Second, TradeAction.PlayerSells, settlementOfTrade);
                 }
@@ -187,7 +192,7 @@ namespace DynamicEconomy
     [HarmonyPatch(typeof(Building_CommsConsole), "GetFloatMenuOptions")]
     public class GetCompDEEventRollMenuOptions
     {
-        public static IEnumerable<FloatMenuOption> Postfix(IEnumerable<FloatMenuOption> res, Building_CommsConsole __instance,  Pawn myPawn)
+        public static IEnumerable<FloatMenuOption> Postfix(IEnumerable<FloatMenuOption> res, Building_CommsConsole __instance, Pawn myPawn)
         {
             bool itWorks = false;
             foreach (var op in res)
@@ -201,6 +206,20 @@ namespace DynamicEconomy
             {
                 foreach (var op in __instance.GetComp<CompDEEventRoll>().CompFloatMenuOptions(myPawn))
                     yield return op;
+            }
+        }
+    }
+
+
+    // market value should be adjusted directrly for psicoin since storyteller will always count its market value w/o modifiers
+    [HarmonyPatch(typeof(StatExtension), "GetStatValue")]
+    public class AdjustPsiCoinMarketValue
+    {
+        public static void Postfix(ref float __result, Thing thing, StatDef stat)
+        {
+            if (stat == StatDefOf.MarketValue && thing.def == DynamicEconomyDefOf.PsiCoin)
+            {
+                __result = GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice;
             }
         }
     }
