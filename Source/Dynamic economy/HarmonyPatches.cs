@@ -173,6 +173,7 @@ namespace DynamicEconomy
 
             if (def==ThingDefOf.Silver)
             {
+                Log.Message("Multipiled trader money by " + gameComp.TraderSilverMultipiler);
                 return (int)(__result * gameComp.TraderSilverMultipiler);
             }
 
