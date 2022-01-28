@@ -38,34 +38,31 @@
                 <hardMiningMultipiler>6</hardMiningMultipiler>
             </li>
             <li Class="HediffCompProperties_DamageBrain">
-                <damageAmount>1~4</damageAmount>
+                <damageAmount>1~5</damageAmount>
                 <mtbDaysPerStage>
                     <li>-1</li>
-                    <li>6</li>
+                    <li>5</li>
                 </mtbDaysPerStage>
             </li>
         </comps>
     </HediffDef>
 
-      <ThingDef ParentName="BodyPartBase">
+      <ThingDef ParentName="BodyPartBionicBase">
         <defName>PsiCoinMiner</defName>
         <label>psicoin miner</label>
-        <description>A device made from disassembled neurolink formers. It can utilize a part of or even a whole user mind to write down on chips Shreddinger-class data, or, to put it simple, mines psicoins.
+        <description>A device designed in a world where using living beings as computers is normal. It can utilize a part of or even a whole user mind to write down on chips Shreddinger-class data, or, to put it simple, it mines psicoins.
             \nWhile light mode allows user to stay consciouness, hard mode will make them fall in catatonia and will slowly turn their brains into a porrige in exchange for much higher psicoin output.</description>
         <descriptionHyperlinks><RecipeDef>InstallPsiCoinMiner</RecipeDef></descriptionHyperlinks>
-        <techLevel>Spacer</techLevel>
-        <graphicData>
-          <texPath>Things/Item/Health/HealthItem</texPath>
-          <graphicClass>Graphic_Single</graphicClass>
-          <drawSize>0.80</drawSize>
-          <color>(189,169,118)</color>
-        </graphicData>
+        
+        <costList>
+          <Plasteel>10</Plasteel>
+          <ComponentSpacer>2</ComponentSpacer>
+          <ComponentIndustrial>2</ComponentIndustrial>
+        </costList>
+        <thingSetMakerTags><li>RewardStandardMidFreq</li></thingSetMakerTags>
         <statBases>
-          <MarketValue>500</MarketValue>
+          <Mass>0.3</Mass>
         </statBases>
-        <thingCategories>
-          <li>BodyPartsBionic</li>
-        </thingCategories>
       </ThingDef>
     
       <RecipeDef ParentName="SurgeryInstallImplantBase">
@@ -96,5 +93,18 @@
           <li>Brain</li>
         </appliedOnFixedBodyParts>
         <addsHediff>PsiCoinMining</addsHediff>
+      </RecipeDef>
+
+      <RecipeDef ParentName="SurgeryRemoveImplantBase">
+        <defName>RemovePsiCoinMiner</defName>
+        <label>remove psicoin miner</label>
+        <description>Remove psicoin miner.</description>
+        <descriptionHyperlinks>
+          <ThingDef>PsiCoinMiner</ThingDef>
+          <HediffDef>PsiCoinMining</HediffDef>
+        </descriptionHyperlinks>
+        <jobString>Removing psicoin miner.</jobString>
+        <removesHediff>PsiCoinMining</removesHediff>
+        <surgerySuccessChanceFactor>0.25</surgerySuccessChanceFactor>   <!-- hard to get rid of-->
       </RecipeDef>
 </Defs>

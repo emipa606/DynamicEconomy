@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LanguageData>
+    <!-- Info gathering -->
+    <GatherInfo_UnavailableCooldown>Gather info (unavailable, {0} till next attempt)</GatherInfo_UnavailableCooldown>
+    <GatherInfo_UnavailablePawnIsIncapable>Gather info (unavailable, {0} is incapable of social interactions)</GatherInfo_UnavailablePawnIsIncapable>
+    <GatherInfo>Gather info ({0} success chance)</GatherInfo>
+
+    <!-- Events -->
+    <HighDemandQuest_LetterLabel>Shortage</HighDemandQuest_LetterLabel>
+    <HighDemandQuest_LetterBody>One of your colonists found out that one of nearby settlements requires specific supplies and pays much more for them. This can be a good opportunity to make some profitable trades.\n\nCheck quest log for more info.</HighDemandQuest_LetterBody>
+
+    <HighSupplyQuest_LetterLabel>Surplus</HighSupplyQuest_LetterLabel>
+    <HighSupplyQuest_LetterBody>One of your colonists found out that one of nearby settlements has excess stocks which it is selling much cheaper now. This can be a good opportunity to make some profitable trades.\n\nCheck quest log for more info.</HighSupplyQuest_LetterBody>
+
+    <!-- factor info -->
+    <AffectingFactorsUnknown>Affected by unknown factors.</AffectingFactorsUnknown>
+    <NoAffectingFactors>Price is not affected by any factors.</NoAffectingFactors>
+    <LocalFactor>Regional factor</LocalFactor>
+    <PlayerPurchasesFactor>Our purchases volumes multipiler</PlayerPurchasesFactor>
+    <PlayerSalesFactor>Our sales volumes multipiler</PlayerSalesFactor>
+    <EventFactor>Recent events multipiler</EventFactor>
+
+    <!-- PsiCoin and related -->
+    <ToggleMiningModeCommand_Label>Toggle mining mode</ToggleMiningModeCommand_Label>
+    <ToggleMiningModeCommand_Desc>Switch between light and hard mining modes.</ToggleMiningModeCommand_Desc>
+
+    <ExtractCoinCommand_Label>Extract psicoin chip</ExtractCoinCommand_Label>
+    <ExtractCoinCommand_Desc>Take out a psicoin chip</ExtractCoinCommand_Desc>
+    <ExtractCoinCommand_Unavailable_TillNextCoin>{0} till next psicoin</ExtractCoinCommand_Unavailable_TillNextCoin>
+
+    <PsiCoinReadyAlert_Label>PsiCoin ready for extraction</PsiCoinReadyAlert_Label>
+    <PsiCoinReadyAlert_Explanation>One or more psicoins are waiting to be extracted</PsiCoinReadyAlert_Explanation>
+
+</LanguageData>

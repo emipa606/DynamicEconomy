@@ -14,7 +14,7 @@ namespace DynamicEconomy
     public class PsiCoinManager : IExposable
     {
         public float psiCoinPrice=DynamicEconomyDefOf.PsiCoin.BaseMarketValue;
-        public float PsiCoinDefaultRandomOffset = 0.02f;
+        public float PsiCoinDefaultRandomOffset = 0.003f;
         public void TickLong()
         {
             psiCoinPrice *= 1f+Rand.Sign*Rand.Value*PsiCoinDefaultRandomOffset*DESettings.randyCoinRandomOfsettMultipiler;               
@@ -33,6 +33,7 @@ namespace DynamicEconomy
     {
         public HediffCompProperties_PsiCoinMining Props => props as HediffCompProperties_PsiCoinMining;
         private int _ticksTillNextPsiCoinInLightMode;
+        public int psiCoinsToBeDropped;         // noone wants to click command every minute. If coins are mined too quick, more will be dropped with greater cd.
         public int TicksTillNextPsiCoin => HardMiningOn ? (int)(_ticksTillNextPsiCoinInLightMode / Props.hardMiningMultipiler) : _ticksTillNextPsiCoinInLightMode;
         public bool psiCoinReady;
         public bool HardMiningOn => parent.Severity>0.5f;
@@ -43,12 +44,19 @@ namespace DynamicEconomy
         private Texture2D hardMiningTexture = ContentFinder<Texture2D>.Get("UI/Commands/PsiCoinMining_Hard");
         private Texture2D extractTexture = ContentFinder<Texture2D>.Get("UI/Commands/ExtractPsiCoin");
 
+        private void StartMiningNewCoin()
+        {
+            psiCoinReady = false;
+            _ticksTillNextPsiCoinInLightMode = PsiCoinDropCooldown;
+            psiCoinsToBeDropped = 480000 / _ticksTillNextPsiCoinInLightMode + 1;        //if cd >8 days works as normal, if less - more coins will be dropped and cd will be at least 8 days
+            _ticksTillNextPsiCoinInLightMode *= psiCoinsToBeDropped;
+        }
 
         public override void CompPostMake()
         {
             base.CompPostMake();
 
-            _ticksTillNextPsiCoinInLightMode = PsiCoinDropCooldown;
+            StartMiningNewCoin();
         }
 
 
@@ -58,7 +66,8 @@ namespace DynamicEconomy
             toggleMiningModeCommand.isActive = () => HardMiningOn;      // is on if in hard mode
 
             toggleMiningModeCommand.icon = HardMiningOn ? hardMiningTexture : lightMiningTexture;
-            toggleMiningModeCommand.defaultLabel = "Toggle mining mode";
+            toggleMiningModeCommand.defaultLabel = "ToggleMiningModeCommand_Label".Translate();
+            toggleMiningModeCommand.defaultDesc = "ToggleMiningModeCommand_Desc".Translate();
 
 
             toggleMiningModeCommand.toggleAction = () =>
@@ -72,15 +81,18 @@ namespace DynamicEconomy
         public Command_Action GenExtractCommand()
         {
             Command_Action extractCommand = new Command_Action();
-            extractCommand.defaultLabel = "Extract coin";
+            extractCommand.defaultLabel = "ExtractCoinCommand_Label".Translate();
+            extractCommand.defaultDesc = "ExtractCoinCommand_Desc".Translate();
             
             extractCommand.icon = extractTexture;
             extractCommand.action = () =>
             {
                 var coin = ThingMaker.MakeThing(DynamicEconomyDefOf.PsiCoin);
+                coin.stackCount = psiCoinsToBeDropped;
                 Pawn poorSoul = parent.pawn;
                 GenPlace.TryPlaceThing(coin, poorSoul.Position, poorSoul.Map, ThingPlaceMode.Near);
-                psiCoinReady = false;
+
+                StartMiningNewCoin();
             };
 
             return extractCommand;
@@ -102,11 +114,10 @@ namespace DynamicEconomy
                 return;
 
 
-            _ticksTillNextPsiCoinInLightMode-=HardMiningOn ? Props.hardMiningMultipiler : 1;
+            _ticksTillNextPsiCoinInLightMode-=HardMiningOn ? Props.hardMiningMultipiler : 1;            // psicoin price shift correction? TODO. If got time. And a will.
             if (_ticksTillNextPsiCoinInLightMode<=0)
             {
                 psiCoinReady = true;
-                _ticksTillNextPsiCoinInLightMode = PsiCoinDropCooldown;
             }
 
         }
@@ -117,9 +128,17 @@ namespace DynamicEconomy
             
             var extractCommand = GenExtractCommand();
             if (!psiCoinReady)
-                extractCommand.Disable(TicksTillNextPsiCoin.ToStringTicksToDays() + " till next psicoin");
-
+                extractCommand.Disable("ExtractCoinCommand_Unavailable_TillNextCoin".Translate(TicksTillNextPsiCoin.ToStringTicksToDays()));
             yield return extractCommand;
+
+
+            if (Prefs.DevMode)
+            {
+                Command_Action debug_setCoinsReady = new Command_Action();
+                debug_setCoinsReady.action = () => _ticksTillNextPsiCoinInLightMode = 0;
+                debug_setCoinsReady.defaultLabel = "Set psicoin ready";
+                yield return debug_setCoinsReady;
+            }
         }
 
         public override void CompExposeData()
@@ -147,8 +166,8 @@ namespace DynamicEconomy
 
         public Alert_PsiCoinReady()
         {
-            defaultLabel = "PsiCoin ready for extraction";
-            defaultExplanation = "explanation placeholder TODO";
+            defaultLabel = "PsiCoinReadyAlert_Label".Translate();
+            defaultExplanation = "PsiCoinReadyAlert_Explanation".Translate();
         }
 
         public override AlertReport GetReport()
@@ -176,4 +195,51 @@ namespace DynamicEconomy
     }
 
 
+
+    // mb combine those workers? less polls => less lags, but will have to write common desc and stages for both thoughts
+
+
+    public class ThoughtWorker_LightPsiCoinMining : ThoughtWorker
+    {
+        protected override ThoughtState CurrentStateInternal(Pawn p)
+        {
+            int stage = -1;
+            foreach (var pawn in Find.World.PlayerPawnsForStoryteller)
+            {
+                if (pawn != p && pawn.IsFreeNonSlaveColonist)
+                {
+                    var miningHediff = pawn.health.hediffSet.GetFirstHediffOfDef(DynamicEconomyDefOf.PsiCoinMining);
+                    if (miningHediff != null)
+                    {
+                        if (miningHediff.Severity < 0.5f)
+                            stage++;
+                    }
+                }
+            }
+
+            return stage < 0 ? false : ThoughtState.ActiveAtStage(Math.Min(stage, 3));
+        }
+    }
+
+    public class ThoughtWorker_HardPsiCoinMining : ThoughtWorker
+    {
+        protected override ThoughtState CurrentStateInternal(Pawn p)
+        {
+            int stage = -1;
+            foreach (var pawn in Find.World.PlayerPawnsForStoryteller)
+            {
+                if (pawn != p && pawn.IsFreeNonSlaveColonist)
+                {
+                    var miningHediff = pawn.health.hediffSet.GetFirstHediffOfDef(DynamicEconomyDefOf.PsiCoinMining);
+                    if (miningHediff != null)
+                    {
+                        if (miningHediff.Severity > 0.5f)
+                            stage++;
+                    }
+                }
+            }
+
+            return stage < 0 ? false : ThoughtState.ActiveAtStage(Math.Min(stage, 2));
+        }
+    }
 }

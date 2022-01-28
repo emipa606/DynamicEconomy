@@ -39,8 +39,17 @@ namespace DynamicEconomy
                 daysSinceLastEconomicEvent = 0f;
                 failedEventRollsBonus = 0f;
 
-                QuestUtility.GenerateQuestAndMakeAvailable(DynamicEconomyDefOf.HighDemandQuest, 50);
-                Find.LetterStack.ReceiveLetter("High tariffs", "One of your colonists found out that one of nearby settlements requires specific supplies. This can be a good opportunity to make some profitable trades.\n\nCheck quest log for more info.", LetterDefOf.NewQuest);
+                if (Rand.Value > 0.5f)
+                {
+                    QuestUtility.GenerateQuestAndMakeAvailable(DynamicEconomyDefOf.HighDemandQuest, 50);
+                    Find.LetterStack.ReceiveLetter("HighDemandQuest_LetterLabel".Translate(), "HighDemandQuest_LetterBody".Translate(), LetterDefOf.NewQuest);
+                }
+
+                else
+                {
+                    QuestUtility.GenerateQuestAndMakeAvailable(DynamicEconomyDefOf.HighDemandQuest, 50);
+                    Find.LetterStack.ReceiveLetter("HighSupplyQuest_LetterLabel".Translate(), "HighSupplyQuest_LetterBody".Translate(), LetterDefOf.NewQuest);
+                }
             }
             else
                 failedEventRollsBonus += pawn.GetStatValue(StatDefOf.NegotiationAbility) * 0.025f;

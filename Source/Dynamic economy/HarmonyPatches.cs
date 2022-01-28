@@ -41,24 +41,33 @@ namespace DynamicEconomy
         {
             if (__instance.HasAnyThing && TradeSession.TradeCurrency == TradeCurrency.Silver)
             {
+                if (__instance.AnyThing!=null && __instance.AnyThing.def==DynamicEconomyDefOf.PsiCoin)
+                {
+                    __result += "\n\n" + "AffectingFactorsUnknown".Translate();
+                    return;
+                }
+
                 var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
                 Settlement settlementOfTrade = TradeSession.trader as Settlement;
 
                 
                 var mod = gameComp.GetOrCreateIfNeededSettlementModifier(settlementOfTrade).GetOrCreateIfNeededTradeablePriceModifier(__instance.ThingDef);
 
+
                 if (mod==null)
                 {
-                    __result += "\n\nPrice is not affected by any factors";
+                    __result += "\n\n" + "NoAffectingFactors".Translate();
                     return;
                 }
+
+                
 
 
                 __result += "\n";
                 float localMul = mod.GetPriceMultipiler(action, ConsideredFactors.Base);
                 if (settlementOfTrade!=null && localMul!=1f)
                 {
-                    __result += "\nLocal multipiler: x" + localMul.ToString("F2");
+                    __result += "\n" + "LocalFactor".Translate() + ": x" + localMul.ToString("F2");
                 }
 
 
@@ -66,21 +75,21 @@ namespace DynamicEconomy
                 {
                     float factorDynamic = mod.GetPriceMultipiler(action, ConsideredFactors.Dynamic);
                     if (factorDynamic!=1f)
-                        __result += ("\n" + "Player's purchases volumes multipiler: x" + factorDynamic.ToString("F2"));
+                        __result += ("\n" + "PlayerPurchasesFactor".Translate() + ": x" + factorDynamic.ToString("F2"));
 
                     float factorEvent = mod.GetPriceMultipiler(action, ConsideredFactors.Event);
                     if (factorEvent != 1f)
-                        __result += "\n" + "Event price multipiler: x" + factorEvent.ToString("F2");
+                        __result += "\n" + "EventFactor".Translate() + ": x" + factorEvent.ToString("F2");
                 }
                 else if (action==TradeAction.PlayerSells)
                 {
                     float factorDynamic = mod.GetPriceMultipiler(action, ConsideredFactors.Dynamic);
                     if (factorDynamic != 1f)
-                        __result += ("\n" + "Player's sales volumes multipiler: x" + factorDynamic.ToString("F2"));
+                        __result += ("\n" + "PlayerSalesFactor".Translate() + ": x" + factorDynamic.ToString("F2"));
 
                     float factorEvent = mod.GetPriceMultipiler(action, ConsideredFactors.Event);
                     if (factorEvent != 1f)
-                        __result += "\n" + "Event price multipiler: x" + factorEvent.ToString("F2");
+                        __result += "\n" + "EventFactor".Translate() + ": x" + factorEvent.ToString("F2");
                 }
             }
         }

@@ -12,6 +12,7 @@ namespace DynamicEconomy
     public static class DynamicEconomyDefOf
     {
         public static QuestScriptDef HighDemandQuest;
+        public static QuestScriptDef HighSupplyQuest;
 
         public static JobDef GatherInfo;
 
