@@ -66,7 +66,7 @@ namespace DynamicEconomy
             }
 
 
-            var settlementPriceMod = GameComponent_EconomyStateTracker.CurGameInstance.GetOrCreateIfNeededSettlementModifier(settlement);
+            var settlementPriceMod = GameComponent_EconomyStateTracker.CurGameInstance.GetOrCreateIfNeededComplexModifier(settlement);
             for (int i = 0; i < allowedCats.Count; i++)
             {
                 float curEventMod = settlementPriceMod.GetOrCreateIfNeededTradeablePriceModifier(allowedCats[i]).GetPriceMultipiler(TradeAction.PlayerBuys, ConsideredFactors.Event);
@@ -251,7 +251,7 @@ namespace DynamicEconomy
             // it is not optimal to add and then remove things from list
             // but hey, it searches through defdatabase twice
             // it wouldnt make any difference to run through list and remove a couple of items
-            var settlementPriceMod = GameComponent_EconomyStateTracker.CurGameInstance.GetOrCreateIfNeededSettlementModifier(settlement);
+            var settlementPriceMod = GameComponent_EconomyStateTracker.CurGameInstance.GetOrCreateIfNeededComplexModifier(settlement);
             for (int i = 0; i < allowedCats.Count; i++)
             {
                 float curEventMod = settlementPriceMod.GetOrCreateIfNeededTradeablePriceModifier(allowedCats[i]).GetPriceMultipiler(TradeAction.PlayerBuys, ConsideredFactors.Event);

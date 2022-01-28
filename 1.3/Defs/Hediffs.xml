@@ -50,7 +50,7 @@
       <ThingDef ParentName="BodyPartBionicBase">
         <defName>PsiCoinMiner</defName>
         <label>psicoin miner</label>
-        <description>A device designed in a world where using living beings as computers is normal. It can utilize a part of or even a whole user mind to write down on chips Shreddinger-class data, or, to put it simple, it mines psicoins.
+        <description>A device that can utilize a part of or even a whole user mind to write down on chips Shreddinger-class data, or, to put it simple, it mines psicoins.
             \nWhile light mode allows user to stay consciouness, hard mode will make them fall in catatonia and will slowly turn their brains into a porrige in exchange for much higher psicoin output.</description>
         <descriptionHyperlinks><RecipeDef>InstallPsiCoinMiner</RecipeDef></descriptionHyperlinks>
         
@@ -61,7 +61,7 @@
         </costList>
         <thingSetMakerTags><li>RewardStandardMidFreq</li></thingSetMakerTags>
         <statBases>
-          <Mass>0.3</Mass>
+          <Mass>0.5</Mass>
         </statBases>
       </ThingDef>
     

@@ -17,7 +17,10 @@ namespace DynamicEconomy
         private static GameComponent_EconomyStateTracker _instance;
         public static GameComponent_EconomyStateTracker CurGameInstance => Current.ProgramState==ProgramState.Playing ? _instance : null;
 
+        protected AllTraderCaravansPriceModifier traderCaravanPriceModifier;
+
         protected List<SettlementPriceModifier> settlementPriceModifiers;
+        protected List<OrbitalTraderPriceModifier> orbitalTraderPriceModifiers;
 
         private PsiCoinManager _psiCoinManager;
         public PsiCoinManager PsiCoinManager => _psiCoinManager;
@@ -30,48 +33,69 @@ namespace DynamicEconomy
         public const float BaseTurnoverEffectDrop = 0.001f;
         public float TraderSilverMultipiler => 1f + _recentTurnover * DESettings.turnoverEffectOnTraderCurrencyMultipiler / BaseTurnoverToDoubleTradersCurrency;     
 
+        public void RemoveModifierForShip(TradeShip ship) => orbitalTraderPriceModifiers.RemoveAll(mod => mod.ship == ship);
 
-
-        public SettlementPriceModifier GetOrCreateIfNeededSettlementModifier(Settlement settlement)       // can return null for unaffected things
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="trader">will return pricemod for trader caravans if trader is null</param>
+        /// <returns></returns>
+        public ComplexPriceModifier GetOrCreateIfNeededComplexModifier(ITrader trader)       
         {
-            SettlementPriceModifier modifier;
-            
-            
-            if (settlement != null && settlement.Faction != Faction.OfPlayer)
+            if (trader is Settlement settlement)
             {
-                modifier = settlementPriceModifiers.Find(mod => mod.Settlement == settlement);
-                
-                if (modifier == null)
+                SettlementPriceModifier modifier;
+                if (settlement.Faction != Faction.OfPlayer)
                 {
-                    Log.Message("Created modifier for " + settlement.Label);
-                    modifier = new SettlementPriceModifier(settlement);
-                    settlementPriceModifiers.Add(modifier);
+                    modifier = settlementPriceModifiers.Find(mod => mod.settlement == settlement);
+
+                    if (modifier == null)
+                    {
+                        Log.Message("Created modifier for " + settlement.Label);
+                        modifier = new SettlementPriceModifier(settlement);
+                        settlementPriceModifiers.Add(modifier);
+                    }
+
+                    return modifier;
+                }
+
+                else
+                {
+                    throw new ArgumentException("settlement cant belong to player to set priceMod for it");
                 }
             }
 
-            else
+            else if (trader==null || trader is Pawn)
             {
-                modifier = settlementPriceModifiers.Find(mod => mod.ForPlayerSettlement);
+                return traderCaravanPriceModifier;
+            }
+
+            else if (trader is TradeShip tradeShip)
+            {
+                OrbitalTraderPriceModifier modifier;
+                modifier = orbitalTraderPriceModifiers.Find(mod => mod.ship == tradeShip);
 
                 if (modifier == null)
                 {
-                    modifier = new SettlementPriceModifier(null);
-                    settlementPriceModifiers.Add(modifier);
+                    Log.Message("Created modifier for " + tradeShip.name);
+                    modifier = new OrbitalTraderPriceModifier(tradeShip);
+                    orbitalTraderPriceModifiers.Add(modifier);
                 }
-            }
-            
 
-            return modifier;
+                return modifier;
+            }
+
+            throw new ArgumentException("trader is not a pawn, settlement or ship");
         }
 
-        public float GetPriceMultipilerFor(Tradeable tradeable, Settlement settlementOfTrade=null) => GetPriceMultipilerFor(tradeable.ThingDef, tradeable.ActionToDo, settlementOfTrade);
+        public float GetPriceMultipilerFor(Tradeable tradeable, ITrader trader) => GetPriceMultipilerFor(tradeable.ThingDef, tradeable.ActionToDo, trader);
 
-        public float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, Settlement settlementOfTrade=null, ConsideredFactors factor=ConsideredFactors.All)
+        public float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, ITrader trader, ConsideredFactors factor=ConsideredFactors.All)
         {
             if (action == TradeAction.None)
                 return 1f;
 
-            ComplexPriceModifier modifier = GetOrCreateIfNeededSettlementModifier(settlementOfTrade);
+            ComplexPriceModifier modifier = GetOrCreateIfNeededComplexModifier(trader);
 
 
             if (modifier == null) 
@@ -82,26 +106,20 @@ namespace DynamicEconomy
 
 
 
-        public void RecordThingTransfer(ThingDef def, float totalCost, TradeAction action, Settlement settlementOfTrade=null)
+        public void RecordThingTransfer(ThingDef def, float totalCost, TradeAction action, ITrader trader)
         {
-            var modifier = GetOrCreateIfNeededSettlementModifier(settlementOfTrade);
+            var modifier = GetOrCreateIfNeededComplexModifier(trader);
            
             _recentTurnover += Math.Abs(totalCost);
 
             modifier.RecordNewDeal(def, totalCost, action);
-            settlementPriceModifiers.Add(modifier);
 
         }
 
         public void SetEventModifiersForSettlement(Settlement targetSettlement, ThingCategoryDef thingCategoryDef, float playerSellsFactor, float playerBuysFactor)
         {
-            ComplexPriceModifier modifier = GetOrCreateIfNeededSettlementModifier(targetSettlement);
 
-            if (targetSettlement==null)
-            {
-                Log.Warning("Setted an event modifier for null(player) settlement");
-            }
-            
+            ComplexPriceModifier modifier = GetOrCreateIfNeededComplexModifier(targetSettlement);
 
             modifier.AddEventModifier(thingCategoryDef, playerSellsFactor, playerBuysFactor);
 
@@ -147,6 +165,11 @@ namespace DynamicEconomy
                 {
                     mod.TickLong();
                 }
+                foreach (var mod in orbitalTraderPriceModifiers)
+                {
+                    mod.TickLong();
+                }
+                traderCaravanPriceModifier.TickLong();
             }
         }
 
@@ -155,20 +178,22 @@ namespace DynamicEconomy
 
         public GameComponent_EconomyStateTracker(Game game)
         {
-            //settlementPriceModifiers = new List<SettlementPriceModifier>();
-            _eventsManager = new EconomicEventsManager();
-            _psiCoinManager = new PsiCoinManager();
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
 
+            settlementPriceModifiers = new List<SettlementPriceModifier>();
+            orbitalTraderPriceModifiers = new List<OrbitalTraderPriceModifier>();
             _eventsManager = new EconomicEventsManager();
             _psiCoinManager = new PsiCoinManager();
+            traderCaravanPriceModifier = new AllTraderCaravansPriceModifier();
 
             Scribe_Collections.Look(ref settlementPriceModifiers, "settlementPriceModifiers", LookMode.Deep);
+            Scribe_Collections.Look(ref orbitalTraderPriceModifiers, "orbitalTraderPriceModifiers", LookMode.Deep);
             Scribe_Deep.Look(ref _eventsManager, "eventsManager");
+            Scribe_Deep.Look(ref traderCaravanPriceModifier, "caravanPriceMod");
             Scribe_Deep.Look(ref _psiCoinManager,"psiCoinManager");
 
             

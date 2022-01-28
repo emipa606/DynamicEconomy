@@ -26,10 +26,9 @@ namespace DynamicEconomy
     {
         public static float Postfix(float __result, Tradeable __instance, TradeAction action)
         {
-            Settlement settlementOfTrade = TradeSession.trader as Settlement;
             var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
 
-            __result *= gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, settlementOfTrade);
+            __result *= gameComp.GetPriceMultipilerFor(__instance.ThingDef, action, TradeSession.trader);
             return __result;
         }
     }
@@ -48,10 +47,9 @@ namespace DynamicEconomy
                 }
 
                 var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
-                Settlement settlementOfTrade = TradeSession.trader as Settlement;
 
                 
-                var mod = gameComp.GetOrCreateIfNeededSettlementModifier(settlementOfTrade).GetOrCreateIfNeededTradeablePriceModifier(__instance.ThingDef);
+                var mod = gameComp.GetOrCreateIfNeededComplexModifier(TradeSession.trader).GetOrCreateIfNeededTradeablePriceModifier(__instance.ThingDef);
 
 
                 if (mod==null)
@@ -64,10 +62,15 @@ namespace DynamicEconomy
 
 
                 __result += "\n";
-                float localMul = mod.GetPriceMultipiler(action, ConsideredFactors.Base);
-                if (settlementOfTrade!=null && localMul!=1f)
+                float baseMul = mod.GetPriceMultipiler(action, ConsideredFactors.Base);
+                if (baseMul!=1f)
                 {
-                    __result += "\n" + "LocalFactor".Translate() + ": x" + localMul.ToString("F2");
+                    if (TradeSession.trader is Settlement)
+                        __result += "\n" + "LocalFactor".Translate() + ": x" + baseMul.ToString("F2");
+                    else if (TradeSession.trader is TradeShip)
+                        __result += "\n" + "OrbitalTraderRandomFactor".Translate() + ": x" + baseMul.ToString("F2");
+                    else
+                        __result += "\n" + "BasePriceFactor_NotASettlementOrAShip".Translate() + ": x" + baseMul.ToString("F2");
                 }
 
 
@@ -130,18 +133,12 @@ namespace DynamicEconomy
             {
                 var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
 
-                Settlement settlementOfTrade = TradeSession.trader as Settlement;           //if null, trader is a pawn, so trade happens at player settlement
-                if (settlementOfTrade != null)
-                    Log.Message("Traded with settlement");
-
-                
 
                 foreach (var transfer in __state[0])
                 {
 
                     if (Prefs.DevMode)
                     {
-                        //This part can slow the game
                         ThingCategoryDef cat;
                         var type = ComplexPriceModifier.GetModifierCategoryFor(transfer.First, out cat);
 
@@ -152,13 +149,12 @@ namespace DynamicEconomy
 
                     }
 
-                    gameComp.RecordThingTransfer(transfer.First, transfer.Second, TradeAction.PlayerBuys, settlementOfTrade);
+                    gameComp.RecordThingTransfer(transfer.First, transfer.Second, TradeAction.PlayerBuys, TradeSession.trader);
                 }
                 foreach (var transfer in __state[1])
                 {
                     if (Prefs.DevMode)
                     {
-                        //This part can slow the game
                         ThingCategoryDef cat;
                         var type = ComplexPriceModifier.GetModifierCategoryFor(transfer.First, out cat);
 
@@ -169,7 +165,7 @@ namespace DynamicEconomy
                     }
                     
 
-                    gameComp.RecordThingTransfer(transfer.First, transfer.Second, TradeAction.PlayerSells, settlementOfTrade);
+                    gameComp.RecordThingTransfer(transfer.First, transfer.Second, TradeAction.PlayerSells, TradeSession.trader);
                 }
             }
         }
@@ -192,7 +188,7 @@ namespace DynamicEconomy
             }
 
             
-            float modifier = gameComp.GetPriceMultipilerFor(def, TradeAction.PlayerBuys);
+            float modifier = gameComp.GetPriceMultipilerFor(def, TradeAction.PlayerBuys, null);
             return modifier > 1 ? (int)Math.Floor(__result * modifier) : __result;              //leaving it linear is ok, i guess. sqrt(modifier) had too little effect
 
         }
@@ -230,6 +226,24 @@ namespace DynamicEconomy
             {
                 __result = GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice;
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(TradeShip), MethodType.Constructor, new Type[] { typeof(TraderKindDef), typeof(Faction) })]
+    public class NotifyEconomyStateTrackerOfArrival
+    {
+        public static void Postfix(TradeShip __instance)
+        {
+            GameComponent_EconomyStateTracker.CurGameInstance.GetOrCreateIfNeededComplexModifier(__instance);
+        }
+    }
+
+    [HarmonyPatch(typeof(TradeShip), "Depart")]
+    public class NotifyEconomyStateTrackerOfDeparture
+    {
+        public static void Postfix(TradeShip __instance)
+        {
+            GameComponent_EconomyStateTracker.CurGameInstance.RemoveModifierForShip(__instance);
         }
     }
 }

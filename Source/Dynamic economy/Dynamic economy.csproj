@@ -74,9 +74,10 @@
     <Compile Include="HarmonyPatches.cs" />
     <Compile Include="DefModExtensions.cs" />
     <Compile Include="ConstantPriceModsDef.cs" />
+    <Compile Include="PriceModifiers_Complex.cs" />
     <Compile Include="PsiCoinStuff.cs" />
     <Compile Include="Quests.cs" />
-    <Compile Include="PriceModifiers.cs" />
+    <Compile Include="PriceModifiers_Single.cs" />
     <Compile Include="GameComponent_EconomyStateTracker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

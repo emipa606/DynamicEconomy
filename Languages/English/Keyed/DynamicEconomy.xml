@@ -19,6 +19,8 @@
     <PlayerPurchasesFactor>Our purchases volumes multipiler</PlayerPurchasesFactor>
     <PlayerSalesFactor>Our sales volumes multipiler</PlayerSalesFactor>
     <EventFactor>Recent events multipiler</EventFactor>
+    <OrbitalTraderRandomFactor>Orbital trader's price multipiler</OrbitalTraderRandomFactor>
+    <BasePriceFactor_NotASettlementOrAShip>Base price multipiler</BasePriceFactor_NotASettlementOrAShip>
 
     <!-- PsiCoin and related -->
     <ToggleMiningModeCommand_Label>Toggle mining mode</ToggleMiningModeCommand_Label>

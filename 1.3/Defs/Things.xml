@@ -8,7 +8,7 @@
         <graphicData>
           <texPath>Things/PsiCoin</texPath>
           <onGroundRandomRotateAngle>30</onGroundRandomRotateAngle>
-          <drawSize>0.9</drawSize>
+          <drawSize>0.8</drawSize>
           <graphicClass>Graphic_Single</graphicClass>
         </graphicData>
         <resourceReadoutPriority>Middle</resourceReadoutPriority>
