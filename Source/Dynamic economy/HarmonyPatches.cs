@@ -42,7 +42,7 @@ namespace DynamicEconomy
             {
                 if (__instance.AnyThing!=null && __instance.AnyThing.def==DynamicEconomyDefOf.PsiCoin)
                 {
-                    __result += "\n\n" + "AffectingFactorsUnknown".Translate();
+                    __result += "\n\n" + "DE_AffectingFactorsUnknown".Translate();
                     return;
                 }
 
@@ -54,7 +54,7 @@ namespace DynamicEconomy
 
                 if (mod==null)
                 {
-                    __result += "\n\n" + "NoAffectingFactors".Translate();
+                    __result += "\n\n" + "DE_NoAffectingFactors".Translate();
                     return;
                 }
 
@@ -66,11 +66,11 @@ namespace DynamicEconomy
                 if (baseMul!=1f)
                 {
                     if (TradeSession.trader is Settlement)
-                        __result += "\n" + "LocalFactor".Translate() + ": x" + baseMul.ToString("F2");
+                        __result += "\n" + "DE_LocalFactor".Translate() + ": x" + baseMul.ToString("F2");
                     else if (TradeSession.trader is TradeShip)
-                        __result += "\n" + "OrbitalTraderRandomFactor".Translate() + ": x" + baseMul.ToString("F2");
+                        __result += "\n" + "DE_OrbitalTraderRandomFactor".Translate() + ": x" + baseMul.ToString("F2");
                     else
-                        __result += "\n" + "BasePriceFactor_NotASettlementOrAShip".Translate() + ": x" + baseMul.ToString("F2");
+                        __result += "\n" + "DE_BasePriceFactor_NotASettlementOrAShip".Translate() + ": x" + baseMul.ToString("F2");
                 }
 
 
@@ -78,21 +78,21 @@ namespace DynamicEconomy
                 {
                     float factorDynamic = mod.GetPriceMultipiler(action, ConsideredFactors.Dynamic);
                     if (factorDynamic!=1f)
-                        __result += ("\n" + "PlayerPurchasesFactor".Translate() + ": x" + factorDynamic.ToString("F2"));
+                        __result += ("\n" + "DE_PlayerPurchasesFactor".Translate() + ": x" + factorDynamic.ToString("F2"));
 
                     float factorEvent = mod.GetPriceMultipiler(action, ConsideredFactors.Event);
                     if (factorEvent != 1f)
-                        __result += "\n" + "EventFactor".Translate() + ": x" + factorEvent.ToString("F2");
+                        __result += "\n" + "DE_EventFactor".Translate() + ": x" + factorEvent.ToString("F2");
                 }
                 else if (action==TradeAction.PlayerSells)
                 {
                     float factorDynamic = mod.GetPriceMultipiler(action, ConsideredFactors.Dynamic);
                     if (factorDynamic != 1f)
-                        __result += ("\n" + "PlayerSalesFactor".Translate() + ": x" + factorDynamic.ToString("F2"));
+                        __result += ("\n" + "DE_PlayerSalesFactor".Translate() + ": x" + factorDynamic.ToString("F2"));
 
                     float factorEvent = mod.GetPriceMultipiler(action, ConsideredFactors.Event);
                     if (factorEvent != 1f)
-                        __result += "\n" + "EventFactor".Translate() + ": x" + factorEvent.ToString("F2");
+                        __result += "\n" + "DE_EventFactor".Translate() + ": x" + factorEvent.ToString("F2");
                 }
             }
         }
@@ -175,10 +175,12 @@ namespace DynamicEconomy
     [HarmonyPatch(typeof(StockGenerator), "RandomCountOf")]
     public class BringMoreStuff
     {
-        public static int Postfix(int __result, ThingDef def)
+        public static int Postfix(int __result, TraderKindDef ___trader, ThingDef def)
         {
-            if (__result == 1)
+
+            if (___trader.orbital)
                 return __result;
+
             var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
 
             if (def==ThingDefOf.Silver)
@@ -189,7 +191,7 @@ namespace DynamicEconomy
 
             
             float modifier = gameComp.GetPriceMultipilerFor(def, TradeAction.PlayerBuys, null);
-            return modifier > 1 ? (int)Math.Floor(__result * modifier) : __result;              //leaving it linear is ok, i guess. sqrt(modifier) had too little effect
+            return (int)Math.Floor(__result * modifier);              //leaving it linear is ok, i guess. sqrt(modifier) had too little effect
 
         }
     }
@@ -222,9 +224,11 @@ namespace DynamicEconomy
     {
         public static void Postfix(ref float __result, Thing thing, StatDef stat)
         {
-            if (stat == StatDefOf.MarketValue && thing.def == DynamicEconomyDefOf.PsiCoin)
+            var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
+
+            if (gameComp!=null && gameComp.PsiCoinManager!=null &&stat == StatDefOf.MarketValue && thing.def == DynamicEconomyDefOf.PsiCoin)
             {
-                __result = GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice;
+                __result = gameComp.PsiCoinManager.psiCoinPrice;
             }
         }
     }

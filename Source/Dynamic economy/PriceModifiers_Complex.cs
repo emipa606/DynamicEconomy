@@ -19,6 +19,60 @@ namespace DynamicEconomy
         public List<ThingPriceModifier> thingPriceModifiers;
         public List<ThingCategoryPriceModifier> thingCategoryPriceModifiers;
 
+        public static ModifierCategory GetModifierCategoryFor(ThingCategoryDef thingCategoryDef)
+        {
+            if (thingCategoryDef == null)
+                return ModifierCategory.None;
+
+
+            var extension = thingCategoryDef.GetModExtension<PriceModifierCategoryDefExtension>();
+            if (extension != null && extension.category != ModifierCategory.None)
+                return extension.category;
+
+            return ModifierCategory.None;
+        }
+
+        public static ModifierCategory GetModifierCategoryFor(ThingDef thingDef, out ThingCategoryDef definingCategory)
+        {
+            if (thingDef == null)
+            {
+                definingCategory = null;
+                return ModifierCategory.None;
+            }
+
+
+            var thingSpecificMod = thingDef.GetModExtension<PriceModifierCategoryDefExtension>();
+            if (thingSpecificMod != null)
+            {
+                definingCategory = null;
+                return thingSpecificMod.category;
+            }
+
+            if (thingDef.thingCategories==null || thingDef.thingCategories.Count == 0)
+            {
+                definingCategory = null;
+                return ModifierCategory.None;
+            }
+            var node = thingDef.thingCategories[0];
+
+
+
+            while (node != null)
+            {
+                var extension = node.GetModExtension<PriceModifierCategoryDefExtension>();
+                if (extension != null && extension.category != ModifierCategory.None)
+                {
+                    definingCategory = node;
+                    return extension.category;
+                }
+                node = node.parent;
+            }
+
+            definingCategory = null;
+            return ModifierCategory.None;
+        }
+
+
         public virtual TradeablePriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingDef thingDef)         //returns null for ModifierCategory.None
         {
             ThingCategoryDef thingCategory;
@@ -146,58 +200,9 @@ namespace DynamicEconomy
         }
 
 
-        public static ModifierCategory GetModifierCategoryFor(ThingDef thingDef, out ThingCategoryDef definingCategory)
-        {
-            if (thingDef == null)
-            {
-                definingCategory = null;
-                return ModifierCategory.None;
-            }
+        
 
-
-            var thingSpecificMod = thingDef.GetModExtension<PriceModifierCategoryDefExtension>();
-            if (thingSpecificMod != null)
-            {
-                definingCategory = null;
-                return thingSpecificMod.category;
-            }
-
-            if (thingDef.thingCategories.Count == 0)
-            {
-                definingCategory = null;
-                return ModifierCategory.None;
-            }
-            var node = thingDef.thingCategories[0];
-
-
-
-            while (node != null)
-            {
-                var extension = node.GetModExtension<PriceModifierCategoryDefExtension>();
-                if (extension != null && extension.category != ModifierCategory.None)
-                {
-                    definingCategory = node;
-                    return extension.category;
-                }
-                node = node.parent;
-            }
-
-            definingCategory = null;
-            return ModifierCategory.None;
-        }
-
-        public static ModifierCategory GetModifierCategoryFor(ThingCategoryDef thingCategoryDef)
-        {
-            if (thingCategoryDef == null)
-                return ModifierCategory.None;
-
-
-            var extension = thingCategoryDef.GetModExtension<PriceModifierCategoryDefExtension>();
-            if (extension != null && extension.category != ModifierCategory.None)
-                return extension.category;
-
-            return ModifierCategory.None;
-        }
+        
 
         public void SetBaseModifier(ThingDef def, float baseSellFactor, float baseBuyFactor)
         {
@@ -348,7 +353,7 @@ namespace DynamicEconomy
             if (res == null)
                 return null;
 
-            if (res.GetPriceMultipiler(TradeAction.PlayerBuys, ConsideredFactors.Base)==1f)     //if newly created
+            if (DESettings.orbitalTraderRandomPriceOffset!=0f && res.GetPriceMultipiler(TradeAction.PlayerBuys, ConsideredFactors.Base)==1f)     //if newly created
             {
                 float randBase = 1 + Rand.Sign * Rand.Value * DESettings.orbitalTraderRandomPriceOffset;    
                 res.SetBaseFactors(randBase, randBase);

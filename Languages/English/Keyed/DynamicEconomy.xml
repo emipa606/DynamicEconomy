@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
     <!-- Info gathering -->
-    <GatherInfo_UnavailableCooldown>Gather info (unavailable, {0} till next attempt)</GatherInfo_UnavailableCooldown>
-    <GatherInfo_UnavailablePawnIsIncapable>Gather info (unavailable, {0} is incapable of social interactions)</GatherInfo_UnavailablePawnIsIncapable>
-    <GatherInfo>Gather info ({0} success chance)</GatherInfo>
+    <DE_GatherInfo_UnavailableCooldown>Gather info (unavailable, {0} till next attempt)</DE_GatherInfo_UnavailableCooldown>
+    <DE_GatherInfo_UnavailablePawnIsIncapable>Gather info (unavailable, {0} is incapable of social interactions)</DE_GatherInfo_UnavailablePawnIsIncapable>
+    <DE_GatherInfo>Gather info ({0} success chance)</DE_GatherInfo>
 
     <!-- Events -->
-    <HighDemandQuest_LetterLabel>Shortage</HighDemandQuest_LetterLabel>
-    <HighDemandQuest_LetterBody>One of your colonists found out that one of nearby settlements requires specific supplies and pays much more for them. This can be a good opportunity to make some profitable trades.\n\nCheck quest log for more info.</HighDemandQuest_LetterBody>
+    <DE_HighDemandQuest_LetterLabel>Shortage</DE_HighDemandQuest_LetterLabel>
+    <DE_HighDemandQuest_LetterBody>One of your colonists found out that one of nearby settlements requires specific supplies and pays much more for them. This can be a good opportunity to make some profitable trades.\n\nCheck quest log for more info.</DE_HighDemandQuest_LetterBody>
 
-    <HighSupplyQuest_LetterLabel>Surplus</HighSupplyQuest_LetterLabel>
-    <HighSupplyQuest_LetterBody>One of your colonists found out that one of nearby settlements has excess stocks which it is selling much cheaper now. This can be a good opportunity to make some profitable trades.\n\nCheck quest log for more info.</HighSupplyQuest_LetterBody>
+    <DE_HighSupplyQuest_LetterLabel>Surplus</DE_HighSupplyQuest_LetterLabel>
+    <DE_HighSupplyQuest_LetterBody>One of your colonists found out that one of nearby settlements has excess stocks which it is selling much cheaper now. This can be a good opportunity to make some profitable trades.\n\nCheck quest log for more info.</DE_HighSupplyQuest_LetterBody>
 
     <!-- factor info -->
-    <AffectingFactorsUnknown>Affected by unknown factors.</AffectingFactorsUnknown>
-    <NoAffectingFactors>Price is not affected by any factors.</NoAffectingFactors>
-    <LocalFactor>Regional factor</LocalFactor>
-    <PlayerPurchasesFactor>Our purchases volumes multipiler</PlayerPurchasesFactor>
-    <PlayerSalesFactor>Our sales volumes multipiler</PlayerSalesFactor>
-    <EventFactor>Recent events multipiler</EventFactor>
-    <OrbitalTraderRandomFactor>Orbital trader's price multipiler</OrbitalTraderRandomFactor>
-    <BasePriceFactor_NotASettlementOrAShip>Base price multipiler</BasePriceFactor_NotASettlementOrAShip>
+    <DE_AffectingFactorsUnknown>Affected by unknown factors.</DE_AffectingFactorsUnknown>
+    <DE_NoAffectingFactors>Price is not affected by any factors.</DE_NoAffectingFactors>
+    <DE_LocalFactor>Regional factor</DE_LocalFactor>
+    <DE_PlayerPurchasesFactor>Our purchases volumes multipiler</DE_PlayerPurchasesFactor>
+    <DE_PlayerSalesFactor>Our sales volumes multipiler</DE_PlayerSalesFactor>
+    <DE_EventFactor>Recent events multipiler</DE_EventFactor>
+    <DE_OrbitalTraderRandomFactor>Orbital trader's price multipiler</DE_OrbitalTraderRandomFactor>
+    <DE_BasePriceFactor_NotASettlementOrAShip>Base price multipiler</DE_BasePriceFactor_NotASettlementOrAShip>
 
     <!-- PsiCoin and related -->
-    <ToggleMiningModeCommand_Label>Toggle mining mode</ToggleMiningModeCommand_Label>
-    <ToggleMiningModeCommand_Desc>Switch between light and hard mining modes.</ToggleMiningModeCommand_Desc>
+    <DE_ToggleMiningModeCommand_Label>Toggle mining mode</DE_ToggleMiningModeCommand_Label>
+    <DE_ToggleMiningModeCommand_Desc>Switch between light and hard mining modes.</DE_ToggleMiningModeCommand_Desc>
 
-    <ExtractCoinCommand_Label>Extract psicoin chip</ExtractCoinCommand_Label>
-    <ExtractCoinCommand_Desc>Take out a psicoin chip</ExtractCoinCommand_Desc>
-    <ExtractCoinCommand_Unavailable_TillNextCoin>{0} till next psicoin</ExtractCoinCommand_Unavailable_TillNextCoin>
+    <DE_ExtractCoinCommand_Label>Extract psicoin chip</DE_ExtractCoinCommand_Label>
+    <DE_ExtractCoinCommand_Desc>Take out a psicoin chip</DE_ExtractCoinCommand_Desc>
+    <DE_ExtractCoinCommand_Unavailable_TillNextCoin>{0} till next psicoin</DE_ExtractCoinCommand_Unavailable_TillNextCoin>
 
-    <PsiCoinReadyAlert_Label>PsiCoin ready for extraction</PsiCoinReadyAlert_Label>
-    <PsiCoinReadyAlert_Explanation>One or more psicoins are waiting to be extracted</PsiCoinReadyAlert_Explanation>
+    <DE_PsiCoinReadyAlert_Label>PsiCoin ready for extraction</DE_PsiCoinReadyAlert_Label>
+    <DE_PsiCoinReadyAlert_Explanation>One or more psicoins are waiting to be extracted</DE_PsiCoinReadyAlert_Explanation>
 
 </LanguageData>

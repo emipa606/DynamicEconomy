@@ -11,7 +11,7 @@
         <!-- quest name single -->
         <li>questName->[supplyNoun] [requestWord]</li>
         <li>questName->[supplyNoun] for [settlementName]</li>
-        <li>questName->[lackWord] [category_label]</li>
+        <li>questName->[category_label] [lackWord]</li>
 
         <!-- pieces -->
         <li>supplyNoun->supplies</li>
@@ -31,7 +31,7 @@
         <li>questDescription->[settlement_label] needs [category_label]. [reasonInfo]. \n
           Additional price modifier starts at x[sellFactorS] and will smoothly return back to default. This is an opportunity to sell things abobe market price.</li>
 
-        <li>reasonInfo(demandedThingCategoryDefName==Medicine)->A virulent disease broke out within their community, bringing almost everyone to bed. They will pay much more for any medicines, be it healroot or glittermed</li>
+        <li>reasonInfo(demandedThingCategoryDefName==Medicine)->A virulent disease broke out within their community, bringing almost everyone to bed. They will pay much more for any medicines, be it a healroot or a glittermed</li>
         <li>reasonInfo(demandedThingCategoryDefName==BuildingsArt)->They seek for somethng beatiful, something to be put in the center of the settlement. They will pay much more for sculptures</li>
         <li>reasonInfo(demandedThingCategoryDefName==PlantFoodRaw)->It seems that their crops died out due to some kind of disease. They have no plant food now and will pay much more for it</li>
         <li>reasonInfo(demandedThingCategoryDefName==MeatRaw)->Due to unfueled evaporative cooler or blackout their meat stocks have rotted totally. They are paying much more for meat now</li>
@@ -107,7 +107,7 @@
           <li>offerWord->excess</li>
           <li>offerWord->unneeded</li>
   
-          <li>excessWord->surplus</li>
+          <li>excessWord->needless</li>
           <li>excessWord->excess</li>
         </rulesStrings>
       </questNameRules>

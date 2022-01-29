@@ -14,7 +14,7 @@ namespace DynamicEconomy
     public class PsiCoinManager : IExposable
     {
         public float psiCoinPrice=DynamicEconomyDefOf.PsiCoin.BaseMarketValue;
-        public float PsiCoinDefaultRandomOffset = 0.003f;
+        public const float PsiCoinDefaultRandomOffset = 0.003f;
         public void TickLong()
         {
             psiCoinPrice *= 1f+Rand.Sign*Rand.Value*PsiCoinDefaultRandomOffset*DESettings.randyCoinRandomOfsettMultipiler;               
@@ -37,12 +37,13 @@ namespace DynamicEconomy
         public int TicksTillNextPsiCoin => HardMiningOn ? (int)(_ticksTillNextPsiCoinInLightMode / Props.hardMiningMultipiler) : _ticksTillNextPsiCoinInLightMode;
         public bool psiCoinReady;
         public bool HardMiningOn => parent.Severity>0.5f;
-        public int ApproxTicksTillPsiCoinOnLightMode => (int)((GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice / Props.silverPerDayLight) * 60000);
+        //public int ApproxTicksTillPsiCoinOnLightMode => (int)((GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice / Props.silverPerDayLight) * 60000);
+        private int PsiCoinDropCooldown => (int)((GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice / Props.silverPerDayLight) * 60000);
 
 
-        private Texture2D lightMiningTexture = ContentFinder<Texture2D>.Get("UI/Commands/PsiCoinMining_Light");
-        private Texture2D hardMiningTexture = ContentFinder<Texture2D>.Get("UI/Commands/PsiCoinMining_Hard");
-        private Texture2D extractTexture = ContentFinder<Texture2D>.Get("UI/Commands/ExtractPsiCoin");
+        private const string LightMiningTexturePath = "UI/Commands/PsiCoinMining_Light";
+        private const string HardMiningTexturePath = "UI/Commands/PsiCoinMining_Hard";
+        private const string ExtractTexturePath = "UI/Commands/ExtractPsiCoin";
 
         private void StartMiningNewCoin()
         {
@@ -65,9 +66,11 @@ namespace DynamicEconomy
             Command_Toggle toggleMiningModeCommand = new Command_Toggle();
             toggleMiningModeCommand.isActive = () => HardMiningOn;      // is on if in hard mode
 
-            toggleMiningModeCommand.icon = HardMiningOn ? hardMiningTexture : lightMiningTexture;
-            toggleMiningModeCommand.defaultLabel = "ToggleMiningModeCommand_Label".Translate();
-            toggleMiningModeCommand.defaultDesc = "ToggleMiningModeCommand_Desc".Translate();
+
+
+            toggleMiningModeCommand.icon = HardMiningOn ? ContentFinder<Texture2D>.Get(HardMiningTexturePath) : ContentFinder<Texture2D>.Get(LightMiningTexturePath);
+            toggleMiningModeCommand.defaultLabel = "DE_ToggleMiningModeCommand_Label".Translate();
+            toggleMiningModeCommand.defaultDesc = "DE_ToggleMiningModeCommand_Desc".Translate();
 
 
             toggleMiningModeCommand.toggleAction = () =>
@@ -81,10 +84,10 @@ namespace DynamicEconomy
         public Command_Action GenExtractCommand()
         {
             Command_Action extractCommand = new Command_Action();
-            extractCommand.defaultLabel = "ExtractCoinCommand_Label".Translate();
-            extractCommand.defaultDesc = "ExtractCoinCommand_Desc".Translate();
+            extractCommand.defaultLabel = "DE_ExtractCoinCommand_Label".Translate();
+            extractCommand.defaultDesc = "DE_ExtractCoinCommand_Desc".Translate();
             
-            extractCommand.icon = extractTexture;
+            extractCommand.icon = ContentFinder<Texture2D>.Get(ExtractTexturePath);
             extractCommand.action = () =>
             {
                 var coin = ThingMaker.MakeThing(DynamicEconomyDefOf.PsiCoin);
@@ -104,7 +107,6 @@ namespace DynamicEconomy
             psiCoinReady = false;
         }
 
-        private int PsiCoinDropCooldown =>(int)((GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice/Props.silverPerDayLight)*60000);
 
 
         public override void CompPostTick(ref float severityAdjustment)
@@ -128,7 +130,7 @@ namespace DynamicEconomy
             
             var extractCommand = GenExtractCommand();
             if (!psiCoinReady)
-                extractCommand.Disable("ExtractCoinCommand_Unavailable_TillNextCoin".Translate(TicksTillNextPsiCoin.ToStringTicksToDays()));
+                extractCommand.Disable("DE_ExtractCoinCommand_Unavailable_TillNextCoin".Translate(TicksTillNextPsiCoin.ToStringTicksToDays()));
             yield return extractCommand;
 
 
@@ -146,6 +148,7 @@ namespace DynamicEconomy
             base.CompExposeData();
             Scribe_Values.Look(ref _ticksTillNextPsiCoinInLightMode, "ticksTillPsiCoin");
             Scribe_Values.Look(ref psiCoinReady, "psiCoinReady");
+            Scribe_Values.Look(ref psiCoinsToBeDropped, "psiCoinsToBeDropped");
         }
 
     }
@@ -166,8 +169,8 @@ namespace DynamicEconomy
 
         public Alert_PsiCoinReady()
         {
-            defaultLabel = "PsiCoinReadyAlert_Label".Translate();
-            defaultExplanation = "PsiCoinReadyAlert_Explanation".Translate();
+            defaultLabel = "DE_PsiCoinReadyAlert_Label".Translate();
+            defaultExplanation = "DE_PsiCoinReadyAlert_Explanation".Translate();
         }
 
         public override AlertReport GetReport()

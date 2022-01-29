@@ -18,6 +18,7 @@ namespace DynamicEconomy
         public static float sellingPriceFactorGrowthRate;
 
         public static float costToDoublePriceMultipiler;
+        public static float costToHalvePriceMultipiler;
 
         public static float turnoverEffectOnTraderCurrencyMultipiler;
         public static float turnoverEffectDropRateMultipiler;
@@ -39,9 +40,13 @@ namespace DynamicEconomy
             listingStandard.Label("Currently it takes around " + ((int)(0.5f / sellingPriceFactorGrowthRate)*2000).ToStringTicksToDays() + " for price multipiler to grow by 0.5");
             sellingPriceFactorGrowthRate = listingStandard.Slider(sellingPriceFactorGrowthRate / DefaultSellinPriceFactorGrowthRate, 0.01f, 10f) * DefaultSellinPriceFactorGrowthRate;
 
-            listingStandard.Label("Player's transactions effect on price multipilers: x" + costToDoublePriceMultipiler.ToString("F2"));
-            listingStandard.Label("Currently it takes " + (int)TradeablePriceModifier.CostToDoubleFactor + " silver received/sent for a thing to half/double it's price");
+            listingStandard.Label("Player's purchases effect on price multipilers: x" + costToDoublePriceMultipiler.ToString("F2"));
+            listingStandard.Label("Currently it takes " + (int)TradeablePriceModifier.CostToDoubleFactor + " silver sent for a thing to double it's price");
             costToDoublePriceMultipiler = listingStandard.Slider(costToDoublePriceMultipiler, 0.05f, 10f);
+
+            listingStandard.Label("Player's sales effect on price multipilers: x" + costToHalvePriceMultipiler.ToString("F2"));
+            listingStandard.Label("Currently it takes " + (int)TradeablePriceModifier.CostToHalveFactor + " silver received for a thing to half it's price");
+            costToHalvePriceMultipiler = listingStandard.Slider(costToHalvePriceMultipiler, 0.05f, 10f);
 
             listingStandard.Label("Player's turnover effect on trader's currency amount: x" + turnoverEffectOnTraderCurrencyMultipiler.ToString("F2"));
             listingStandard.Label("Currently it takes " + (int)(turnoverEffectOnTraderCurrencyMultipiler * GameComponent_EconomyStateTracker.BaseTurnoverToDoubleTradersCurrency) + " of thing's value to double trader's money");
@@ -56,7 +61,7 @@ namespace DynamicEconomy
             randyCoinRandomOfsettMultipiler = listingStandard.Slider(randyCoinRandomOfsettMultipiler, 0.01f, 10f);
 
             listingStandard.Label("Orbital trader's price offset range: " + orbitalTraderRandomPriceOffset.ToString("F2"));
-            orbitalTraderRandomPriceOffset = listingStandard.Slider(orbitalTraderRandomPriceOffset, 0.01f, 0.9f);
+            orbitalTraderRandomPriceOffset = listingStandard.Slider(orbitalTraderRandomPriceOffset, 0f, 0.9f);
 
             listingStandard.End();
         }
@@ -67,6 +72,7 @@ namespace DynamicEconomy
             Scribe_Values.Look(ref buyingPriceFactorDropRate, "priceFDropRate", DefaultBuyingPriceFactorDropRate);
             Scribe_Values.Look(ref sellingPriceFactorGrowthRate, "priceFGrowthRate", DefaultSellinPriceFactorGrowthRate);
             Scribe_Values.Look(ref costToDoublePriceMultipiler, "costToDoublePriceMultipiler", 1f);
+            Scribe_Values.Look(ref costToHalvePriceMultipiler, "costToHalvePriceMultipiler", 1f);
             Scribe_Values.Look(ref turnoverEffectOnTraderCurrencyMultipiler, "turnoverEffectOnTraderCurrencyMultipiler", 1f);
             Scribe_Values.Look(ref turnoverEffectDropRateMultipiler, "turnoverEffectDropRateMultipiler", 1f);
             Scribe_Values.Look(ref randyCoinRandomOfsettMultipiler, "randyCoinRandomOfsettMultipiler", 1f);

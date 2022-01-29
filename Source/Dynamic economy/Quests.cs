@@ -144,7 +144,7 @@ namespace DynamicEconomy
             Settlement targetSettlement = settlement.GetValue(slate);
             ThingCategoryDef request = requestedCategoryDef.GetValue(slate);
 
-            if (targetSettlement == null || request == null)
+            if (targetSettlement == null || targetSettlement.Faction==Faction.OfPlayer || request == null)
                 return false;
 
             return true;

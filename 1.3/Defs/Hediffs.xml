@@ -35,7 +35,7 @@
         <comps>
             <li Class="DynamicEconomy.HediffCompProperties_PsiCoinMining">
                 <silverPerDayLight>33</silverPerDayLight>
-                <hardMiningMultipiler>6</hardMiningMultipiler>
+                <hardMiningMultipiler>4</hardMiningMultipiler>
             </li>
             <li Class="HediffCompProperties_DamageBrain">
                 <damageAmount>1~5</damageAmount>

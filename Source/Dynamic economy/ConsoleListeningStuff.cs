@@ -52,7 +52,7 @@ namespace DynamicEconomy
 
             if (!manager.CanRollForEconomicEvent)
             {
-                option = new FloatMenuOption("GatherInfo_UnavailableCooldown".Translate((60000 - manager.ticksSinceLastEventRoll).ToStringTicksToPeriod()), null);
+                option = new FloatMenuOption("DE_GatherInfo_UnavailableCooldown".Translate((60000 - manager.ticksSinceLastEventRoll).ToStringTicksToPeriod()), null);
                 
                 yield return option;
                 yield break;
@@ -60,7 +60,7 @@ namespace DynamicEconomy
 
             if (selPawn.skills.GetSkill(SkillDefOf.Social).TotallyDisabled)
             {
-                option = new FloatMenuOption("GatherInfo_UnavailablePawnIsIncapable".Translate(selPawn.ToString()), null);
+                option = new FloatMenuOption("DE_GatherInfo_UnavailablePawnIsIncapable".Translate(selPawn.ToString()), null);
                 
                 yield return option;
                 yield break;
@@ -72,7 +72,7 @@ namespace DynamicEconomy
             job.count = 1;
 
             option = new FloatMenuOption(
-                "GatherInfo".Translate(rollChance.ToStringPercent()),
+                "DE_GatherInfo".Translate(rollChance.ToStringPercent()),
                 () => selPawn.jobs.TryTakeOrderedJob(job));
 
             yield return option;

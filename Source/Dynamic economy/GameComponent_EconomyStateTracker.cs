@@ -157,6 +157,7 @@ namespace DynamicEconomy
         public override void GameComponentTick()
         {
             base.GameComponentTick();
+
             if (Find.TickManager.TicksGame%2000==0)
             {
                 _recentTurnover *= (1-BaseTurnoverEffectDrop*DESettings.turnoverEffectDropRateMultipiler);
@@ -180,17 +181,21 @@ namespace DynamicEconomy
 
         public GameComponent_EconomyStateTracker(Game game)
         {
+            // avoiding nullref
+            // or attempting to do so
+            settlementPriceModifiers = new List<SettlementPriceModifier>();
+            orbitalTraderPriceModifiers = new List<OrbitalTraderPriceModifier>();
+            _eventsManager = new EconomicEventsManager();
+            _psiCoinManager = new PsiCoinManager();
+            traderCaravanPriceModifier = new AllTraderCaravansPriceModifier();
         }
 
         public override void ExposeData()
         {
             base.ExposeData();
 
-            settlementPriceModifiers = new List<SettlementPriceModifier>();
-            orbitalTraderPriceModifiers = new List<OrbitalTraderPriceModifier>();
-            _eventsManager = new EconomicEventsManager();
-            _psiCoinManager = new PsiCoinManager();
-            traderCaravanPriceModifier = new AllTraderCaravansPriceModifier();
+            // srsly, i have no idea how to make it work properly
+            // damn nullref after game loading
 
             Scribe_Collections.Look(ref settlementPriceModifiers, "settlementPriceModifiers", LookMode.Deep);
             Scribe_Collections.Look(ref orbitalTraderPriceModifiers, "orbitalTraderPriceModifiers", LookMode.Deep);

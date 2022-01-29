@@ -76,6 +76,7 @@ namespace DynamicEconomy
     {
         public const float BaseCostToDoubleFactor = 7000f;
         public static float CostToDoubleFactor => DESettings.costToDoublePriceMultipiler*BaseCostToDoubleFactor;
+        public static float CostToHalveFactor => DESettings.costToHalvePriceMultipiler*BaseCostToDoubleFactor;
 
         public float playerSellsFactor;
         public float playerBuysFactor;
@@ -179,7 +180,7 @@ namespace DynamicEconomy
             }
             else
             {
-                playerSellsFactor /= (float)Math.Pow(2, baseTotalPrice / CostToDoubleFactor);        
+                playerSellsFactor /= (float)Math.Pow(2, baseTotalPrice / CostToHalveFactor);        
             }
         }
 
