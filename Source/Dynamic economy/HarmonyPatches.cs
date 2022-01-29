@@ -234,6 +234,7 @@ namespace DynamicEconomy
     {
         public static void Postfix(TradeShip __instance)
         {
+            Log.Message("TradeShip created");
             GameComponent_EconomyStateTracker.CurGameInstance.GetOrCreateIfNeededComplexModifier(__instance);
         }
     }

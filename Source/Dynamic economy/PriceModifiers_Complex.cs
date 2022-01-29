@@ -19,7 +19,7 @@ namespace DynamicEconomy
         public List<ThingPriceModifier> thingPriceModifiers;
         public List<ThingCategoryPriceModifier> thingCategoryPriceModifiers;
 
-        public TradeablePriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingDef thingDef)         //returns null for ModifierCategory.None
+        public virtual TradeablePriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingDef thingDef)         //returns null for ModifierCategory.None
         {
             ThingCategoryDef thingCategory;
             var modCategory = GetModifierCategoryFor(thingDef, out thingCategory);
@@ -127,6 +127,7 @@ namespace DynamicEconomy
             for (int i = 0; i < thingPriceModifiers.Count; i++)
             {
                 thingPriceModifiers[i].TickLongUpdate();
+                
                 // if (thingPriceModifiers[i].HasNoEffect)
                 // {
                 //     thingPriceModifiers.RemoveAt(i);
@@ -233,7 +234,8 @@ namespace DynamicEconomy
     public class SettlementPriceModifier : ComplexPriceModifier
     {
         public Settlement settlement;
-        public SettlementPriceModifier(Settlement settlement=null) : base()                  
+        public SettlementPriceModifier() : base() { }   //only for easier exposing
+        public SettlementPriceModifier(Settlement settlement) : base()                  
         {
             if (settlement != null && settlement.Faction != Faction.OfPlayer)
             {
@@ -333,7 +335,9 @@ namespace DynamicEconomy
     public class OrbitalTraderPriceModifier : ComplexPriceModifier
     {
         public TradeShip ship;
-        public OrbitalTraderPriceModifier(TradeShip tradeShip=null) : base()
+
+        public OrbitalTraderPriceModifier() : base() { }        //only for easier exposing
+        public OrbitalTraderPriceModifier(TradeShip tradeShip) : base()
         {
             ship = tradeShip;
         }
@@ -341,13 +345,39 @@ namespace DynamicEconomy
         public override ThingCategoryPriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingCategoryDef thingCategoryDef)
         {
             var res = base.GetOrCreateIfNeededTradeablePriceModifier(thingCategoryDef);
+            if (res == null)
+                return null;
+
             if (res.GetPriceMultipiler(TradeAction.PlayerBuys, ConsideredFactors.Base)==1f)     //if newly created
             {
-                float randBase = 1 + Rand.Sign * Rand.Value * 0.3f;     //TODO replace 0.3f
+                float randBase = 1 + Rand.Sign * Rand.Value * DESettings.orbitalTraderRandomPriceOffset;    
                 res.SetBaseFactors(randBase, randBase);
             }
 
             return res;
+        }
+        public override TradeablePriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingDef thingDef)
+        {
+            var res = base.GetOrCreateIfNeededTradeablePriceModifier(thingDef);
+            if (res == null)
+                return null;
+
+            if (res.GetPriceMultipiler(TradeAction.PlayerBuys, ConsideredFactors.Base) == 1f)     //if newly created
+            {
+                float randBase = 1 + Rand.Sign * Rand.Value * DESettings.orbitalTraderRandomPriceOffset;     
+                res.SetBaseFactors(randBase, randBase);
+            }
+
+            return res;
+        }
+
+        public override float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, ConsideredFactors factor = ConsideredFactors.All)
+        {
+            var mod = GetOrCreateIfNeededTradeablePriceModifier(thingDef);
+            if (mod == null)
+                return 1f;
+
+            return mod.GetPriceMultipiler(action, factor);
         }
 
         public override void RecordNewDeal(ThingDef thingDef, float totalCost, TradeAction action)

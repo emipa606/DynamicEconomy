@@ -11,7 +11,9 @@ using RimWorld;
 
 namespace DynamicEconomy
 {
-    
+    /// <summary>
+    /// Main class that serves as pricemod container and as proxy for managers
+    /// </summary>
     public class GameComponent_EconomyStateTracker : GameComponent
     {
         private static GameComponent_EconomyStateTracker _instance;

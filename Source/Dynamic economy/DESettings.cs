@@ -24,6 +24,7 @@ namespace DynamicEconomy
 
         public static float randyCoinRandomOfsettMultipiler;
 
+        public static float orbitalTraderRandomPriceOffset;
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
@@ -54,6 +55,9 @@ namespace DynamicEconomy
             listingStandard.Label("Psicoin price randomness multipiler: " + randyCoinRandomOfsettMultipiler.ToString("F2"));
             randyCoinRandomOfsettMultipiler = listingStandard.Slider(randyCoinRandomOfsettMultipiler, 0.01f, 10f);
 
+            listingStandard.Label("Orbital trader's price offset range: " + orbitalTraderRandomPriceOffset.ToString("F2"));
+            orbitalTraderRandomPriceOffset = listingStandard.Slider(orbitalTraderRandomPriceOffset, 0.01f, 0.9f);
+
             listingStandard.End();
         }
 
@@ -66,6 +70,7 @@ namespace DynamicEconomy
             Scribe_Values.Look(ref turnoverEffectOnTraderCurrencyMultipiler, "turnoverEffectOnTraderCurrencyMultipiler", 1f);
             Scribe_Values.Look(ref turnoverEffectDropRateMultipiler, "turnoverEffectDropRateMultipiler", 1f);
             Scribe_Values.Look(ref randyCoinRandomOfsettMultipiler, "randyCoinRandomOfsettMultipiler", 1f);
+            Scribe_Values.Look(ref orbitalTraderRandomPriceOffset, "orbitalTraderRandomPriceOffset", 0.3f);
         }
     }
 }
