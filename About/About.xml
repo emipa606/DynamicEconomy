@@ -4,12 +4,12 @@
   <packageId>saloid.DynamicEconomy</packageId>
   <author>saloid</author>
   <name>Dynamic economy</name>
-  <description>Adds non-constant prices, brain mining and adaptive traders.
+  <description>Adds local prices, brain mining and adaptive traders.
 
-    Prices will change depending on your purchases and sales. Sold all those sculptures for like 3k silver? Next time trader will pay less for them. Bought 5 stacks of steel? Rumors about settlement buying it in bulk are on their way! Next caravan will bring more and sell it to you for just a *little* higher price. Trade caravans will also bring more silver if your turnover with them is high.
+    Prices will change depending on your purchases and sales. Sold all those sculptures for like 3k silver? Next time trader will pay less for them. Bought 5 stacks of steel? Rumors about settlement buying it in bulk are on their way! Next caravan will bring more and sell it to you for just a *little* higher price. Trade caravans will also bring more silver if your turnover is high.
     Price multipilers will return to normal with time, but untill then consider sending your own caravans. Why?
 
-    Because multipiliers for other settlements are counted separately from those for trader caravans, which makes it reasonable to send your caravans there not just for 2% price bonus, but to buy resources needed without x10 price margin. Depending on region, settlements will also lower or raise prices on some things (ie you can buy steel in mountains and sell foods in desert for sightly better price).
+    Because multipiliers for other settlements are counted separately from those for trader caravans, which makes it reasonable to send your own caravans there not just for 2% price bonus, but to buy resources needed without x10 price margin. Depending on region, settlements will also lower or raise prices on some things (ie you can buy steel in mountains and sell foods in desert for sightly better price).
     You can also use your comms console and a pawn with high negotiation stat to try and gather some info about what is going on at your neighbour's home. If you are lucky, a nearby settlement will have its prices for some category changed for some time. And this means that you will be able to sell or buy things above/below market price.
 
     And there are also orbital traders. They came from far away, maybe even from other planets (but they are too busy counting profits to take you from the Rim), from a place with different prices. How would they know anything about local market? Nohow. Every orbital trader will have their prices randomized (dont worry, you can configure that in options).
@@ -22,7 +22,7 @@
 
     Any factor growth is linear, while drop is geometrical/exponential.
     Should be savegame compatible. 
-    As for other mods, prices for things they add might be modified wrong, ie buying really-cool-gun-that-annihilates-everything won't affect other guns prices. But I havent noted anything like this while testing. If you do, let me know.
+    As for other mods, prices for things they add might be modified wrong, ie buying really-cool-gun-that-annihilates-everything won't affect other weapons prices. But I havent noticed anything like this while testing. If you do, let me know.
   </description> 
 
   <supportedVersions>

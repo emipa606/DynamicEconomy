@@ -142,10 +142,13 @@ namespace DynamicEconomy
                         ThingCategoryDef cat;
                         var type = ComplexPriceModifier.GetModifierCategoryFor(transfer.First, out cat);
 
-                        if (cat != null)
-                            Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + "-type and its defining category is " + cat.defName);
-                        else
-                            Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + "-type and has no defining category");
+                        if (Prefs.DevMode)
+                        {
+                            if (cat != null)
+                                Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + "-type and its defining category is " + cat.defName);
+                            else
+                                Log.Message("Bought " + transfer.First.defName + ", which is " + type.ToString() + "-type and has no defining category");
+                        }
 
                     }
 
@@ -158,10 +161,13 @@ namespace DynamicEconomy
                         ThingCategoryDef cat;
                         var type = ComplexPriceModifier.GetModifierCategoryFor(transfer.First, out cat);
 
-                        if (cat != null)
-                            Log.Message("Sold " + transfer.First.defName + ", which is " + type.ToString() + "-type and its defining category is " + cat.defName);
-                        else
-                            Log.Message("Sold " + transfer.First.defName + ", which is " + type.ToString() + "-type and has no defining category");
+                        if (Prefs.DevMode)
+                        { 
+                            if (cat != null)
+                                Log.Message("Sold " + transfer.First.defName + ", which is " + type.ToString() + "-type and its defining category is " + cat.defName);
+                            else
+                                Log.Message("Sold " + transfer.First.defName + ", which is " + type.ToString() + "-type and has no defining category");
+                        }
                     }
                     
 
@@ -185,7 +191,7 @@ namespace DynamicEconomy
 
             if (def==ThingDefOf.Silver)
             {
-                Log.Message("Multipiled trader money by " + gameComp.TraderSilverMultipiler);
+                //Log.Message("Multipiled trader money by " + gameComp.TraderSilverMultipiler);
                 return (int)(__result * gameComp.TraderSilverMultipiler);
             }
 

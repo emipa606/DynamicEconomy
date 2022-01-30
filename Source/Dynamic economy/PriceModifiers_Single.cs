@@ -214,6 +214,8 @@ namespace DynamicEconomy
             Scribe_Values.Look(ref baseSellFactor, "colonySellsBase");
             Scribe_Values.Look(ref baseBuyFactor, "colonyBuysBase");
         }
+
+        
     }
 
 
@@ -226,9 +228,12 @@ namespace DynamicEconomy
 
         public ThingDef Def => def;
 
+        public ThingPriceModifier() { }
+
         public ThingPriceModifier(ThingDef def, float baseSellFactor=1f, float baseBuyFactor=1f)
         {
             Init(baseSellFactor, baseBuyFactor);
+
             this.def = def;
         }
 
@@ -245,6 +250,7 @@ namespace DynamicEconomy
         ThingCategoryDef def;
 
         public ThingCategoryDef Def => def;
+        public ThingCategoryPriceModifier() { }
 
         public ThingCategoryPriceModifier(ThingCategoryDef def, float baseSellFactor = 1f, float baseBuyFactor = 1f)
         {

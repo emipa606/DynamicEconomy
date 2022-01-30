@@ -89,7 +89,7 @@ namespace DynamicEconomy
 
             slate.Set(storeCategoryAs.GetValue(slate), GetCategoryDef(settlement));
 
-            float eventFactor = 1.4f + Rand.Value * 0.6f;
+            float eventFactor = 1.6f + Rand.Value * 0.6f;
 
             float playerBuysFactor = eventFactor;
             float playerSellsFactor = eventFactor;
@@ -106,7 +106,7 @@ namespace DynamicEconomy
 
             slate.Set(storeCategoryAs.GetValue(slate), GetCategoryDef(settlement.GetValue(slate)));
 
-            float eventFactor = 1.4f + Rand.Value * 0.6f;
+            float eventFactor = 1.6f + Rand.Value * 0.6f;
 
             float playerBuysFactor = eventFactor;
             float playerSellsFactor = eventFactor;
@@ -187,8 +187,9 @@ namespace DynamicEconomy
             if (categoryDef == null)
                 return false;
 
-            if (categoryDef == ThingCategoryDefOf.Medicine)
-                slate.Set(storeCategoryStringAs.GetValue(slate), "Medicine");
+            slate.Set(storeCategoryStringAs.GetValue(slate), categoryDef);
+            slate.Set(storeBuyFactorStringAs.GetValue(slate), playerBuysFactor.GetValue(slate).ToString("F2"));
+            slate.Set(storeSellFactorStringAs.GetValue(slate), playerSellsFactor.GetValue(slate).ToString("F2"));
 
             return true;
         }
@@ -272,7 +273,7 @@ namespace DynamicEconomy
 
             slate.Set(storeCategoryAs.GetValue(slate), GetCategoryDef(settlement.GetValue(slate)));
 
-            float eventFactor = 0.4f + Rand.Value * 0.3f;
+            float eventFactor = 0.3f + Rand.Value * 0.3f;
 
             float playerBuysFactor = eventFactor;           
             float playerSellsFactor = eventFactor;
@@ -290,7 +291,7 @@ namespace DynamicEconomy
 
             slate.Set(storeCategoryAs.GetValue(slate), GetCategoryDef(settlement.GetValue(slate)));
 
-            float eventFactor = 0.4f + Rand.Value*0.3f;
+            float eventFactor = 0.3f + Rand.Value*0.3f;
 
             float playerBuysFactor = eventFactor;
             float playerSellsFactor = eventFactor;

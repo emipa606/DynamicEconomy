@@ -54,7 +54,7 @@ namespace DynamicEconomy
             else
                 failedEventRollsBonus += pawn.GetStatValue(StatDefOf.NegotiationAbility) * 0.025f;
 
-            Log.Message("Roll");
+            //Log.Message("Roll");
             pawn.skills.Learn(SkillDefOf.Social, XPBonus);
             ticksSinceLastEventRoll = 0;
 
@@ -63,9 +63,8 @@ namespace DynamicEconomy
 
         public void TickLong()
         {
-            ticksSinceLastEventRoll += 2000;
-            if (ticksSinceLastEventRoll % 60000 == 0)
-                Log.Message("Event ticks " + ticksSinceLastEventRoll);
+            if (ticksSinceLastEventRoll<=EconomicEventRollCooldownTicks)
+                ticksSinceLastEventRoll += 2000;
 
             daysSinceLastEconomicEvent += 0.03333f;         //2k ticks / 60k ticks in day
         }

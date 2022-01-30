@@ -53,7 +53,7 @@ namespace DynamicEconomy
 
                     if (modifier == null)
                     {
-                        Log.Message("Created modifier for " + settlement.Label);
+                        //Log.Message("Created modifier for " + settlement.Label);
                         modifier = new SettlementPriceModifier(settlement);
                         settlementPriceModifiers.Add(modifier);
                     }
@@ -79,7 +79,7 @@ namespace DynamicEconomy
 
                 if (modifier == null)
                 {
-                    Log.Message("Created modifier for " + tradeShip.name);
+                    //Log.Message("Created modifier for " + tradeShip.name);
                     modifier = new OrbitalTraderPriceModifier(tradeShip);
                     orbitalTraderPriceModifiers.Add(modifier);
                 }

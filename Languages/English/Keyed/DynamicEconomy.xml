@@ -16,8 +16,8 @@
     <DE_AffectingFactorsUnknown>Affected by unknown factors.</DE_AffectingFactorsUnknown>
     <DE_NoAffectingFactors>Price is not affected by any factors.</DE_NoAffectingFactors>
     <DE_LocalFactor>Regional factor</DE_LocalFactor>
-    <DE_PlayerPurchasesFactor>Our purchases volumes multipiler</DE_PlayerPurchasesFactor>
-    <DE_PlayerSalesFactor>Our sales volumes multipiler</DE_PlayerSalesFactor>
+    <DE_PlayerPurchasesFactor>Our purchases multipiler</DE_PlayerPurchasesFactor>
+    <DE_PlayerSalesFactor>Our sales multipiler</DE_PlayerSalesFactor>
     <DE_EventFactor>Recent events multipiler</DE_EventFactor>
     <DE_OrbitalTraderRandomFactor>Orbital trader's price multipiler</DE_OrbitalTraderRandomFactor>
     <DE_BasePriceFactor_NotASettlementOrAShip>Base price multipiler</DE_BasePriceFactor_NotASettlementOrAShip>

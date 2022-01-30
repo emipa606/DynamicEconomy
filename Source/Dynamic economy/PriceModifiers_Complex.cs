@@ -178,31 +178,21 @@ namespace DynamicEconomy
 
         public virtual void TickLong()
         {
+            thingPriceModifiers.RemoveAll(mod => mod == null);          //i have no idea where those null mods are coming from. TODO, but for now let it be. Its O(n) after all 
+
             for (int i = 0; i < thingPriceModifiers.Count; i++)
-            {
+            { 
                 thingPriceModifiers[i].TickLongUpdate();
                 
-                // if (thingPriceModifiers[i].HasNoEffect)
-                // {
-                //     thingPriceModifiers.RemoveAt(i);
-                //     i--;
-                // }
             }
+
+            thingCategoryPriceModifiers.RemoveAll(mod => mod == null);
+            
             for (int i = 0; i < thingCategoryPriceModifiers.Count; i++)
             {
                 thingCategoryPriceModifiers[i].TickLongUpdate();
-                // if (thingCategoryPriceModifiers[i].HasNoEffect)
-                // {
-                //     thingCategoryPriceModifiers.RemoveAt(i);
-                //     i--;
-                // }
             }
         }
-
-
-        
-
-        
 
         public void SetBaseModifier(ThingDef def, float baseSellFactor, float baseBuyFactor)
         {
@@ -309,17 +299,21 @@ namespace DynamicEconomy
                 foreach (var biomeMod in extension.thingPriceMultipilers)
                 {
                     var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingDef>.GetNamed(biomeMod.thingDefName));
-
-                    mod.baseBuyFactor *= biomeMod.baseMultipiler;
-                    mod.baseSellFactor *= biomeMod.baseMultipiler;
+                    if (mod != null)
+                    {
+                        mod.baseBuyFactor *= biomeMod.baseMultipiler;
+                        mod.baseSellFactor *= biomeMod.baseMultipiler;
+                    }
                 }
 
                 foreach (var biomeMod in extension.categoryPriceMultipilers)
                 {
                     var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingCategoryDef>.GetNamed(biomeMod.categoryDefName));
-
-                    mod.baseBuyFactor *= biomeMod.baseMultipiler;
-                    mod.baseSellFactor *= biomeMod.baseMultipiler;
+                    if (mod != null)
+                    {
+                        mod.baseBuyFactor *= biomeMod.baseMultipiler;
+                        mod.baseSellFactor *= biomeMod.baseMultipiler;
+                    }
                 }
 
 
