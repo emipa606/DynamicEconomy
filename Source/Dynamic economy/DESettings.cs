@@ -14,18 +14,18 @@ namespace DynamicEconomy
         public const float DefaultBuyingPriceFactorDropRate = 0.001f;           //Per tickLong
         public const float DefaultSellinPriceFactorGrowthRate = 0.0006f;
 
-        public static float buyingPriceFactorDropRate;
-        public static float sellingPriceFactorGrowthRate;
+        public static float buyingPriceFactorDropRate=0.001f;
+        public static float sellingPriceFactorGrowthRate=0.0006f;
 
-        public static float costToDoublePriceMultipiler;
-        public static float costToHalvePriceMultipiler;
+        public static float costToDoublePriceMultipiler=1f;
+        public static float costToHalvePriceMultipiler=1f;
 
-        public static float turnoverEffectOnTraderCurrencyMultipiler;
-        public static float turnoverEffectDropRateMultipiler;
+        public static float turnoverEffectOnTraderCurrencyMultipiler=1f;
+        public static float turnoverEffectDropRateMultipiler=1f;
 
-        public static float randyCoinRandomOfsettMultipiler;
+        public static float randyCoinRandomOfsettMultipiler=1f;
 
-        public static float orbitalTraderRandomPriceOffset;
+        public static float orbitalTraderRandomPriceOffset=0.1f;
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
