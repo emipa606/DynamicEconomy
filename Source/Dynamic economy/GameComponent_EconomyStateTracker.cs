@@ -87,7 +87,9 @@ namespace DynamicEconomy
                 return modifier;
             }
 
-            throw new ArgumentException("trader is not a pawn, settlement or ship");
+
+            Log.Warning("trader is not null, pawn, settlement or ship");
+            return null;
         }
 
         public float GetPriceMultipilerFor(Tradeable tradeable, ITrader trader) => GetPriceMultipilerFor(tradeable.ThingDef, tradeable.ActionToDo, trader);
