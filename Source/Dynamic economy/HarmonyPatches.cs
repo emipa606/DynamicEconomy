@@ -207,18 +207,20 @@ namespace DynamicEconomy
     {
         public static IEnumerable<FloatMenuOption> Postfix(IEnumerable<FloatMenuOption> res, Building_CommsConsole __instance, Pawn myPawn)
         {
-            bool itWorks = false;
+            bool itWorks = __instance.CanUseCommsNow;
             foreach (var op in res)
             {
-                if (!op.Disabled)
-                    itWorks = true;
                 yield return op;
             }
 
             if (itWorks)
             {
-                foreach (var op in __instance.GetComp<CompDEEventRoll>().CompFloatMenuOptions(myPawn))
-                    yield return op;
+                var comp = __instance.GetComp<CompDEEventRoll>();
+                if (comp != null)
+                {
+                    foreach (var op in comp.CompFloatMenuOptions(myPawn))
+                        yield return op;
+                }
             }
         }
     }
