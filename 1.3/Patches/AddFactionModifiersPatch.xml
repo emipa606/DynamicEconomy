@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Patch>
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/FactionDef[techLevel="Spacer"]</xpath>
+        <value>
+            <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+                <categoryPriceMultipilers>
+                    <Foods>1.3</Foods>
+                    <PlantMatter>1.2</PlantMatter>
+                    <Animals>1.3</Animals>
+                    <Manufactured>0.9</Manufactured>
+                    <BuildingsFurniture>0.9</BuildingsFurniture>
+                    <VBE_Drinks>0.95</VBE_Drinks>
+                    <VCE_Condiments>1</VCE_Condiments>
+                    <BuildingsArt>1.1</BuildingsArt>
+                    <TM_MagicItems Sell="1.2">2</TM_MagicItems>
+                </categoryPriceMultipilers>
+            </li>
+        </value>
+    </Operation>
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/FactionDef[techLevel="Industrial"]</xpath>
+        <value>
+            <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+                <categoryPriceMultipilers>
+                    <Foods>1.15</Foods>
+                    <ResourcesRaw>1.05</ResourcesRaw>
+                    <Animals>1.2</Animals>
+                    <Items>1.1</Items>
+                    <Manufactured>0.95</Manufactured>
+                    <BuildingsFurniture>0.95</BuildingsFurniture>
+                    <VBE_Drinks>0.95</VBE_Drinks>
+                    <VCE_Condiments>1</VCE_Condiments>
+                    <TM_MagicItems Sell="1.2">1.5</TM_MagicItems>
+                </categoryPriceMultipilers>
+            </li>
+        </value>
+    </Operation>
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/FactionDef[techLevel="Neolithic"]</xpath>
+        <value>
+            <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+                <categoryPriceMultipilers>
+                    <FoodRaw>0.9</FoodRaw>
+                    <PlantMatter>0.9</PlantMatter>
+                    <Animals>0.9</Animals>
+                    <Leathers>0.9</Leathers>
+                    <Wools>0.9</Wools>
+                    <Items Sell="1.1">1.2</Items>
+                    <Manufactured Sell="1.1">1.5</Manufactured>
+                    <Weapons>1.1</Weapons>
+                    <Apparels>1.1</Apparels>
+                    <BuildingsArt>0.9</BuildingsArt>
+                    <TM_MagicItems>1.2</TM_MagicItems>
+                </categoryPriceMultipilers>
+                <thingPriceMultipilers>
+                    <WoodLog>0.9</WoodLog>
+                    <MedicineHerbal>0.9</MedicineHerbal>
+                </thingPriceMultipilers>
+            </li>
+        </value>
+    </Operation>
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/FactionDef[techLevel="Medieval"]</xpath>
+        <value>
+            <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+                <categoryPriceMultipilers>
+                    <FoodRaw>0.95</FoodRaw>
+                    <PlantMatter>0.95</PlantMatter>
+                    <Animals>0.95</Animals>
+                    <Leathers>0.95</Leathers>
+                    <Wools>0.95</Wools>
+                    <Items Sell="1.2">1.1</Items>
+                    <Manufactured Sell="1.1">1.3</Manufactured>
+                    <Weapons>1.05</Weapons>
+                    <Apparels>1.05</Apparels>
+                    <BuildingsArt>0.95</BuildingsArt>
+                    <TM_MagicItems>1.1</TM_MagicItems>
+                </categoryPriceMultipilers>
+                <thingPriceMultipilers>
+                    <WoodLog>0.9</WoodLog>
+                    <MedicineHerbal>0.9</MedicineHerbal>
+                </thingPriceMultipilers>
+            </li>
+        </value>
+    </Operation>
+    <Operation Class="PatchOperationAddModExtension">
+        <xpath>Defs/FactionDef[defName="Seers"]</xpath>
+        <value>
+            <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+                <categoryPriceMultipilers>
+                    <Food>1.1</Food>
+                    <ResourcesRaw>1.1</ResourcesRaw>
+                    <Animals>0.9</Animals>
+                    <Leathers>0.9</Leathers>
+                    <Wools>0.9</Wools>
+                    <Items Sell="1">1.2</Items>
+                    <Manufactured Sell="1">1.2</Manufactured>
+                    <Weapons>1.1</Weapons>
+                    <Apparels>1.1</Apparels>
+                    <BuildingsArt>0.9</BuildingsArt>
+                    <TM_MagicItems>0.9</TM_MagicItems>
+                </categoryPriceMultipilers>
+                <thingPriceMultipilers>
+                    <MedicineHerbal>0.9</MedicineHerbal>
+                </thingPriceMultipilers>
+            </li>
+        </value>
+    </Operation>
+</Patch>

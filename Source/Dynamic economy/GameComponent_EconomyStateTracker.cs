@@ -19,8 +19,7 @@ namespace DynamicEconomy
         private static GameComponent_EconomyStateTracker _instance;
         public static GameComponent_EconomyStateTracker CurGameInstance => Current.ProgramState==ProgramState.Playing ? _instance : null;
 
-        protected AllTraderCaravansPriceModifier traderCaravanPriceModifier;
-
+        protected List<TraderCaravansPriceModifier> traderCaravanPriceModifiers;
         protected List<SettlementPriceModifier> settlementPriceModifiers;
         protected List<OrbitalTraderPriceModifier> orbitalTraderPriceModifiers;
 
@@ -44,6 +43,14 @@ namespace DynamicEconomy
         /// <returns></returns>
         public ComplexPriceModifier GetOrCreateIfNeededComplexModifier(ITrader trader)       
         {
+            if (trader == null) return GetModifierForCaravan(null);
+            if (trader is Pawn pawn) {
+                // if on non-home map, use that settlement's modifier if possible
+                if (pawn.MapHeld?.IsPlayerHome == false && pawn.MapHeld?.Tile > 0 && Find.WorldObjects.AnySettlementAt(pawn.MapHeld.Tile))
+                    trader = Find.WorldObjects.SettlementAt(pawn.MapHeld.Tile);
+                else return GetModifierForCaravan(trader.Faction);
+            }
+
             if (trader is Settlement settlement)
             {
                 SettlementPriceModifier modifier;
@@ -67,12 +74,7 @@ namespace DynamicEconomy
                 }
             }
 
-            else if (trader==null || trader is Pawn)
-            {
-                return traderCaravanPriceModifier;
-            }
-
-            else if (trader is TradeShip tradeShip)
+            if (trader is TradeShip tradeShip)
             {
                 OrbitalTraderPriceModifier modifier;
                 modifier = orbitalTraderPriceModifiers.Find(mod => mod.ship == tradeShip);
@@ -90,6 +92,18 @@ namespace DynamicEconomy
 
             Log.Warning("trader is not null, pawn, settlement or ship");
             return null;
+        }
+
+        public TraderCaravansPriceModifier GetModifierForCaravan(Faction faction) {
+            TraderCaravansPriceModifier modifier;
+            modifier = traderCaravanPriceModifiers.Find(mod => mod.faction == faction);
+
+            if (modifier == null) {
+                modifier = new TraderCaravansPriceModifier(faction);
+                traderCaravanPriceModifiers.Add(modifier);
+            }
+
+            return modifier;
         }
 
         public float GetPriceMultipilerFor(Tradeable tradeable, ITrader trader) => GetPriceMultipilerFor(tradeable.ThingDef, tradeable.ActionToDo, trader);
@@ -174,7 +188,9 @@ namespace DynamicEconomy
                 {
                     mod.TickLong();
                 }
-                traderCaravanPriceModifier.TickLong();
+                foreach (var mod in traderCaravanPriceModifiers) {
+                    mod.TickLong();
+                }
             }
         }
 
@@ -189,7 +205,7 @@ namespace DynamicEconomy
             orbitalTraderPriceModifiers = new List<OrbitalTraderPriceModifier>();
             _eventsManager = new EconomicEventsManager();
             _psiCoinManager = new PsiCoinManager();
-            traderCaravanPriceModifier = new AllTraderCaravansPriceModifier();
+            traderCaravanPriceModifiers = new List<TraderCaravansPriceModifier>();
         }
 
         public override void ExposeData()
@@ -202,10 +218,12 @@ namespace DynamicEconomy
             Scribe_Collections.Look(ref settlementPriceModifiers, "settlementPriceModifiers", LookMode.Deep);
             Scribe_Collections.Look(ref orbitalTraderPriceModifiers, "orbitalTraderPriceModifiers", LookMode.Deep);
             Scribe_Deep.Look(ref _eventsManager, "eventsManager");
-            Scribe_Deep.Look(ref traderCaravanPriceModifier, "caravanPriceMod");
+            Scribe_Deep.Look(ref traderCaravanPriceModifiers, "caravanPriceModifiers", LookMode.Deep);
             Scribe_Deep.Look(ref _psiCoinManager,"psiCoinManager");
 
-            
+            orbitalTraderPriceModifiers = orbitalTraderPriceModifiers ?? new List<OrbitalTraderPriceModifier>();
+            settlementPriceModifiers = settlementPriceModifiers ?? new List<SettlementPriceModifier>();
+            traderCaravanPriceModifiers = traderCaravanPriceModifiers ?? new List<TraderCaravansPriceModifier>();
         }
 
 

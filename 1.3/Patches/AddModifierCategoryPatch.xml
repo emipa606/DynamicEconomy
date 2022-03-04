@@ -22,11 +22,13 @@
             defName="Animals" or 
             defName="Apparel" or 
             defName="ApparelArmor" 
+            or defName="Manufactured" 
             or defName="ApparelUtility" 
             or defName="MortarShells" 
             or defName="Wools" or 
             defName="Weapons" or 
             defName="Leathers" or 
+            defName="ResourcesRaw" or 
             defName="Textiles" or 
             defName="StoneBlocks" or
             defName="BodyParts" or 
@@ -39,7 +41,13 @@
             defName="VBE_Musts" or
             
             defName="VCE_Condiments" or
-            defName="VCE_Cheese"]</xpath>
+            defName="VCE_Cheese" or 
+
+            defName="TM_SkillBooks" or
+            defName="TM_Scrolls" or
+            defName="TM_Magicyte" or
+            defName="TM_MagicArtifacts" or
+            defName="TM_MagicEquipment"]</xpath>
         <value>
             <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
                 <category>Group</category>
@@ -67,7 +75,7 @@
 
     <!-- Penoxy should be separate from addictive drugs-->
     <Operation Class="PatchOperationAddModExtension">
-        <xpath>Defs/ThingDef[defName="ThrumboHorn" or defName="ElephantTusk" or defName="AIPersonaCore" or defName="Luciferium" or defName="Penoxycyline"]</xpath>
+        <xpath>Defs/ThingDef[defName="ThrumboHorn" or defName="ElephantTusk" or defName="AIPersonaCore" or defName="Luciferium" or defName="Penoxycyline" or defName="RawMagicyte" or defName="WoodLog"]</xpath>
         <value>
             <li Class="DynamicEconomy.PriceModifierCategoryDefExtension">
                 <category>Standalone</category>
