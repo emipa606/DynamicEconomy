@@ -13,8 +13,10 @@ namespace DynamicEconomy
     {
         public const float DefaultBuyingPriceFactorDropRate = 0.001f;           //Per tickLong
         public const float DefaultSellinPriceFactorGrowthRate = 0.0006f;
-
+        public const float DefaultBuyingPriceFactorTechLevel = 0.25f;
+        
         public static float buyingPriceFactorDropRate=0.001f;
+        public static float buyingPriceFactorTechLevel=0.25f;
         public static float sellingPriceFactorGrowthRate=0.0006f;
 
         public static float costToDoublePriceMultipiler=1f;
@@ -39,6 +41,9 @@ namespace DynamicEconomy
             listingStandard.Label("Price factor growth rate multipiler: x" + (sellingPriceFactorGrowthRate / DefaultSellinPriceFactorGrowthRate).ToString("F2"));
             listingStandard.Label("Currently it takes around " + ((int)(0.5f / sellingPriceFactorGrowthRate)*2000).ToStringTicksToDays() + " for price multipiler to grow by 0.5");
             sellingPriceFactorGrowthRate = listingStandard.Slider(sellingPriceFactorGrowthRate / DefaultSellinPriceFactorGrowthRate, 0.01f, 10f) * DefaultSellinPriceFactorGrowthRate;
+
+            listingStandard.Label("Price factor for each tech level difference: x" + (buyingPriceFactorTechLevel / DefaultBuyingPriceFactorTechLevel).ToString("F2"));
+            buyingPriceFactorTechLevel = listingStandard.Slider(buyingPriceFactorTechLevel / DefaultBuyingPriceFactorTechLevel, 0.01f, 10f) * DefaultBuyingPriceFactorTechLevel; 
 
             listingStandard.Label("Player's purchases effect on price multipilers: x" + costToDoublePriceMultipiler.ToString("F2"));
             listingStandard.Label("Currently it takes " + (int)TradeablePriceModifier.CostToDoubleFactor + " silver sent for a thing to double it's price");
@@ -70,6 +75,7 @@ namespace DynamicEconomy
         {
             base.ExposeData();
             Scribe_Values.Look(ref buyingPriceFactorDropRate, "priceFDropRate", DefaultBuyingPriceFactorDropRate);
+            Scribe_Values.Look(ref buyingPriceFactorTechLevel, "priceFTechLevel", DefaultBuyingPriceFactorTechLevel);
             Scribe_Values.Look(ref sellingPriceFactorGrowthRate, "priceFGrowthRate", DefaultSellinPriceFactorGrowthRate);
             Scribe_Values.Look(ref costToDoublePriceMultipiler, "costToDoublePriceMultipiler", 1f);
             Scribe_Values.Look(ref costToHalvePriceMultipiler, "costToHalvePriceMultipiler", 1f);

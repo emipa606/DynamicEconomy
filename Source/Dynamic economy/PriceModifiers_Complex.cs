@@ -53,19 +53,18 @@ namespace DynamicEconomy
                 definingCategory = null;
                 return ModifierCategory.None;
             }
-            var node = thingDef.thingCategories[0];
 
+            for (var i = 0; i < thingDef.thingCategories.Count; i++) {
+                var node = thingDef.thingCategories[i];
 
-
-            while (node != null)
-            {
-                var extension = node.GetModExtension<PriceModifierCategoryDefExtension>();
-                if (extension != null && extension.category != ModifierCategory.None)
-                {
-                    definingCategory = node;
-                    return extension.category;
+                while (node != null) {
+                    var extension = node.GetModExtension<PriceModifierCategoryDefExtension>();
+                    if (extension != null && extension.category != ModifierCategory.None) {
+                        definingCategory = node;
+                        return extension.category;
+                    }
+                    node = node.parent;
                 }
-                node = node.parent;
             }
 
             definingCategory = null;
@@ -75,6 +74,8 @@ namespace DynamicEconomy
 
         public virtual TradeablePriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingDef thingDef)         //returns null for ModifierCategory.None
         {
+            if (thingDef == null) return null;
+
             ThingCategoryDef thingCategory;
             var modCategory = GetModifierCategoryFor(thingDef, out thingCategory);
             TradeablePriceModifier modifier = null;
@@ -111,25 +112,27 @@ namespace DynamicEconomy
 
         public virtual ThingCategoryPriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingCategoryDef thingCategoryDef)         //returns null for ModifierCategory != Group
         {
-            var modCategory = GetModifierCategoryFor(thingCategoryDef);
-            ThingCategoryPriceModifier modifier;
+            if (thingCategoryDef == null) return null;
 
-            if (modCategory == ModifierCategory.Group)
-            {
-                modifier = thingCategoryPriceModifiers.Find(mod => mod.Def == thingCategoryDef);
-                if (modifier == null)
-                {
-                    modifier = new ThingCategoryPriceModifier(thingCategoryDef);
-                    thingCategoryPriceModifiers.Add(modifier);
-                }
+            //var modCategory = GetModifierCategoryFor(thingCategoryDef);
+            //ThingCategoryPriceModifier modifier;
 
-                return modifier;
-            }
-            else
+            //if (modCategory == ModifierCategory.Group)
+            //{
+            var modifier = thingCategoryPriceModifiers.Find(mod => mod.Def == thingCategoryDef);
+            if (modifier == null)
             {
-                Log.Error("Cant get modifier for " + modCategory.ToString() + "-type thing category defName=" + thingCategoryDef.defName);
-                return null;
+                modifier = new ThingCategoryPriceModifier(thingCategoryDef);
+                thingCategoryPriceModifiers.Add(modifier);
             }
+
+            return modifier;
+            //}
+            //else
+            //{
+            //    Log.Error("Cant get modifier for " + modCategory.ToString() + "-type thing category defName=" + thingCategoryDef.defName);
+            //    return null;
+            //}
         }
 
         public ComplexPriceModifier()
@@ -142,35 +145,30 @@ namespace DynamicEconomy
 
         public virtual float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, ConsideredFactors factor = ConsideredFactors.All)
         {
-            ThingCategoryDef thingCat;
-            var type = GetModifierCategoryFor(thingDef, out thingCat);
+            // Changed so both modifiers applies
 
-            if (type == ModifierCategory.Standalone)
-            {
-                var modifier = thingPriceModifiers.Find(priceMod => priceMod.Def == thingDef);
-                if (modifier == null)
-                    return 1f;
+            var result = 1f;
+            result *= thingPriceModifiers.Find(priceMod => priceMod.Def == thingDef)?.GetPriceMultipiler(action, factor) ?? 1f;
 
-                return modifier.GetPriceMultipiler(action, factor);
+            if (thingDef.thingCategories == null) return result;
+            foreach (var thingCat in thingDef.thingCategories) {
+                var current = thingCat;
+                while (current != null) {
+                    var modifier = thingCategoryPriceModifiers.Find(priceMod => priceMod.Def == current);
+                    if (modifier != null) return result * modifier.GetPriceMultipiler(action, factor);
+                    current = current.parent;
+                }
             }
 
-            else if (type == ModifierCategory.Group)
-            {
-                var modifier = thingCategoryPriceModifiers.Find(priceMod => priceMod.Def == thingCat);
-                if (modifier == null)
-                    return 1f;
-
-                return modifier.GetPriceMultipiler(action, factor);
-            }
-            return 1f;
+            return result;
         }
-
 
         public virtual void RecordNewDeal(ThingDef thingDef, float totalCost, TradeAction action)
         {
             if (action == TradeAction.None)
                 return;
 
+            // The original code here won't correctly record for category modifiers
             var modifier = GetOrCreateIfNeededTradeablePriceModifier(thingDef);
             if (modifier != null)
                 modifier.RecordNewDeal(action, totalCost);          // mb divide totalCost by current multipiler?
@@ -206,6 +204,28 @@ namespace DynamicEconomy
             modifier.SetBaseFactors(baseSellFactor, baseBuyFactor);
         }
 
+        public void RegisterThingModifiers(List<BaseThingPriceMultipilerInfo> thingPriceMultipilers) {
+            if (thingPriceMultipilers == null) return;
+            foreach (var multiplier in thingPriceMultipilers) {
+                var modifier = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingDef>.GetNamed(multiplier.thingDefName));
+                if (modifier != null) {
+                    modifier.baseBuyFactor *= multiplier.buyMultiplier;
+                    modifier.baseSellFactor *= multiplier.sellMultiplier;
+                }
+            }
+        }
+
+        public void RegisterCategoryModifiers(List<BaseCategoryPriceMultipilerInfo> categoryPriceMultipilers) {
+            if (categoryPriceMultipilers == null) return;
+            foreach (var multiplier in categoryPriceMultipilers) {
+                var modifier = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingCategoryDef>.GetNamed(multiplier.categoryDefName));
+                if (modifier != null) {
+                    modifier.baseBuyFactor *= multiplier.buyMultiplier;
+                    modifier.baseSellFactor *= multiplier.sellMultiplier;
+                }
+            }
+        }
+
         public void AddEventModifier(ThingCategoryDef def, float playerSellsFactor, float playerBuysFactor)
         {
             var modifier = GetOrCreateIfNeededTradeablePriceModifier(def);
@@ -219,9 +239,40 @@ namespace DynamicEconomy
         }
     }
 
-    public class AllTraderCaravansPriceModifier : ComplexPriceModifier
+    public class TraderCaravansPriceModifier : ComplexPriceModifier
     {
-        public AllTraderCaravansPriceModifier() : base() { }
+        public Faction faction;
+        public TraderCaravansPriceModifier() : base() { }
+        public TraderCaravansPriceModifier(Faction faction) : base() { 
+            this.faction = faction;
+            if (faction == null) return;
+
+            var extension = faction.def.GetModExtension<LocalPriceModifierDefExtension>();
+            if (extension != null) {
+                RegisterCategoryModifiers(extension.categoryPriceMultipilers);
+                RegisterThingModifiers(extension.thingPriceMultipilers);
+                return;
+            } else Log.Warning("Havent found any faction modifier for " + faction.def.defName);
+        }
+
+        public override float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, ConsideredFactors factor = ConsideredFactors.All) {
+            var result = base.GetPriceMultipilerFor(thingDef, action, factor);
+
+            if (faction == null) return result;
+
+            if (action == TradeAction.PlayerBuys && (factor == ConsideredFactors.All || factor == ConsideredFactors.Base)) {
+                if (thingDef.techLevel > faction.def.techLevel + 1)
+                    result = result * (1 + DESettings.buyingPriceFactorTechLevel * (thingDef.techLevel - faction.def.techLevel - 1));
+            }
+
+            return result;
+        }
+
+        public override void ExposeData() 
+        {
+            base.ExposeData();
+            Scribe_References.Look(ref faction, "faction");
+        }
     }
 
 
@@ -270,51 +321,60 @@ namespace DynamicEconomy
                 if (hillModDef != null)
                 {
                     // it is safe to add mods directly since lists are empty at this moment
+                    RegisterCategoryModifiers(hillModDef.categoryPriceMultipilers);
+                    RegisterThingModifiers(hillModDef.thingPriceMultipilers);
+                    //foreach (var mod in hillModDef.categoryPriceMultipilers)
+                    //{
+                    //    thingCategoryPriceModifiers.Add(new ThingCategoryPriceModifier(
+                    //        DefDatabase<ThingCategoryDef>.GetNamed(mod.categoryDefName),
+                    //        mod.baseMultipiler,
+                    //        mod.baseMultipiler));
+                    //}
 
-                    foreach (var mod in hillModDef.categoryPriceMultipilers)
-                    {
-                        thingCategoryPriceModifiers.Add(new ThingCategoryPriceModifier(
-                            DefDatabase<ThingCategoryDef>.GetNamed(mod.categoryDefName),
-                            mod.baseMultipiler,
-                            mod.baseMultipiler));
-                    }
-
-                    foreach (var mod in hillModDef.thingPriceMultipilers)
-                    {
-                        thingPriceModifiers.Add(new ThingPriceModifier(
-                            DefDatabase<ThingDef>.GetNamed(mod.thingDefName),
-                            mod.baseMultipiler,
-                            mod.baseMultipiler));
-                    }
+                    //foreach (var mod in hillModDef.thingPriceMultipilers)
+                    //{
+                    //    thingPriceModifiers.Add(new ThingPriceModifier(
+                    //        DefDatabase<ThingDef>.GetNamed(mod.thingDefName),
+                    //        mod.baseMultipiler,
+                    //        mod.baseMultipiler));
+                    //}
                 }
 
 
                 var extension = settlement.Biome.GetModExtension<LocalPriceModifierDefExtension>();
-                if (extension == null)
-                {
-                    Log.Warning("Havent found any biome modifier for " + settlement.Biome.defName);
+                if (extension != null) {
+                    RegisterCategoryModifiers(extension.categoryPriceMultipilers);
+                    RegisterThingModifiers(extension.thingPriceMultipilers);
                     return;
-                }
+                } else Log.Warning("Havent found any biome modifier for " + settlement.Biome.defName);
 
-                foreach (var biomeMod in extension.thingPriceMultipilers)
-                {
-                    var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingDef>.GetNamed(biomeMod.thingDefName));
-                    if (mod != null)
-                    {
-                        mod.baseBuyFactor *= biomeMod.baseMultipiler;
-                        mod.baseSellFactor *= biomeMod.baseMultipiler;
-                    }
-                }
+                var faction = settlement.Faction.def.GetModExtension<LocalPriceModifierDefExtension>();
+                if (faction != null) {
+                    Log.Warning("Found faction modifier for " + settlement.Faction.def.defName + " / " + faction.categoryPriceMultipilers.Count);
+                    RegisterCategoryModifiers(faction.categoryPriceMultipilers);
+                    RegisterThingModifiers(faction.thingPriceMultipilers);
+                    return;
+                } else Log.Warning("Havent found any faction modifier for " + settlement.Faction.def.defName);
 
-                foreach (var biomeMod in extension.categoryPriceMultipilers)
-                {
-                    var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingCategoryDef>.GetNamed(biomeMod.categoryDefName));
-                    if (mod != null)
-                    {
-                        mod.baseBuyFactor *= biomeMod.baseMultipiler;
-                        mod.baseSellFactor *= biomeMod.baseMultipiler;
-                    }
-                }
+                //foreach (var biomeMod in extension.thingPriceMultipilers)
+                //{
+                //    var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingDef>.GetNamed(biomeMod.thingDefName));
+                //    if (mod != null)
+                //    {
+                //        mod.baseBuyFactor *= biomeMod.baseMultipiler;
+                //        mod.baseSellFactor *= biomeMod.baseMultipiler;
+                //    }
+                //}
+
+                //foreach (var biomeMod in extension.categoryPriceMultipilers)
+                //{
+                //    var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingCategoryDef>.GetNamed(biomeMod.categoryDefName));
+                //    if (mod != null)
+                //    {
+                //        mod.baseBuyFactor *= biomeMod.baseMultipiler;
+                //        mod.baseSellFactor *= biomeMod.baseMultipiler;
+                //    }
+                //}
 
 
             }
@@ -322,6 +382,21 @@ namespace DynamicEconomy
             {
                 throw new ArgumentException("Cant set settlement modifier for null- or player settlement");
             }
+        }
+
+        public override float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, ConsideredFactors factor = ConsideredFactors.All) {
+            var result = base.GetPriceMultipilerFor(thingDef, action, factor);
+
+            if (settlement?.Faction == null) return result;
+
+            if (action == TradeAction.PlayerBuys && (factor == ConsideredFactors.All || factor == ConsideredFactors.Base)) {
+                var Faction = settlement.Faction.def;
+                if (thingDef.techLevel > Faction.techLevel + 1) {
+                    result = result * (1 + DESettings.buyingPriceFactorTechLevel * (thingDef.techLevel - Faction.techLevel - 1));
+                }
+            }
+
+            return result;
         }
 
         public override void ExposeData()

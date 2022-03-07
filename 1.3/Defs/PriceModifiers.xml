@@ -3,30 +3,36 @@
     <DynamicEconomy.ConstantPriceModsDef>
         <defName>Hillness_Flat</defName>
         <label>flat</label>
-        <thingPriceMultipilers>
-            <Steel>1.25</Steel>
-            <Plasteel>1.4</Plasteel>
-            <Uranium>1.3</Uranium>
-            <Jade>1.3</Jade>
-        </thingPriceMultipilers>
+        <categoryPriceMultipilers>
+            <ResourcesRaw>1.25</ResourcesRaw>
+            <PlantMatter>1</PlantMatter>
+        </categoryPriceMultipilers>
     </DynamicEconomy.ConstantPriceModsDef>
 
     <DynamicEconomy.ConstantPriceModsDef>
         <defName>Hillness_SmallHills</defName>
         <label>flat</label>
-        <thingPriceMultipilers>
-            <Steel>0.95</Steel>
-            <Plasteel>1.1</Plasteel>
-        </thingPriceMultipilers>
+        <categoryPriceMultipilers>
+            <ResourcesRaw>0.95</ResourcesRaw>
+            <PlantMatter>1</PlantMatter>
+        </categoryPriceMultipilers>
     </DynamicEconomy.ConstantPriceModsDef>
 
     <DynamicEconomy.ConstantPriceModsDef>
         <defName>Hillness_LargeHills</defName>
         <label>flat</label>
+        <categoryPriceMultipilers>
+            <ResourcesRaw>0.9</ResourcesRaw>
+            <PlantMatter>1</PlantMatter>
+            <Textiles>1</Textiles>
+            <Items>1.1</Items>
+            <Manufactured>1.2</Manufactured>
+            <Weapons>1.2</Weapons>
+            <Apparel>1.2</Apparel>
+            <Buildings>1.2</Buildings>
+            <TM_MagicItems>0.95</TM_MagicItems>
+        </categoryPriceMultipilers>
         <thingPriceMultipilers>
-            <Steel>0.85</Steel>
-            <Uranium>0.95</Uranium>
-            <Jade>0.9</Jade>
             <WoodLog>1.1</WoodLog>
         </thingPriceMultipilers>
     </DynamicEconomy.ConstantPriceModsDef>
@@ -34,12 +40,21 @@
     <DynamicEconomy.ConstantPriceModsDef>
         <defName>Hillness_Mountainous</defName>
         <label>flat</label>
+        <categoryPriceMultipilers>
+            <Foods>1.1</Foods>
+            <MeatRaw>1</MeatRaw>
+            <ResourcesRaw>0.8</ResourcesRaw>
+            <PlantMatter>1.1</PlantMatter>
+            <Textiles>1</Textiles>
+            <AnimalProductRaw>1</AnimalProductRaw>
+            <Items>1.3</Items>
+            <Manufactured>1.5</Manufactured>
+            <Weapons>1.5</Weapons>
+            <Apparel>1.5</Apparel>
+            <Buildings>1.5</Buildings>
+            <TM_MagicItems>0.9</TM_MagicItems>
+        </categoryPriceMultipilers>
         <thingPriceMultipilers>
-            <Steel>0.7</Steel>
-            <Uranium>0.85</Uranium>
-            <Jade>0.8</Jade>
-            <Plasteel>0.9</Plasteel>
-
             <WoodLog>1.4</WoodLog>
         </thingPriceMultipilers>
     </DynamicEconomy.ConstantPriceModsDef>

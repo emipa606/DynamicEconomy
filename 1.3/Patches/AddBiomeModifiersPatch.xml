@@ -1,56 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Patch>
 <Operation Class="PatchOperationAddModExtension">
-    <xpath>Defs/BiomeDef[defName="ExtremeDesert"]</xpath>
+    <xpath>Defs/BiomeDef[defName="ExtremeDesert" or defName="RG-W_WasteLand"]</xpath>
     <value>
         <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
             <categoryPriceMultipilers>
-                <PlantFoodRaw>1.7</PlantFoodRaw>
+                <Foods>2</Foods>
                 <MeatRaw>1.5</MeatRaw>
-                <Animals>1.3</Animals>
+                <ResourcesRaw>1.5</ResourcesRaw>
+                <Textiles>1.5</Textiles>
+                <Animals>1.5</Animals>
+                <AnimalProductRaw>1.5</AnimalProductRaw>
+                <Items>1.5</Items>
+                <Manufactured>1.5</Manufactured>
+                <Weapons>1.5</Weapons>
+                <Apparel>1.5</Apparel>
+                <Buildings>1.5</Buildings>
+                <TM_MagicItems>0.95</TM_MagicItems>
             </categoryPriceMultipilers>
         </li>
     </value>
 </Operation>
 
 <Operation Class="PatchOperationAddModExtension">
-    <xpath>Defs/BiomeDef[defName="AridShrubland"]</xpath>
+    <xpath>Defs/BiomeDef[defName="AridShrubland" or defName="Desert"]</xpath>
     <value>
         <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
             <categoryPriceMultipilers>
+                <Foods>1.2</Foods>
                 <PlantFoodRaw>1.4</PlantFoodRaw>
-                <MeatRaw>1.2</MeatRaw>
-            </categoryPriceMultipilers>
-        </li>
-    </value>
-</Operation>
-
-<Operation Class="PatchOperationAddModExtension">
-    <xpath>Defs/BiomeDef[defName="TropicalRainforest" or defName="TropicalSwamp"]</xpath>
-    <value>
-        <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
-            <categoryPriceMultipilers>
-                <Medicine>1.2</Medicine>
+                <Animals>1.2</Animals>
+                <Textiles>1.2</Textiles>
+                <PlantMatter>1.1</PlantMatter>
+                <ResourcesRaw>0.9</ResourcesRaw>
             </categoryPriceMultipilers>
             <thingPriceMultipilers>
-                <Penoxycyline>1.8</Penoxycyline>
-                <WoodLog>0.7</WoodLog>
+                <WoodLog>1.1</WoodLog>
             </thingPriceMultipilers>
         </li>
     </value>
 </Operation>
 
 <Operation Class="PatchOperationAddModExtension">
-    <xpath>Defs/BiomeDef[defName="TemperateForest" or defName="BorealForest"]</xpath>
+    <xpath>Defs/BiomeDef[defName="TropicalRainforest" or defName="TropicalSwamp" or defName="DankPyon_DarkForest" or defName="DankPyon_AncientForest"]</xpath>
     <value>
         <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
             <categoryPriceMultipilers>
-                <PlantFoodRaw>0.85</PlantFoodRaw>
-                <MeatRaw>0.9</MeatRaw>
+                <Items>1.1</Items>
+                <Manufactured>1.2</Manufactured>
+                <Weapons>1.1</Weapons>
+                <Apparel>1.1</Apparel>
+                <Buildings>1.1</Buildings>
+                <StoneBlocks>1.1</StoneBlocks>
+                <Textiles>1.1</Textiles>
                 <Animals>0.9</Animals>
+                <MeatRaw>0.9</MeatRaw>
+                <PlantFoodRaw>0.8</PlantFoodRaw>
+                <TM_MagicItems>0.95</TM_MagicItems>
+            </categoryPriceMultipilers>
+            <thingPriceMultipilers>
+                <Penoxycyline>1.8</Penoxycyline>
+                <WoodLog>0.75</WoodLog>
+                <MedicineHerbal>0.7</MedicineHerbal>
+            </thingPriceMultipilers>
+        </li>
+    </value>
+</Operation>
+
+<Operation Class="PatchOperationAddModExtension">
+    <xpath>Defs/BiomeDef[defName="TemperateForest" or defName="TemperateSwamp"]</xpath>
+    <value>
+        <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+            <categoryPriceMultipilers>
+                <PlantFoodRaw>0.9</PlantFoodRaw>
+                <MeatRaw>0.9</MeatRaw>
+                <Wools>0.9</Wools>
+                <Animals>0.9</Animals>
+                <PlantMatter>0.8</PlantMatter>
+                <Items>1.1</Items>
+                <Buildings>1.1</Buildings>
+                <StoneBlocks>1.1</StoneBlocks>
             </categoryPriceMultipilers>
             <thingPriceMultipilers>
                 <WoodLog>0.65</WoodLog>
+                <MedicineHerbal>0.8</MedicineHerbal>
+            </thingPriceMultipilers>
+        </li>
+    </value>
+</Operation>
+
+<Operation Class="PatchOperationAddModExtension">
+    <xpath>Defs/BiomeDef[defName="BiomesIslands_TemperatureIsland" or defName="BiomesIslands_TemperatureArchipelago" or defName="BiomesIslands_TropicalIsland" or defName="BiomesIslands_TropicalArchipelago" or defName="BMT_ChromaticOasis"]</xpath>
+    <value>
+        <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+            <categoryPriceMultipilers>
+                <MeatRaw>0.9</MeatRaw>
+                <PlantMatter>0.9</PlantMatter>
+                <Items>1.1</Items>
+                <Manufactured>1.2</Manufactured>
+                <Weapons>1.2</Weapons>
+                <Apparel>1.2</Apparel>
+                <Buildings>1.2</Buildings>
+                <ResourcesRaw>1.3</ResourcesRaw>
+                <TM_MagicItems>0.95</TM_MagicItems>
+            </categoryPriceMultipilers>
+            <thingPriceMultipilers>
+                <WoodLog>0.75</WoodLog>
+                <MedicineHerbal>0.8</MedicineHerbal>
+            </thingPriceMultipilers>
+        </li>
+    </value>
+</Operation>
+
+<Operation Class="PatchOperationAddModExtension">
+    <xpath>Defs/BiomeDef[defName="BiomesIslands_BorealIsland" or defName="BiomesIslands_BorealArchipelago"]</xpath>
+    <value>
+        <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+            <categoryPriceMultipilers>
+                <MeatRaw>0.9</MeatRaw>
+                <PlantMatter>0.9</PlantMatter>
+                <Items>1.1</Items>
+                <Manufactured>1.2</Manufactured>
+                <Weapons>1.2</Weapons>
+                <Apparel>1.2</Apparel>
+                <Buildings>1.2</Buildings>
+                <ResourcesRaw>1.3</ResourcesRaw>
+                <TM_MagicItems>0.95</TM_MagicItems>
+            </categoryPriceMultipilers>
+            <thingPriceMultipilers>
+                <WoodLog>0.85</WoodLog>
+                <MedicineHerbal>0.9</MedicineHerbal>
+            </thingPriceMultipilers>
+        </li>
+    </value>
+</Operation>
+
+<Operation Class="PatchOperationAddModExtension">
+    <xpath>Defs/BiomeDef[defName="Tundra" or defName="BiomesIslands_TundraIsland" or defName="BiomesIslands_TundraArchipelago"]</xpath>
+    <value>
+        <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+            <categoryPriceMultipilers>
+                <Foods>1.5</Foods>
+                <MeatRaw>1.2</MeatRaw>
+                <ResourcesRaw>1.2</ResourcesRaw>
+                <Textiles>1.2</Textiles>
+                <Items>1.2</Items>
+                <Manufactured>1.3</Manufactured>
+                <Weapons>1.3</Weapons>
+                <Apparel>1.3</Apparel>
+                <Buildings>1.3</Buildings>
+                <TM_MagicItems>0.9</TM_MagicItems>
+            </categoryPriceMultipilers>
+            <thingPriceMultipilers>
+                <WoodLog>1.5</WoodLog>
+            </thingPriceMultipilers>
+        </li>
+    </value>
+</Operation>
+
+<Operation Class="PatchOperationAddModExtension">
+    <xpath>Defs/BiomeDef[defName="BiomesIslands_DesertIsland" or defName="BiomesIslands_DesertArchipelago" or defName="BiomesIslands_Atoll"]</xpath>
+    <value>
+        <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+            <categoryPriceMultipilers>
+                <Foods>1.5</Foods>
+                <MeatRaw>1.2</MeatRaw>
+                <ResourcesRaw>1.5</ResourcesRaw>
+                <Textiles>1.2</Textiles>
+                <Animals>1.2</Animals>
+                <Items>1.2</Items>
+                <Manufactured>1.3</Manufactured>
+                <Weapons>1.3</Weapons>
+                <Apparel>1.3</Apparel>
+                <Buildings>1.3</Buildings>
+                <TM_MagicItems>0.9</TM_MagicItems>
+            </categoryPriceMultipilers>
+            <thingPriceMultipilers>
+                <WoodLog>2</WoodLog>
+            </thingPriceMultipilers>
+        </li>
+    </value>
+</Operation>
+
+<Operation Class="PatchOperationAddModExtension">
+    <xpath>Defs/BiomeDef[defName="BorealForest" or defName="ColdBog" or defName="RG-AF_AspenForest"]</xpath>
+    <value>
+        <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
+            <categoryPriceMultipilers>
+                <MeatRaw>0.9</MeatRaw>
+                <Leathers>0.9</Leathers>
+                <Animals>0.9</Animals>
+                <PlantMatter>0.9</PlantMatter>
+                <Items>1.1</Items>
+                <Buildings>1.1</Buildings>
+                <StoneBlocks>1.1</StoneBlocks>
+                <TM_MagicItems>0.95</TM_MagicItems>
+            </categoryPriceMultipilers>
+            <thingPriceMultipilers>
+                <WoodLog>0.75</WoodLog>
+                <MedicineHerbal>0.8</MedicineHerbal>
             </thingPriceMultipilers>
         </li>
     </value>
@@ -61,9 +209,17 @@
     <value>
         <li Class="DynamicEconomy.LocalPriceModifierDefExtension">
             <categoryPriceMultipilers>
-                <PlantFoodRaw>2.2</PlantFoodRaw>
+                <Foods>3</Foods>
                 <MeatRaw>2</MeatRaw>
-                
+                <ResourcesRaw>2</ResourcesRaw>
+                <Textiles>1.2</Textiles>
+                <Animals>1.5</Animals>
+                <Items>1.5</Items>
+                <Manufactured>1.5</Manufactured>
+                <Weapons>1.5</Weapons>
+                <Apparel>1.5</Apparel>
+                <Buildings>2</Buildings>
+                <TM_MagicItems>0.9</TM_MagicItems>
             </categoryPriceMultipilers>
             <thingPriceMultipilers>
                 <WoodLog>2</WoodLog>

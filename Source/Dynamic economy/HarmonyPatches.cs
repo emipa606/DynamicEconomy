@@ -49,7 +49,7 @@ namespace DynamicEconomy
                 var gameComp = GameComponent_EconomyStateTracker.CurGameInstance;
 
                 
-                var mod = gameComp.GetOrCreateIfNeededComplexModifier(TradeSession.trader).GetOrCreateIfNeededTradeablePriceModifier(__instance.ThingDef);
+                var mod = gameComp.GetOrCreateIfNeededComplexModifier(TradeSession.trader);
 
 
                 if (mod==null)
@@ -62,7 +62,7 @@ namespace DynamicEconomy
 
 
                 __result += "\n";
-                float baseMul = mod.GetPriceMultipiler(action, ConsideredFactors.Base);
+                float baseMul = mod.GetPriceMultipilerFor(__instance.ThingDef, action, ConsideredFactors.Base);
                 if (baseMul!=1f)
                 {
                     if (TradeSession.trader is Settlement)
@@ -76,21 +76,21 @@ namespace DynamicEconomy
 
                 if (action == TradeAction.PlayerBuys)
                 {
-                    float factorDynamic = mod.GetPriceMultipiler(action, ConsideredFactors.Dynamic);
+                    float factorDynamic = mod.GetPriceMultipilerFor(__instance.ThingDef, action, ConsideredFactors.Dynamic);
                     if (factorDynamic!=1f)
                         __result += ("\n" + "DE_PlayerPurchasesFactor".Translate() + ": x" + factorDynamic.ToString("F2"));
 
-                    float factorEvent = mod.GetPriceMultipiler(action, ConsideredFactors.Event);
+                    float factorEvent = mod.GetPriceMultipilerFor(__instance.ThingDef, action, ConsideredFactors.Event);
                     if (factorEvent != 1f)
                         __result += "\n" + "DE_EventFactor".Translate() + ": x" + factorEvent.ToString("F2");
                 }
                 else if (action==TradeAction.PlayerSells)
                 {
-                    float factorDynamic = mod.GetPriceMultipiler(action, ConsideredFactors.Dynamic);
+                    float factorDynamic = mod.GetPriceMultipilerFor(__instance.ThingDef, action, ConsideredFactors.Dynamic);
                     if (factorDynamic != 1f)
                         __result += ("\n" + "DE_PlayerSalesFactor".Translate() + ": x" + factorDynamic.ToString("F2"));
 
-                    float factorEvent = mod.GetPriceMultipiler(action, ConsideredFactors.Event);
+                    float factorEvent = mod.GetPriceMultipilerFor(__instance.ThingDef, action, ConsideredFactors.Event);
                     if (factorEvent != 1f)
                         __result += "\n" + "DE_EventFactor".Translate() + ": x" + factorEvent.ToString("F2");
                 }
@@ -195,8 +195,8 @@ namespace DynamicEconomy
                 return (int)(__result * gameComp.TraderSilverMultipiler);
             }
 
-            
-            float modifier = gameComp.GetPriceMultipilerFor(def, TradeAction.PlayerBuys, null);
+            // Here is a little bit weird, because it would make settlements depend on caravan modifiers
+            float modifier = gameComp.GetPriceMultipilerFor(def, TradeAction.PlayerBuys, null, ConsideredFactors.Stockpile);
             return (int)Math.Floor(__result * modifier);              //leaving it linear is ok, i guess. sqrt(modifier) had too little effect
 
         }

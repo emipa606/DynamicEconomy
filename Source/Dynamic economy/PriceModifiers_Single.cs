@@ -23,7 +23,8 @@ namespace DynamicEconomy
         Base,
         Dynamic,
         Event,
-        All
+        All,
+        Stockpile
     }
 
     
@@ -32,7 +33,8 @@ namespace DynamicEconomy
     public class BaseThingPriceMultipilerInfo
     {
         public string thingDefName="";
-        public float baseMultipiler = 1f;
+        public float buyMultiplier = 1f;
+        public float sellMultiplier = 1f;
 
         public void LoadDataFromXmlCustom(XmlNode xmlRoot)
         {
@@ -43,14 +45,18 @@ namespace DynamicEconomy
             }
 
             thingDefName = xmlRoot.Name;
-            baseMultipiler = ParseHelper.ParseFloat(xmlRoot.FirstChild.Value);
+            buyMultiplier = ParseHelper.ParseFloat(xmlRoot.FirstChild.Value);
+            if (xmlRoot.Attributes.Count > 0)
+                sellMultiplier = ParseHelper.ParseFloat(xmlRoot.Attributes["Sell"].Value);
+            else sellMultiplier = buyMultiplier;
         }
     }
 
     public class BaseCategoryPriceMultipilerInfo
     {
         public string categoryDefName = "";
-        public float baseMultipiler = 1f;
+        public float buyMultiplier = 1f;
+        public float sellMultiplier = 1f;
 
         public void LoadDataFromXmlCustom(XmlNode xmlRoot)
         {
@@ -61,7 +67,10 @@ namespace DynamicEconomy
             }
 
             categoryDefName = xmlRoot.Name;
-            baseMultipiler = ParseHelper.ParseFloat(xmlRoot.FirstChild.Value);
+            buyMultiplier = ParseHelper.ParseFloat(xmlRoot.FirstChild.Value);
+            if (xmlRoot.Attributes.Count > 0)
+                sellMultiplier = ParseHelper.ParseFloat(xmlRoot.Attributes["Sell"].Value);
+            else sellMultiplier = buyMultiplier;
         }
     }
 
@@ -86,6 +95,7 @@ namespace DynamicEconomy
 
         public float baseSellFactor;
         public float baseBuyFactor;
+        public float baseStockpileFactor;
 
         public float GetPriceMultipiler(TradeAction action, ConsideredFactors factor=ConsideredFactors.All)
         {
@@ -100,6 +110,9 @@ namespace DynamicEconomy
 
                 case ConsideredFactors.Base:
                     return action == TradeAction.PlayerBuys ? baseBuyFactor : (action == TradeAction.PlayerSells ? baseSellFactor : 1f);
+
+                case ConsideredFactors.Stockpile:
+                    return playerBuysFactorEvent * baseStockpileFactor;
 
                 case ConsideredFactors.All:
                 default:
