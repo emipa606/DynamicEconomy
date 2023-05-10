@@ -1,29 +1,23 @@
 ﻿using RimWorld;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 
-namespace DynamicEconomy
+namespace DynamicEconomy;
+
+[DefOf]
+public static class DynamicEconomyDefOf
 {
-    [DefOf]
-    public static class DynamicEconomyDefOf
-    {
-        public static QuestScriptDef HighDemandQuest;
-        public static QuestScriptDef HighSupplyQuest;
+    public static QuestScriptDef HighDemandQuest;
+    public static QuestScriptDef HighSupplyQuest;
 
-        public static JobDef GatherInfo;
+    public static JobDef GatherInfo;
 
-        public static ThingDef PsiCoin;
+    public static ThingDef PsiCoin;
 
-        public static HediffDef PsiCoinMining;
+    public static HediffDef PsiCoinMining;
 
 
-        public static ConstantPriceModsDef Hillness_Flat;
-        public static ConstantPriceModsDef Hillness_SmallHills;
-        public static ConstantPriceModsDef Hillness_LargeHills;
-        public static ConstantPriceModsDef Hillness_Mountainous;
-    }
+    public static ConstantPriceModsDef Hillness_Flat;
+    public static ConstantPriceModsDef Hillness_SmallHills;
+    public static ConstantPriceModsDef Hillness_LargeHills;
+    public static ConstantPriceModsDef Hillness_Mountainous;
 }

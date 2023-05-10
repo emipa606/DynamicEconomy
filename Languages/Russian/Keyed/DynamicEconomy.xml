@@ -1,36 +1,47 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
-    <!-- Info gathering -->
-    <DE_GatherInfo_UnavailableCooldown>Собрать информацию (недоступно, {0} до следующей возможности)</DE_GatherInfo_UnavailableCooldown>
-    <DE_GatherInfo_UnavailablePawnIsIncapable>Собрать информацию (недоступно, у {0} отсутствуют социальные навыки)</DE_GatherInfo_UnavailablePawnIsIncapable>
-    <DE_GatherInfo>Собрать информацию (шанс успеха: {0})</DE_GatherInfo>
-
-    <!-- Events -->
-    <DE_HighDemandQuest_LetterLabel>Дефицит</DE_HighDemandQuest_LetterLabel>
-    <DE_HighDemandQuest_LetterBody>Один из ваших колонистов узнал что у соседнего поселения появились проблемы с определенными припасами. Это отличная возможность заключить пару-тройку выгодных сделок.\n\nПроверьте список заданий чтобы получить больше информации.</DE_HighDemandQuest_LetterBody>
-
-    <DE_HighSupplyQuest_LetterLabel>Излишки</DE_HighSupplyQuest_LetterLabel>
-    <DE_HighSupplyQuest_LetterBody>Один из ваших колонистов узнал что у соседнего поселения есть лишние припасы и их можно купить значительно дешевле. Это отличная возможность заключить пару-тройку выгодных сделок.\n\nПроверьте список заданий чтобы получить больше информации.</DE_HighSupplyQuest_LetterBody>
-
-    <!-- factor info -->
-    <DE_AffectingFactorsUnknown>Влияющие факторы неизвестны.</DE_AffectingFactorsUnknown>
-    <DE_NoAffectingFactors>Цена постоянна.</DE_NoAffectingFactors>
-    <DE_LocalFactor>Региональный фактор</DE_LocalFactor>
-    <DE_PlayerPurchasesFactor>Влияние наших покупок</DE_PlayerPurchasesFactor>
-    <DE_PlayerSalesFactor>Влияние наших продаж</DE_PlayerSalesFactor>
-    <DE_EventFactor>Влияние недавних событий</DE_EventFactor>
-    <DE_OrbitalTraderRandomFactor>Множитель цены торгового корабля</DE_OrbitalTraderRandomFactor>
-    <DE_BasePriceFactor_NotASettlementOrAShip>Базовый модификатор</DE_BasePriceFactor_NotASettlementOrAShip>
-
-    <!-- PsiCoin and related -->
-    <DE_ToggleMiningModeCommand_Label>Переключить режим майнинга</DE_ToggleMiningModeCommand_Label>
-    <DE_ToggleMiningModeCommand_Desc>Переключиться между малой и полной мощностью добычи.</DE_ToggleMiningModeCommand_Desc>
-
-    <DE_ExtractCoinCommand_Label>Извлечь чип</DE_ExtractCoinCommand_Label>
-    <DE_ExtractCoinCommand_Desc>Извлечь чип с псикоином</DE_ExtractCoinCommand_Desc>
-    <DE_ExtractCoinCommand_Unavailable_TillNextCoin>{0} до следующего чипа</DE_ExtractCoinCommand_Unavailable_TillNextCoin>
-
-    <DE_PsiCoinReadyAlert_Label>Чипы с псикоинами ожидают извлечения</DE_PsiCoinReadyAlert_Label>
-    <DE_PsiCoinReadyAlert_Explanation>По крайней мере один чип готов к извлечению</DE_PsiCoinReadyAlert_Explanation>
-
+  <!-- Info gathering -->
+  <DE_GatherInfo_UnavailableCooldown>Собрать информацию (недоступно, {0} до следующей возможности)</DE_GatherInfo_UnavailableCooldown>
+  <DE_GatherInfo_UnavailablePawnIsIncapable>Собрать информацию (недоступно, у {0} отсутствуют социальные навыки)</DE_GatherInfo_UnavailablePawnIsIncapable>
+  <DE_GatherInfo>Собрать информацию (шанс успеха: {0})</DE_GatherInfo>
+  <!-- Events -->
+  <DE_HighDemandQuest_LetterLabel>Дефицит</DE_HighDemandQuest_LetterLabel>
+  <DE_HighDemandQuest_LetterBody>Один из ваших колонистов узнал что у соседнего поселения появились проблемы с определенными припасами. Это отличная возможность заключить пару-тройку выгодных сделок.\n\nПроверьте список заданий чтобы получить больше информации.</DE_HighDemandQuest_LetterBody>
+  <DE_HighSupplyQuest_LetterLabel>Излишки</DE_HighSupplyQuest_LetterLabel>
+  <DE_HighSupplyQuest_LetterBody>Один из ваших колонистов узнал что у соседнего поселения есть лишние припасы и их можно купить значительно дешевле. Это отличная возможность заключить пару-тройку выгодных сделок.\n\nПроверьте список заданий чтобы получить больше информации.</DE_HighSupplyQuest_LetterBody>
+  <!-- factor info -->
+  <DE_AffectingFactorsUnknown>Влияющие факторы неизвестны.</DE_AffectingFactorsUnknown>
+  <DE_NoAffectingFactors>Цена постоянна.</DE_NoAffectingFactors>
+  <DE_LocalFactor>Региональный фактор</DE_LocalFactor>
+  <DE_PlayerPurchasesFactor>Влияние наших покупок</DE_PlayerPurchasesFactor>
+  <DE_PlayerSalesFactor>Влияние наших продаж</DE_PlayerSalesFactor>
+  <DE_EventFactor>Влияние недавних событий</DE_EventFactor>
+  <DE_OrbitalTraderRandomFactor>Множитель цены торгового корабля</DE_OrbitalTraderRandomFactor>
+  <DE_BasePriceFactor_NotASettlementOrAShip>Базовый модификатор</DE_BasePriceFactor_NotASettlementOrAShip>
+  <!-- PsiCoin and related -->
+  <DE_ToggleMiningModeCommand_Label>Переключить режим майнинга</DE_ToggleMiningModeCommand_Label>
+  <DE_ToggleMiningModeCommand_Desc>Переключиться между малой и полной мощностью добычи.</DE_ToggleMiningModeCommand_Desc>
+  <DE_ExtractCoinCommand_Label>Извлечь чип</DE_ExtractCoinCommand_Label>
+  <DE_ExtractCoinCommand_Desc>Извлечь чип с псикоином</DE_ExtractCoinCommand_Desc>
+  <DE_ExtractCoinCommand_Unavailable_TillNextCoin>{0} до следующего чипа</DE_ExtractCoinCommand_Unavailable_TillNextCoin>
+  <DE_PsiCoinReadyAlert_Label>Чипы с псикоинами ожидают извлечения</DE_PsiCoinReadyAlert_Label>
+  <DE_PsiCoinReadyAlert_Explanation>По крайней мере один чип готов к извлечению</DE_PsiCoinReadyAlert_Explanation>
+  <!--The following translations were generated by https://www.deepl.com/-->
+  <DE_Setting_PriceFactor>Множитель коэффициента падения цены: x{0}</DE_Setting_PriceFactor>
+  <DE_Setting_PriceFactorHalfed>В настоящее время требуется около {0}, чтобы ценовые мультипликаторы уменьшились вдвое</DE_Setting_PriceFactorHalfed>
+  <DE_Setting_GrowthFactor>Мультипликатор темпов роста ценового фактора: x{0}</DE_Setting_GrowthFactor>
+  <DE_Setting_GrowthFactorIncreased>В настоящее время требуется около {0}, чтобы ценовые мультипликаторы выросли на 0,5</DE_Setting_GrowthFactorIncreased>
+  <DE_Setting_TechFactor>Ценовой фактор для каждого различия в техническом уровне: x{0}</DE_Setting_TechFactor>
+  <DE_Setting_PlayerEffect>Влияние покупок игрока на ценовые мультипликаторы: x{0}</DE_Setting_PlayerEffect>
+  <DE_Setting_PlayerEffectDouble>В настоящее время требуется {0} отправленного серебра, чтобы вещь удвоила свою цену.</DE_Setting_PlayerEffectDouble>
+  <DE_Setting_SaleEffect>Влияние продаж игрока на ценовые мультипликаторы: x{0}</DE_Setting_SaleEffect>
+  <DE_Setting_SaleEffectHalfed>В настоящее время требуется {0} серебра, полученного за вещь, чтобы ее цена уменьшилась вдвое.</DE_Setting_SaleEffectHalfed>
+  <DE_Setting_TurnoverDouble>Влияние оборота игрока на сумму валюты трейдера: x{0}</DE_Setting_TurnoverDouble>
+  <DE_Setting_TurnoverDoubleInfo>В настоящее время для удвоения денег трейдера требуется {0} стоимости вещи</DE_Setting_TurnoverDoubleInfo>
+  <DE_Setting_KeepInMind>Имейте в виду, что эффект от оборота со временем снижается, поэтому фактический множитель для следующего трейдера будет меньше</DE_Setting_KeepInMind>
+  <DE_Setting_TurnoverEffect>Частота выпадения эффекта оборота: x{0}</DE_Setting_TurnoverEffect>
+  <DE_Setting_TurnoverEffectHalfed>В настоящее время требуется около {0}, чтобы множитель валюты уменьшился вдвое</DE_Setting_TurnoverEffectHalfed>
+  <DE_Setting_PsicoinRandomness>Множитель случайности цены Psicoin: {0}</DE_Setting_PsicoinRandomness>
+  <DE_Setting_OrbitalTrader>Диапазон смещения цен орбитального трейдера: {0}</DE_Setting_OrbitalTrader>
+  <DE_Setting_CurrentModVersion>Установленная версия мода: {0}</DE_Setting_CurrentModVersion>
 </LanguageData>
