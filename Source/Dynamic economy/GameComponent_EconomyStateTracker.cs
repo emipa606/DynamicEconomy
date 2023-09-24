@@ -32,9 +32,9 @@ public class GameComponent_EconomyStateTracker : GameComponent
         // or attempting to do so
         settlementPriceModifiers = new List<SettlementPriceModifier>();
         orbitalTraderPriceModifiers = new List<OrbitalTraderPriceModifier>();
+        traderCaravanPriceModifiers = new List<TraderCaravansPriceModifier>();
         _eventsManager = new EconomicEventsManager();
         _psiCoinManager = new PsiCoinManager();
-        traderCaravanPriceModifiers = new List<TraderCaravansPriceModifier>();
     }
 
     public static GameComponent_EconomyStateTracker CurGameInstance =>
@@ -230,8 +230,8 @@ public class GameComponent_EconomyStateTracker : GameComponent
 
         Scribe_Collections.Look(ref settlementPriceModifiers, "settlementPriceModifiers", LookMode.Deep);
         Scribe_Collections.Look(ref orbitalTraderPriceModifiers, "orbitalTraderPriceModifiers", LookMode.Deep);
+        Scribe_Collections.Look(ref traderCaravanPriceModifiers, "caravanPriceModifiers", LookMode.Deep);
         Scribe_Deep.Look(ref _eventsManager, "eventsManager");
-        Scribe_Deep.Look(ref traderCaravanPriceModifiers, "caravanPriceModifiers", LookMode.Deep);
         Scribe_Deep.Look(ref _psiCoinManager, "psiCoinManager");
 
         orbitalTraderPriceModifiers ??= new List<OrbitalTraderPriceModifier>();

@@ -1,5 +1,8 @@
 # Changelog for DynamicEconomy
 
+1.4.3 - Fixed a scribe issue, thanks granite
+
+
 1.4.2 - Updated to 1.4, removed the old id-file
 
 

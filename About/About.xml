@@ -19,7 +19,22 @@
   <loadAfter>
     <li>brrainz.harmony</li>
   </loadAfter>
-  <description>[b]tldr:[/b] 
+  <description>[img]https://i.imgur.com/buuPQel.png[/img]
+Update of saloids mod https://steamcommunity.com/sharedfiles/filedetails/?id=2736917779
+
+[img]https://i.imgur.com/pufA0kM.png[/img]
+
+[table]
+    [tr][td][url=https://dsc.gg/mlie][img]https://i.imgur.com/zdzzBrc.png[/img][/url][/td] [td][url=https://github.com/emipa606/DynamicEconomy][img]https://i.imgur.com/kTkpTOE.png[/img][/url][/td]
+    [/tr]
+    [tr]
+        [td][img]https://i.imgur.com/WjDSfUn.png[/img][/td]
+        [td][img]https://i.imgur.com/h5VwTNL.png[/img][/td]
+    [/tr]
+[/table]
+	
+[img]https://i.imgur.com/Z4GOv8H.png[/img]
+[b]tldr:[/b] 
 Adds local prices, brain mining and adaptive traders.
 
     [h3]Trade caravan changes[/h3]
@@ -54,10 +69,6 @@ Adds local prices, brain mining and adaptive traders.
     [url=https://www.dropbox.com/sh/4sazt3lyvsaj1fu/AAAfWCWOZhAX-nyTbjuWDTe8a?dl=0]Standalone brain mining mod[/url]
     And [url=https://www.dropbox.com/sh/us256k2cvpy81c9/AADxNGsN8LlWv7_cWTQf2ZuRa?dl=0]version w/o miners[/url] in case you dont like psicoin's very existence
 
-    [url=https://github.com/definitelyNotSaloid/Dynamic-economy]Github repo[/url]
-
-[url=https://steamcommunity.com/sharedfiles/filedetails/changelog/2736917779]Last updated 2023-05-10[/url]
-
 [img]https://i.imgur.com/PwoNOj4.png[/img]
 [list]
 [*] See if the the error persists if you just have this mod and its requirements active.
@@ -66,5 +77,9 @@ Adds local prices, brain mining and adaptive traders.
 [*] For best support, please use the Discord-channel for error-reporting.
 [*] Do not report errors by making a discussion-thread, I get no notification of that.
 [*] If you have the solution for a problem, please post it to the GitHub repository.
-[/list]</description>
+[/list]
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/changelog/2736917779]Last updated 2023-05-10[/url]
+
+[url=https://steamcommunity.com/sharedfiles/filedetails/changelog/2974182214][img]https://img.shields.io/github/v/release/emipa606/DynamicEconomy?label=latest%20version&amp;style=plastic&amp;color=9f1111&amp;labelColor=black[/img][/url]</description>
 </ModMetaData>
