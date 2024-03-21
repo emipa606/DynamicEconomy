@@ -45,14 +45,14 @@ public class EconomicEventsManager : IExposable
             {
                 QuestUtility.GenerateQuestAndMakeAvailable(DynamicEconomyDefOf.HighDemandQuest, 50);
                 Find.LetterStack.ReceiveLetter("DE_HighDemandQuest_LetterLabel".Translate(),
-                    "DE_HighDemandQuest_LetterBody".Translate(), LetterDefOf.NewQuest);
+                    "DE_HighDemandQuest_LetterBody".Translate(), DynamicEconomyDefOf.NewQuest);
             }
 
             else
             {
                 QuestUtility.GenerateQuestAndMakeAvailable(DynamicEconomyDefOf.HighDemandQuest, 50);
                 Find.LetterStack.ReceiveLetter("DE_HighSupplyQuest_LetterLabel".Translate(),
-                    "DE_HighSupplyQuest_LetterBody".Translate(), LetterDefOf.NewQuest);
+                    "DE_HighSupplyQuest_LetterBody".Translate(), DynamicEconomyDefOf.NewQuest);
             }
         }
         else

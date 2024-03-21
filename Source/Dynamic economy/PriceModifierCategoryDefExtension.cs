@@ -4,5 +4,5 @@ namespace DynamicEconomy;
 
 public class PriceModifierCategoryDefExtension : DefModExtension
 {
-    public ModifierCategory category = ModifierCategory.None;
+    public readonly ModifierCategory category = ModifierCategory.None;
 }

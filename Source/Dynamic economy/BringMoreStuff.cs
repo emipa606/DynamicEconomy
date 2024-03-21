@@ -27,6 +27,6 @@ public class BringMoreStuff
         var modifier = gameComp.GetPriceMultipilerFor(def, TradeAction.PlayerBuys, null, ConsideredFactors.Stockpile);
         return
             (int)Math.Floor(__result *
-                            modifier); //leaving it linear is ok, i guess. sqrt(modifier) had too little effect
+                            modifier); //leaving it linear is ok, I guess. sqrt(modifier) had too little effect
     }
 }

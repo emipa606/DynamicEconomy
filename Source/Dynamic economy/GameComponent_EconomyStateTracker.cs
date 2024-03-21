@@ -30,9 +30,9 @@ public class GameComponent_EconomyStateTracker : GameComponent
     {
         // avoiding nullref
         // or attempting to do so
-        settlementPriceModifiers = new List<SettlementPriceModifier>();
-        orbitalTraderPriceModifiers = new List<OrbitalTraderPriceModifier>();
-        traderCaravanPriceModifiers = new List<TraderCaravansPriceModifier>();
+        settlementPriceModifiers = [];
+        orbitalTraderPriceModifiers = [];
+        traderCaravanPriceModifiers = [];
         _eventsManager = new EconomicEventsManager();
         _psiCoinManager = new PsiCoinManager();
     }
@@ -225,7 +225,7 @@ public class GameComponent_EconomyStateTracker : GameComponent
     {
         base.ExposeData();
 
-        // srsly, i have no idea how to make it work properly
+        // srsly, I have no idea how to make it work properly
         // damn nullref after game loading
 
         Scribe_Collections.Look(ref settlementPriceModifiers, "settlementPriceModifiers", LookMode.Deep);
@@ -234,8 +234,8 @@ public class GameComponent_EconomyStateTracker : GameComponent
         Scribe_Deep.Look(ref _eventsManager, "eventsManager");
         Scribe_Deep.Look(ref _psiCoinManager, "psiCoinManager");
 
-        orbitalTraderPriceModifiers ??= new List<OrbitalTraderPriceModifier>();
-        settlementPriceModifiers ??= new List<SettlementPriceModifier>();
-        traderCaravanPriceModifiers ??= new List<TraderCaravansPriceModifier>();
+        orbitalTraderPriceModifiers ??= [];
+        settlementPriceModifiers ??= [];
+        traderCaravanPriceModifiers ??= [];
     }
 }

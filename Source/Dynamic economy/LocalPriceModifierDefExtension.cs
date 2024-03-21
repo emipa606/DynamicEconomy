@@ -5,6 +5,8 @@ namespace DynamicEconomy;
 
 public class LocalPriceModifierDefExtension : DefModExtension
 {
-    public List<BaseCategoryPriceMultipilerInfo> categoryPriceMultipilers = new List<BaseCategoryPriceMultipilerInfo>();
-    public List<BaseThingPriceMultipilerInfo> thingPriceMultipilers = new List<BaseThingPriceMultipilerInfo>();
+    public readonly List<BaseCategoryPriceMultipilerInfo> categoryPriceMultipilers =
+        [];
+
+    public readonly List<BaseThingPriceMultipilerInfo> thingPriceMultipilers = [];
 }

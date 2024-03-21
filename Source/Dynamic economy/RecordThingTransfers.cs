@@ -18,8 +18,8 @@ public class RecordThingTransfers
             return;
         }
 
-        __state.Add(new List<Pair<ThingDef, float>>());
-        __state.Add(new List<Pair<ThingDef, float>>());
+        __state.Add([]);
+        __state.Add([]);
 
         foreach (var tradeable in ___tradeables)
         {

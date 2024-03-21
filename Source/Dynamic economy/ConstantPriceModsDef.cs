@@ -5,8 +5,8 @@ namespace DynamicEconomy;
 
 public class ConstantPriceModsDef : Def
 {
-    public List<BaseCategoryPriceMultipilerInfo> categoryPriceMultipilers = new List<BaseCategoryPriceMultipilerInfo>();
-    public List<BaseThingPriceMultipilerInfo> thingPriceMultipilers = new List<BaseThingPriceMultipilerInfo>();
+    public readonly List<BaseCategoryPriceMultipilerInfo> categoryPriceMultipilers = [];
+    public readonly List<BaseThingPriceMultipilerInfo> thingPriceMultipilers = [];
 
     // TODO add some methods ie GetPriceMods
 }

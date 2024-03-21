@@ -5,7 +5,7 @@ using Verse;
 namespace DynamicEconomy;
 
 /// <summary>
-///     Contains all the info and provides methods needed to get price multipiler for any thing
+///     Contains all the info and provides methods needed to get price multipiler for anything
 /// </summary>
 public class ComplexPriceModifier : IExposable
 {
@@ -15,8 +15,8 @@ public class ComplexPriceModifier : IExposable
     public ComplexPriceModifier()
     {
         //this.faction = faction;
-        thingPriceModifiers = new List<ThingPriceModifier>();
-        thingCategoryPriceModifiers = new List<ThingCategoryPriceModifier>();
+        thingPriceModifiers = [];
+        thingCategoryPriceModifiers = [];
     }
 
     public virtual void ExposeData()
@@ -203,7 +203,7 @@ public class ComplexPriceModifier : IExposable
     public virtual void TickLong()
     {
         thingPriceModifiers.RemoveAll(mod =>
-            mod == null); //i have no idea where those null mods are coming from. TODO, but for now let it be. Its O(n) after all 
+            mod == null); //I have no idea where those null mods are coming from. TODO, but for now let it be. Its O(n) after all 
 
         foreach (var thingPriceModifier in thingPriceModifiers)
         {

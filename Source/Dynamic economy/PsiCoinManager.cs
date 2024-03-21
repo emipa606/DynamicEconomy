@@ -19,4 +19,4 @@ public class PsiCoinManager : IExposable
     }
 }
 
-// mb combine those workers? less polls => less lags, but will have to write common desc and stages for both thoughts
+// mb combine those workers? fewer polls => fewer lags, but will have to write common desc and stages for both thoughts

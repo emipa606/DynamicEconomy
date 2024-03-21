@@ -39,12 +39,12 @@ public class QuestNode_HighDemand_GetEventModifiers : QuestNode
             }
 
             if ((season == Season.Winter || season == Season.PermanentWinter || season == Season.Spring) &&
-                !primaIdeo.HasMeme(MemeDefOf.Rancher))
+                !primaIdeo.HasMeme(DynamicEconomyDefOf.Rancher))
             {
                 allowedCats.Add(ThingCategoryDefOf.PlantFoodRaw);
             }
 
-            if (!primaIdeo.HasMeme(MemeDefOf.Nudism))
+            if (!primaIdeo.HasMeme(DynamicEconomyDefOf.Nudism))
             {
                 allowedCats.Add(ThingCategoryDefOf.Apparel);
             }

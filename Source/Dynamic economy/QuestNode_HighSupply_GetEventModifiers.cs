@@ -34,7 +34,8 @@ public class QuestNode_HighSupply_GetEventModifiers : QuestNode
 
             if (!primaIdeo.HasMeme(DefDatabase<MemeDef>.GetNamed("Raider")))
             {
-                allowedCats.Add(ThingCategoryDefOf.Weapons); // raiders wont give away their guns and knifes, wont they?
+                allowedCats.Add(ThingCategoryDefOf
+                    .Weapons); // raiders won't give away their guns and knifes, won't they?
             }
 
             if (season == Season.Summer || season == Season.PermanentSummer ||
@@ -45,7 +46,7 @@ public class QuestNode_HighSupply_GetEventModifiers : QuestNode
                     allowedCats.Add(ThingCategoryDefOf.MeatRaw);
                 }
 
-                if (!primaIdeo.HasMeme(MemeDefOf.Rancher))
+                if (!primaIdeo.HasMeme(DynamicEconomyDefOf.Rancher))
                 {
                     allowedCats.Add(ThingCategoryDefOf.PlantFoodRaw);
                 }
@@ -64,7 +65,7 @@ public class QuestNode_HighSupply_GetEventModifiers : QuestNode
 
         // it is not optimal to add and then remove things from list
         // but hey, it searches through defdatabase twice
-        // it wouldnt make any difference to run through list and remove a couple of items
+        // it wouldn't make any difference to run through list and remove a couple of items
         var settlementPriceMod =
             GameComponent_EconomyStateTracker.CurGameInstance.GetOrCreateIfNeededComplexModifier(settlement);
         for (var i = 0; i < allowedCats.Count; i++)
