@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <!-- EN: psicoin miner -->
+  <PsiCoinMiner.label>psicoin miner</PsiCoinMiner.label>
+  <!-- EN: A device that can utilize a part of or even a whole user mind to write down on chips Shreddinger-class data, or, to put it simple, it mines psicoins.\n            \nWhile light mode allows user to stay consciouness, hard mode will make them fall in catatonia and will slowly turn their brains into a porrige in exchange for much higher psicoin output. -->
+  <PsiCoinMiner.description>A device that can utilize a part of or even a whole user mind to write down on chips Shreddinger-class data, or, to put it simple, it mines psicoins.
+            
+While light mode allows user to stay consciouness, hard mode will make them fall in catatonia and will slowly turn their brains into a porrige in exchange for much higher psicoin output.</PsiCoinMiner.description>
+</LanguageData>

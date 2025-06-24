@@ -8,16 +8,16 @@ namespace DynamicEconomy;
 
 public class QuestNode_HighDemand_GetEventModifiers : QuestNode
 {
-    public SlateRef<Settlement> settlement;
+    private SlateRef<Settlement> settlement;
 
-    [NoTranslate] public SlateRef<string> storeCategoryAs;
+    [NoTranslate] private SlateRef<string> storeCategoryAs;
 
-    [NoTranslate] public SlateRef<string> storePlayerBuysFactorAs;
+    [NoTranslate] private SlateRef<string> storePlayerBuysFactorAs;
 
-    [NoTranslate] public SlateRef<string> storePlayerSellsFactorAs;
+    [NoTranslate] private SlateRef<string> storePlayerSellsFactorAs;
 
 
-    private ThingCategoryDef GetCategoryDef(Settlement settlement)
+    private static ThingCategoryDef getCategoryDef(Settlement settlement)
     {
         var allowedCats = new List<ThingCategoryDef>
         {
@@ -38,7 +38,7 @@ public class QuestNode_HighDemand_GetEventModifiers : QuestNode
                 allowedCats.Add(ThingCategoryDefOf.MeatRaw);
             }
 
-            if ((season == Season.Winter || season == Season.PermanentWinter || season == Season.Spring) &&
+            if (season is Season.Winter or Season.PermanentWinter or Season.Spring &&
                 !primaIdeo.HasMeme(DynamicEconomyDefOf.Rancher))
             {
                 allowedCats.Add(ThingCategoryDefOf.PlantFoodRaw);
@@ -51,7 +51,7 @@ public class QuestNode_HighDemand_GetEventModifiers : QuestNode
         }
         else
         {
-            if (season == Season.Winter || season == Season.PermanentWinter || season == Season.Spring)
+            if (season is Season.Winter or Season.PermanentWinter or Season.Spring)
             {
                 allowedCats.Add(ThingCategoryDefOf.PlantFoodRaw);
             }
@@ -68,7 +68,7 @@ public class QuestNode_HighDemand_GetEventModifiers : QuestNode
         for (var i = 0; i < allowedCats.Count; i++)
         {
             var curEventMod = settlementPriceMod.GetOrCreateIfNeededTradeablePriceModifier(allowedCats[i])
-                .GetPriceMultipiler(TradeAction.PlayerBuys, ConsideredFactors.Event);
+                .GetPriceMultiplier(TradeAction.PlayerBuys, ConsideredFactors.Event);
             if (!(curEventMod > 1.05f) && !(curEventMod < 0.96f))
             {
                 continue;
@@ -87,7 +87,7 @@ public class QuestNode_HighDemand_GetEventModifiers : QuestNode
         var value = settlement.GetValue(slate);
 
 
-        slate.Set(storeCategoryAs.GetValue(slate), GetCategoryDef(value));
+        slate.Set(storeCategoryAs.GetValue(slate), getCategoryDef(value));
 
         var eventFactor = 1.6f + (Rand.Value * 0.6f);
 
@@ -103,7 +103,7 @@ public class QuestNode_HighDemand_GetEventModifiers : QuestNode
             return false;
         }
 
-        slate.Set(storeCategoryAs.GetValue(slate), GetCategoryDef(settlement.GetValue(slate)));
+        slate.Set(storeCategoryAs.GetValue(slate), getCategoryDef(settlement.GetValue(slate)));
 
         var eventFactor = 1.6f + (Rand.Value * 0.6f);
 

@@ -20,10 +20,10 @@ public class GameComponent_EconomyStateTracker : GameComponent
     private PsiCoinManager _psiCoinManager;
 
     private float _recentTurnover;
-    protected List<OrbitalTraderPriceModifier> orbitalTraderPriceModifiers;
-    protected List<SettlementPriceModifier> settlementPriceModifiers;
+    private List<OrbitalTraderPriceModifier> orbitalTraderPriceModifiers;
+    private List<SettlementPriceModifier> settlementPriceModifiers;
 
-    protected List<TraderCaravansPriceModifier> traderCaravanPriceModifiers;
+    private List<TraderCaravansPriceModifier> traderCaravanPriceModifiers;
 
 
     public GameComponent_EconomyStateTracker(Game game)
@@ -43,7 +43,7 @@ public class GameComponent_EconomyStateTracker : GameComponent
     public PsiCoinManager PsiCoinManager => _psiCoinManager;
     public EconomicEventsManager EconomicEventsManager => _eventsManager;
 
-    public float TraderSilverMultipiler => 1f + (_recentTurnover * DESettings.turnoverEffectOnTraderCurrencyMultipiler /
+    public float TraderSilverMultipiler => 1f + (_recentTurnover * DESettings.TurnoverEffectOnTraderCurrencyMultiplier /
                                                  BaseTurnoverToDoubleTradersCurrency);
 
     public void RemoveModifierForShip(TradeShip ship)
@@ -57,68 +57,59 @@ public class GameComponent_EconomyStateTracker : GameComponent
     /// <returns></returns>
     public ComplexPriceModifier GetOrCreateIfNeededComplexModifier(ITrader trader)
     {
-        if (trader == null)
+        switch (trader)
         {
-            return GetModifierForCaravan(null);
-        }
-
-        if (trader is Pawn pawn)
-        {
+            case null:
+                return getModifierForCaravan(null);
             // if on non-home map, use that settlement's modifier if possible
-            if (pawn.MapHeld is { IsPlayerHome: false, Tile: > 0 } &&
-                Find.WorldObjects.AnySettlementAt(pawn.MapHeld.Tile))
-            {
+            case Pawn { MapHeld.IsPlayerHome: false } pawn when Find.WorldObjects.AnySettlementAt(pawn.MapHeld.Tile):
                 trader = Find.WorldObjects.SettlementAt(pawn.MapHeld.Tile);
-            }
-            else
-            {
-                return GetModifierForCaravan(trader.Faction);
-            }
+                break;
+            case Pawn:
+                return getModifierForCaravan(trader.Faction);
         }
 
-        if (trader is Settlement settlement)
+        switch (trader)
         {
-            if (settlement.Faction == Faction.OfPlayer)
-            {
+            case Settlement settlement when settlement.Faction == Faction.OfPlayer:
                 throw new ArgumentException("settlement cant belong to player to set priceMod for it");
-            }
-
-            var modifier = settlementPriceModifiers.Find(mod => mod.settlement == settlement);
-
-            if (modifier != null)
+            case Settlement settlement:
             {
+                var modifier = settlementPriceModifiers.Find(mod => mod.settlement == settlement);
+
+                if (modifier != null)
+                {
+                    return modifier;
+                }
+
+                //Log.Message("Created modifier for " + settlement.Label);
+                modifier = new SettlementPriceModifier(settlement);
+                settlementPriceModifiers.Add(modifier);
+
                 return modifier;
             }
-
-            //Log.Message("Created modifier for " + settlement.Label);
-            modifier = new SettlementPriceModifier(settlement);
-            settlementPriceModifiers.Add(modifier);
-
-            return modifier;
-        }
-
-        if (trader is TradeShip tradeShip)
-        {
-            var modifier = orbitalTraderPriceModifiers.Find(mod => mod.ship == tradeShip);
-
-            if (modifier != null)
+            case TradeShip tradeShip:
             {
+                var modifier = orbitalTraderPriceModifiers.Find(mod => mod.ship == tradeShip);
+
+                if (modifier != null)
+                {
+                    return modifier;
+                }
+
+                //Log.Message("Created modifier for " + tradeShip.name);
+                modifier = new OrbitalTraderPriceModifier(tradeShip);
+                orbitalTraderPriceModifiers.Add(modifier);
+
                 return modifier;
             }
-
-            //Log.Message("Created modifier for " + tradeShip.name);
-            modifier = new OrbitalTraderPriceModifier(tradeShip);
-            orbitalTraderPriceModifiers.Add(modifier);
-
-            return modifier;
+            default:
+                Log.Warning("trader is not null, pawn, settlement or ship");
+                return null;
         }
-
-
-        Log.Warning("trader is not null, pawn, settlement or ship");
-        return null;
     }
 
-    public TraderCaravansPriceModifier GetModifierForCaravan(Faction faction)
+    private TraderCaravansPriceModifier getModifierForCaravan(Faction faction)
     {
         var modifier = traderCaravanPriceModifiers.Find(mod => mod.faction == faction);
 
@@ -133,12 +124,7 @@ public class GameComponent_EconomyStateTracker : GameComponent
         return modifier;
     }
 
-    public float GetPriceMultipilerFor(Tradeable tradeable, ITrader trader)
-    {
-        return GetPriceMultipilerFor(tradeable.ThingDef, tradeable.ActionToDo, trader);
-    }
-
-    public float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action, ITrader trader,
+    public float GetPriceMultiplierFor(ThingDef thingDef, TradeAction action, ITrader trader,
         ConsideredFactors factor = ConsideredFactors.All)
     {
         if (action == TradeAction.None)
@@ -201,7 +187,7 @@ public class GameComponent_EconomyStateTracker : GameComponent
             return;
         }
 
-        _recentTurnover *= 1 - (BaseTurnoverEffectDrop * DESettings.turnoverEffectDropRateMultipiler);
+        _recentTurnover *= 1 - (BaseTurnoverEffectDrop * DESettings.TurnoverEffectDropRateMultiplier);
         _psiCoinManager.TickLong();
         _eventsManager.TickLong();
 

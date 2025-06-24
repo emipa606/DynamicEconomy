@@ -4,7 +4,7 @@ namespace DynamicEconomy;
 
 public class ThingPriceModifier : TradeablePriceModifier
 {
-    public ThingDef def;
+    private ThingDef def;
 
     public ThingPriceModifier()
     {

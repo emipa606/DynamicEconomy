@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <!-- EN: install psicoin miner -->
+  <InstallPsiCoinMiner.label>install psicoin miner</InstallPsiCoinMiner.label>
+  <!-- EN: Install a psicoin miner. -->
+  <InstallPsiCoinMiner.description>Install a psicoin miner.</InstallPsiCoinMiner.description>
+  <!-- EN: Installing psicoin miner. -->
+  <InstallPsiCoinMiner.jobString>Installing psicoin miner.</InstallPsiCoinMiner.jobString>
+  <!-- EN: remove psicoin miner -->
+  <RemovePsiCoinMiner.label>remove psicoin miner</RemovePsiCoinMiner.label>
+  <!-- EN: Remove psicoin miner. -->
+  <RemovePsiCoinMiner.description>Remove psicoin miner.</RemovePsiCoinMiner.description>
+  <!-- EN: Removing psicoin miner. -->
+  <RemovePsiCoinMiner.jobString>Removing psicoin miner.</RemovePsiCoinMiner.jobString>
+</LanguageData>

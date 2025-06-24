@@ -35,19 +35,15 @@ public class TraderCaravansPriceModifier : ComplexPriceModifier
     {
         var result = base.GetPriceMultipilerFor(thingDef, action, factor);
 
-        if (faction == null)
-        {
-            return result;
-        }
-
-        if (action != TradeAction.PlayerBuys || factor != ConsideredFactors.All && factor != ConsideredFactors.Base)
+        if (faction == null || action != TradeAction.PlayerBuys ||
+            factor != ConsideredFactors.All && factor != ConsideredFactors.Base)
         {
             return result;
         }
 
         if (thingDef.techLevel > faction.def.techLevel + 1)
         {
-            result *= 1 + (DESettings.buyingPriceFactorTechLevel *
+            result *= 1 + (DESettings.BuyingPriceFactorTechLevel *
                            (thingDef.techLevel - faction.def.techLevel - 1));
         }
 

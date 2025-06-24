@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <!-- EN: flat -->
+  <Hillness_Flat.label>flat</Hillness_Flat.label>
+  <!-- EN: flat -->
+  <Hillness_LargeHills.label>flat</Hillness_LargeHills.label>
+  <!-- EN: flat -->
+  <Hillness_Mountainous.label>flat</Hillness_Mountainous.label>
+  <!-- EN: flat -->
+  <Hillness_SmallHills.label>flat</Hillness_SmallHills.label>
+</LanguageData>

@@ -7,7 +7,7 @@ internal class Patcher
 {
     static Patcher()
     {
-        DynamicEconomyMod.harmonyInstance.PatchAll();
+        DynamicEconomyMod.HarmonyInstance.PatchAll();
     }
 }
 

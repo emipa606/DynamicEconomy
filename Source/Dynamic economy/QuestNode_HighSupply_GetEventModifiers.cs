@@ -8,15 +8,15 @@ namespace DynamicEconomy;
 
 public class QuestNode_HighSupply_GetEventModifiers : QuestNode
 {
-    public SlateRef<Settlement> settlement;
+    private SlateRef<Settlement> settlement;
 
-    [NoTranslate] public SlateRef<string> storeCategoryAs;
+    [NoTranslate] private SlateRef<string> storeCategoryAs;
 
-    [NoTranslate] public SlateRef<string> storePlayerBuysFactorAs;
+    [NoTranslate] private SlateRef<string> storePlayerBuysFactorAs;
 
-    [NoTranslate] public SlateRef<string> storePlayerSellsFactorAs;
+    [NoTranslate] private SlateRef<string> storePlayerSellsFactorAs;
 
-    private ThingCategoryDef GetCategoryDef(Settlement settlement)
+    private static ThingCategoryDef getCategoryDef(Settlement settlement)
     {
         var allowedCats = new List<ThingCategoryDef>
         {
@@ -38,8 +38,8 @@ public class QuestNode_HighSupply_GetEventModifiers : QuestNode
                     .Weapons); // raiders won't give away their guns and knifes, won't they?
             }
 
-            if (season == Season.Summer || season == Season.PermanentSummer ||
-                season == Season.Fall) // cant have a harvest during/after winter 
+            if (season is Season.Summer or Season.PermanentSummer
+                or Season.Fall) // cant have a harvest during/after winter 
             {
                 if (!primaIdeo.HasMeme(DefDatabase<MemeDef>.GetNamed("AnimalPersonhood")))
                 {
@@ -54,7 +54,7 @@ public class QuestNode_HighSupply_GetEventModifiers : QuestNode
         }
         else
         {
-            if (season == Season.Summer || season == Season.PermanentSummer || season == Season.Fall)
+            if (season is Season.Summer or Season.PermanentSummer or Season.Fall)
             {
                 allowedCats.Add(ThingCategoryDefOf.PlantFoodRaw);
                 allowedCats.Add(ThingCategoryDefOf.MeatRaw);
@@ -71,7 +71,7 @@ public class QuestNode_HighSupply_GetEventModifiers : QuestNode
         for (var i = 0; i < allowedCats.Count; i++)
         {
             var curEventMod = settlementPriceMod.GetOrCreateIfNeededTradeablePriceModifier(allowedCats[i])
-                .GetPriceMultipiler(TradeAction.PlayerBuys, ConsideredFactors.Event);
+                .GetPriceMultiplier(TradeAction.PlayerBuys, ConsideredFactors.Event);
             if (!(curEventMod > 1.05f) && !(curEventMod < 0.96f))
             {
                 continue;
@@ -89,7 +89,7 @@ public class QuestNode_HighSupply_GetEventModifiers : QuestNode
         var slate = QuestGen.slate;
 
 
-        slate.Set(storeCategoryAs.GetValue(slate), GetCategoryDef(settlement.GetValue(slate)));
+        slate.Set(storeCategoryAs.GetValue(slate), getCategoryDef(settlement.GetValue(slate)));
 
         var eventFactor = 0.3f + (Rand.Value * 0.3f);
 
@@ -106,7 +106,7 @@ public class QuestNode_HighSupply_GetEventModifiers : QuestNode
             return false;
         }
 
-        slate.Set(storeCategoryAs.GetValue(slate), GetCategoryDef(settlement.GetValue(slate)));
+        slate.Set(storeCategoryAs.GetValue(slate), getCategoryDef(settlement.GetValue(slate)));
 
         var eventFactor = 0.3f + (Rand.Value * 0.3f);
 

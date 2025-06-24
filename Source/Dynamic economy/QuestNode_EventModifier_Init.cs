@@ -7,10 +7,10 @@ namespace DynamicEconomy;
 
 public class QuestNode_EventModifier_Init : QuestNode
 {
-    public SlateRef<float> playerBuysFactor;
-    public SlateRef<float> playerSellsFactor;
-    public SlateRef<ThingCategoryDef> requestedCategoryDef;
-    public SlateRef<Settlement> settlement;
+    private SlateRef<float> playerBuysFactor;
+    private SlateRef<float> playerSellsFactor;
+    private SlateRef<ThingCategoryDef> requestedCategoryDef;
+    private SlateRef<Settlement> settlement;
 
     protected override void RunInt()
     {

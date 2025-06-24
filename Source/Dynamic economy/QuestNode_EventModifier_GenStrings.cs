@@ -5,17 +5,17 @@ namespace DynamicEconomy;
 
 public class QuestNode_EventModifier_GenStrings : QuestNode
 {
-    public SlateRef<ThingCategoryDef> category;
+    private SlateRef<ThingCategoryDef> category;
 
-    public SlateRef<float> playerBuysFactor;
+    private SlateRef<float> playerBuysFactor;
 
-    public SlateRef<float> playerSellsFactor;
+    private SlateRef<float> playerSellsFactor;
 
-    [NoTranslate] public SlateRef<string> storeBuyFactorStringAs;
+    [NoTranslate] private SlateRef<string> storeBuyFactorStringAs;
 
-    [NoTranslate] public SlateRef<string> storeCategoryStringAs;
+    [NoTranslate] private SlateRef<string> storeCategoryStringAs;
 
-    [NoTranslate] public SlateRef<string> storeSellFactorStringAs;
+    [NoTranslate] private SlateRef<string> storeSellFactorStringAs;
 
 
     protected override void RunInt()

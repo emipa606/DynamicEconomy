@@ -10,19 +10,19 @@ namespace DynamicEconomy;
 /// No info about what price of which thing is multipiled
 public class TradeablePriceModifier : IExposable
 {
-    public const float BaseCostToDoubleFactor = 7000f;
+    private const float BaseCostToDoubleFactor = 7000f;
     public float baseBuyFactor;
 
     public float baseSellFactor;
     public float baseStockpileFactor;
-    public float playerBuysFactor;
+    private float playerBuysFactor;
 
-    public float playerBuysFactorEvent; // unaffected by trades              
+    private float playerBuysFactorEvent; // unaffected by trades              
 
-    public float playerSellsFactor;
-    public float playerSellsFactorEvent;
-    public static float CostToDoubleFactor => DESettings.costToDoublePriceMultipiler * BaseCostToDoubleFactor;
-    public static float CostToHalveFactor => DESettings.costToHalvePriceMultipiler * BaseCostToDoubleFactor;
+    private float playerSellsFactor;
+    private float playerSellsFactorEvent;
+    public static float CostToDoubleFactor => DESettings.CostToDoublePriceMultiplier * BaseCostToDoubleFactor;
+    public static float CostToHalveFactor => DESettings.CostToHalvePriceMultiplier * BaseCostToDoubleFactor;
 
     public virtual void ExposeData()
     {
@@ -36,7 +36,7 @@ public class TradeablePriceModifier : IExposable
         Scribe_Values.Look(ref baseBuyFactor, "colonyBuysBase");
     }
 
-    public float GetPriceMultipiler(TradeAction action, ConsideredFactors factor = ConsideredFactors.All)
+    public float GetPriceMultiplier(TradeAction action, ConsideredFactors factor = ConsideredFactors.All)
     {
         switch (factor)
         {
@@ -57,15 +57,17 @@ public class TradeablePriceModifier : IExposable
 
             case ConsideredFactors.All:
             default:
-                return action == TradeAction.PlayerBuys ? playerBuysFactorEvent * playerBuysFactor * baseBuyFactor :
-                    action == TradeAction.PlayerSells ? playerSellsFactorEvent * playerSellsFactor * baseSellFactor :
-                    1f;
+                return action switch
+                {
+                    TradeAction.PlayerBuys => playerBuysFactorEvent * playerBuysFactor * baseBuyFactor,
+                    TradeAction.PlayerSells => playerSellsFactorEvent * playerSellsFactor * baseSellFactor, _ => 1f
+                };
         }
     }
     //public bool HasNoEffect =>playerBuysFactor == 1f && playerSellsFactor == 1f && playerBuysFactorEvent==1f && playerSellsFactorEvent==1f;
 
 
-    public void ResetFactors()
+    private void resetFactors()
     {
         playerBuysFactor = 1f;
         playerSellsFactor = 1f;
@@ -80,55 +82,69 @@ public class TradeablePriceModifier : IExposable
         baseBuyFactor = buyFactor;
         baseSellFactor = sellFactor;
 
-        ResetFactors();
+        resetFactors();
     }
 
     public void TickLongUpdate()
     {
-        playerSellsFactor += DESettings.sellingPriceFactorGrowthRate;
+        playerSellsFactor += DESettings.SellingPriceFactorGrowthRate;
         if (playerSellsFactor > 1)
         {
             playerSellsFactor = 1;
         }
 
-        playerBuysFactor *= 1 - DESettings.buyingPriceFactorDropRate;
+        playerBuysFactor *= 1 - DESettings.BuyingPriceFactorDropRate;
         if (playerBuysFactor < 1)
         {
             playerBuysFactor = 1;
         }
 
 
-        if (playerSellsFactorEvent < 1f)
+        switch (playerSellsFactorEvent)
         {
-            playerSellsFactorEvent += DESettings.sellingPriceFactorGrowthRate;
-            if (playerSellsFactorEvent > 1f)
+            case < 1f:
             {
-                playerSellsFactorEvent = 1;
+                playerSellsFactorEvent += DESettings.SellingPriceFactorGrowthRate;
+                if (playerSellsFactorEvent > 1f)
+                {
+                    playerSellsFactorEvent = 1;
+                }
+
+                break;
             }
-        }
-        else if (playerSellsFactorEvent > 1f)
-        {
-            playerSellsFactorEvent *= 1 - DESettings.buyingPriceFactorDropRate;
-            if (playerSellsFactorEvent < 1f)
+            case > 1f:
             {
-                playerSellsFactorEvent = 1;
+                playerSellsFactorEvent *= 1 - DESettings.BuyingPriceFactorDropRate;
+                if (playerSellsFactorEvent < 1f)
+                {
+                    playerSellsFactorEvent = 1;
+                }
+
+                break;
             }
         }
 
-        if (playerBuysFactorEvent < 1f)
+        switch (playerBuysFactorEvent)
         {
-            playerBuysFactorEvent += DESettings.sellingPriceFactorGrowthRate;
-            if (playerBuysFactorEvent > 1f)
+            case < 1f:
             {
-                playerBuysFactorEvent = 1;
+                playerBuysFactorEvent += DESettings.SellingPriceFactorGrowthRate;
+                if (playerBuysFactorEvent > 1f)
+                {
+                    playerBuysFactorEvent = 1;
+                }
+
+                break;
             }
-        }
-        else if (playerBuysFactorEvent > 1f)
-        {
-            playerBuysFactorEvent *= 1 - DESettings.buyingPriceFactorDropRate;
-            if (playerBuysFactorEvent < 1f)
+            case > 1f:
             {
-                playerBuysFactorEvent = 1;
+                playerBuysFactorEvent *= 1 - DESettings.BuyingPriceFactorDropRate;
+                if (playerBuysFactorEvent < 1f)
+                {
+                    playerBuysFactorEvent = 1;
+                }
+
+                break;
             }
         }
     }
@@ -137,18 +153,16 @@ public class TradeablePriceModifier : IExposable
     {
         baseTotalPrice = Math.Abs(baseTotalPrice); //just in case
 
-        if (action == TradeAction.None)
+        switch (action)
         {
-            return;
-        }
-
-        if (action == TradeAction.PlayerBuys)
-        {
-            playerBuysFactor += baseTotalPrice / CostToDoubleFactor;
-        }
-        else
-        {
-            playerSellsFactor /= (float)Math.Pow(2, baseTotalPrice / CostToHalveFactor);
+            case TradeAction.None:
+                return;
+            case TradeAction.PlayerBuys:
+                playerBuysFactor += baseTotalPrice / CostToDoubleFactor;
+                break;
+            default:
+                playerSellsFactor /= (float)Math.Pow(2, baseTotalPrice / CostToHalveFactor);
+                break;
         }
     }
 
@@ -156,12 +170,6 @@ public class TradeablePriceModifier : IExposable
     {
         baseBuyFactor = playerBuysBase;
         baseSellFactor = playerSellsBase;
-    }
-
-    public void ForceSetFactors(float colonySellsFactor, float colonyBuysFactor)
-    {
-        playerBuysFactor = colonyBuysFactor;
-        playerSellsFactor = colonySellsFactor;
     }
 
     public void SetEventFactors(float colonySellsFactor, float colonyBuysFactor)

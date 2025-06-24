@@ -5,11 +5,10 @@ using Verse;
 
 namespace DynamicEconomy;
 
-[HarmonyPatch(typeof(TradeDeal), "TryExecute")]
-public class RecordThingTransfers
+[HarmonyPatch(typeof(TradeDeal), nameof(TradeDeal.TryExecute))]
+public class TradeDeal_TryExecute
 {
-    [HarmonyPrefix]
-    public static void RecordPotentialTransfers(List<Tradeable> ___tradeables,
+    public static void Prefix(List<Tradeable> ___tradeables,
         out List<List<Pair<ThingDef, float>>> __state) //first sublist is for purchased items, 2nd is for sold ones
     {
         __state = new List<List<Pair<ThingDef, float>>>(2);
@@ -41,8 +40,7 @@ public class RecordThingTransfers
         }
     }
 
-    [HarmonyPostfix]
-    public static void RecordTransfersIfActuallyExecuted(bool actuallyTraded, List<List<Pair<ThingDef, float>>> __state)
+    public static void Postfix(bool actuallyTraded, List<List<Pair<ThingDef, float>>> __state)
     {
         if (!actuallyTraded || TradeSession.TradeCurrency != TradeCurrency.Silver)
         {

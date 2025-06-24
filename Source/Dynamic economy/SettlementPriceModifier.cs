@@ -135,7 +135,7 @@ public class SettlementPriceModifier : ComplexPriceModifier
         var Faction = settlement.Faction.def;
         if (thingDef.techLevel > Faction.techLevel + 1)
         {
-            result *= 1 + (DESettings.buyingPriceFactorTechLevel *
+            result *= 1 + (DESettings.BuyingPriceFactorTechLevel *
                            (thingDef.techLevel - Faction.techLevel - 1));
         }
 

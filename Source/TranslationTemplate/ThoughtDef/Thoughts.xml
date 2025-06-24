@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <!-- EN: psicoin miners in hard mode -->
+  <HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-0.label>psicoin miners in hard mode</HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-0.label>
+  <!-- EN: One of ours is lying there just like a vegetable, mining those chips. But they are still alive. -->
+  <HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-0.description>One of ours is lying there just like a vegetable, mining those chips. But they are still alive.</HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-0.description>
+  <!-- EN: psicoin miners in hard mode -->
+  <HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-1.label>psicoin miners in hard mode</HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-1.label>
+  <!-- EN: Two of us are nothing but motionless money generators. Maybe we should turn off the hard mode? -->
+  <HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-1.description>Two of us are nothing but motionless money generators. Maybe we should turn off the hard mode?</HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-1.description>
+  <!-- EN: psicoin miners in hard mode -->
+  <HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-2.label>psicoin miners in hard mode</HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-2.label>
+  <!-- EN: Bodies with saliva dribbling from their mouths and that cursed miner in their heads. A human farm, this is what it is. -->
+  <HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-2.description>Bodies with saliva dribbling from their mouths and that cursed miner in their heads. A human farm, this is what it is.</HardPsiCoinMiningInColonyThought.stages.psicoin_miners_in_hard_mode-2.description>
+  <!-- EN: psicoin miners in light mode -->
+  <LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-0.label>psicoin miners in light mode</LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-0.label>
+  <!-- EN: We are using one of ours to mine those chips. Everything for the colony, I guess... -->
+  <LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-0.description>We are using one of ours to mine those chips. Everything for the colony, I guess...</LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-0.description>
+  <!-- EN: psicoin miners in light mode -->
+  <LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-1.label>psicoin miners in light mode</LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-1.label>
+  <!-- EN: Two of us have a psicoin miner installed and running in light mode. I wonder how they feel. -->
+  <LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-1.description>Two of us have a psicoin miner installed and running in light mode. I wonder how they feel.</LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-1.description>
+  <!-- EN: psicoin miners in light mode -->
+  <LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-2.label>psicoin miners in light mode</LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-2.label>
+  <!-- EN: Three of us are used to mine psicoins in light mode. Do those chips really worth it? -->
+  <LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-2.description>Three of us are used to mine psicoins in light mode. Do those chips really worth it?</LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-2.description>
+  <!-- EN: psicoin miners in light mode -->
+  <LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-3.label>psicoin miners in light mode</LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-3.label>
+  <!-- EN: They are stumbling, mumbling something and have empty looks. Now I'm really worried. -->
+  <LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-3.description>They are stumbling, mumbling something and have empty looks. Now I'm really worried.</LightPsiCoinMiningInColonyThought.stages.psicoin_miners_in_light_mode-3.description>
+  <!-- EN: light psicoin mining -->
+  <PsiCoinMiningThought.stages.light_psicoin_mining.label>light psicoin mining</PsiCoinMiningThought.stages.light_psicoin_mining.label>
+  <!-- EN: This damn implant messes up with my head, it feels as if.. wait, what was I thinking about? -->
+  <PsiCoinMiningThought.stages.light_psicoin_mining.description>This damn implant messes up with my head, it feels as if.. wait, what was I thinking about?</PsiCoinMiningThought.stages.light_psicoin_mining.description>
+  <!-- EN: hard psicoin mining -->
+  <PsiCoinMiningThought.stages.hard_psicoin_mining.label>hard psicoin mining</PsiCoinMiningThought.stages.hard_psicoin_mining.label>
+  <!-- EN: ..due to PLEASE undetermined MAKE our homeland IT to live is to STOP optimal way of... -->
+  <PsiCoinMiningThought.stages.hard_psicoin_mining.description>..due to PLEASE undetermined MAKE our homeland IT to live is to STOP optimal way of...</PsiCoinMiningThought.stages.hard_psicoin_mining.description>
+</LanguageData>

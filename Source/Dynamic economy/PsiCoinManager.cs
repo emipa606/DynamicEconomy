@@ -4,7 +4,7 @@ namespace DynamicEconomy;
 
 public class PsiCoinManager : IExposable
 {
-    public const float PsiCoinDefaultRandomOffset = 0.003f;
+    private const float PsiCoinDefaultRandomOffset = 0.003f;
     public float psiCoinPrice = DynamicEconomyDefOf.PsiCoin.BaseMarketValue;
 
     public void ExposeData()
@@ -15,7 +15,7 @@ public class PsiCoinManager : IExposable
     public void TickLong()
     {
         psiCoinPrice *= 1f + (Rand.Sign * Rand.Value * PsiCoinDefaultRandomOffset *
-                              DESettings.randyCoinRandomOfsettMultipiler);
+                              DESettings.RandyCoinRandomOffsetMultiplier);
     }
 }
 

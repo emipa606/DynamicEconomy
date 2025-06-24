@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LanguageData>
+  <!-- EN: psiCoin mining -->
+  <PsiCoinMining.label>psiCoin mining</PsiCoinMining.label>
+  <!-- EN: Psi-coin mining. -->
+  <PsiCoinMining.description>Psi-coin mining.</PsiCoinMining.description>
+  <!-- EN: light -->
+  <PsiCoinMining.stages.light.label>light</PsiCoinMining.stages.light.label>
+  <!-- EN: hard -->
+  <PsiCoinMining.stages.hard.label>hard</PsiCoinMining.stages.hard.label>
+</LanguageData>

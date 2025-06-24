@@ -25,19 +25,19 @@ public class OrbitalTraderPriceModifier : ComplexPriceModifier
             return null;
         }
 
-        if (DESettings.orbitalTraderRandomPriceOffset == 0f ||
-            res.GetPriceMultipiler(TradeAction.PlayerBuys, ConsideredFactors.Base) != 1f) //if newly created
+        if (DESettings.OrbitalTraderRandomPriceOffset == 0f ||
+            res.GetPriceMultiplier(TradeAction.PlayerBuys, ConsideredFactors.Base) != 1f) //if newly created
         {
             return res;
         }
 
-        var randBase = 1 + (Rand.Sign * Rand.Value * DESettings.orbitalTraderRandomPriceOffset);
+        var randBase = 1 + (Rand.Sign * Rand.Value * DESettings.OrbitalTraderRandomPriceOffset);
         res.SetBaseFactors(randBase, randBase);
 
         return res;
     }
 
-    public override TradeablePriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingDef thingDef)
+    protected override TradeablePriceModifier GetOrCreateIfNeededTradeablePriceModifier(ThingDef thingDef)
     {
         var res = base.GetOrCreateIfNeededTradeablePriceModifier(thingDef);
         if (res == null)
@@ -45,12 +45,12 @@ public class OrbitalTraderPriceModifier : ComplexPriceModifier
             return null;
         }
 
-        if (res.GetPriceMultipiler(TradeAction.PlayerBuys, ConsideredFactors.Base) != 1f) //if newly created
+        if (res.GetPriceMultiplier(TradeAction.PlayerBuys, ConsideredFactors.Base) != 1f) //if newly created
         {
             return res;
         }
 
-        var randBase = 1 + (Rand.Sign * Rand.Value * DESettings.orbitalTraderRandomPriceOffset);
+        var randBase = 1 + (Rand.Sign * Rand.Value * DESettings.OrbitalTraderRandomPriceOffset);
         res.SetBaseFactors(randBase, randBase);
 
         return res;
@@ -60,7 +60,7 @@ public class OrbitalTraderPriceModifier : ComplexPriceModifier
         ConsideredFactors factor = ConsideredFactors.All)
     {
         var mod = GetOrCreateIfNeededTradeablePriceModifier(thingDef);
-        return mod?.GetPriceMultipiler(action, factor) ?? 1f;
+        return mod?.GetPriceMultiplier(action, factor) ?? 1f;
     }
 
     public override void RecordNewDeal(ThingDef thingDef, float totalCost, TradeAction action)

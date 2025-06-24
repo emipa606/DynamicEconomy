@@ -4,8 +4,8 @@ using Verse;
 
 namespace DynamicEconomy;
 
-[HarmonyPatch(typeof(StatExtension), "GetStatValue")]
-public class AdjustPsiCoinMarketValue
+[HarmonyPatch(typeof(StatExtension), nameof(StatExtension.GetStatValue))]
+public class StatExtension_GetStatValue
 {
     public static void Postfix(ref float __result, Thing thing, StatDef stat)
     {

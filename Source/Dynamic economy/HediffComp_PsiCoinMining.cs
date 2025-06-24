@@ -13,29 +13,24 @@ public class HediffComp_PsiCoinMining : HediffComp
     private int _ticksTillNextPsiCoinInLightMode;
     public bool psiCoinReady;
 
-    public int
+    private int
         psiCoinsToBeDropped; // noone wants to click command every minute. If coins are mined too quick, more will be dropped with greater cd.
 
 
-    public HediffComp_PsiCoinMining()
-    {
-        psiCoinReady = false;
-    }
+    private HediffCompProperties_PsiCoinMining Props => props as HediffCompProperties_PsiCoinMining;
 
-    public HediffCompProperties_PsiCoinMining Props => props as HediffCompProperties_PsiCoinMining;
-
-    public int TicksTillNextPsiCoin => HardMiningOn
+    private int TicksTillNextPsiCoin => HardMiningOn
         ? _ticksTillNextPsiCoinInLightMode / Props.hardMiningMultipiler
         : _ticksTillNextPsiCoinInLightMode;
 
-    public bool HardMiningOn => parent.Severity > 0.5f;
+    private bool HardMiningOn => parent.Severity > 0.5f;
 
     //public int ApproxTicksTillPsiCoinOnLightMode => (int)((GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice / Props.silverPerDayLight) * 60000);
     private int PsiCoinDropCooldown =>
         (int)(GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice / Props.silverPerDayLight *
               60000);
 
-    private void StartMiningNewCoin()
+    private void startMiningNewCoin()
     {
         psiCoinReady = false;
         _ticksTillNextPsiCoinInLightMode = PsiCoinDropCooldown;
@@ -49,11 +44,11 @@ public class HediffComp_PsiCoinMining : HediffComp
     {
         base.CompPostMake();
 
-        StartMiningNewCoin();
+        startMiningNewCoin();
     }
 
 
-    private Command_Toggle GenToggleCommand()
+    private Command_Toggle genToggleCommand()
     {
         var toggleMiningModeCommand = new Command_Toggle
         {
@@ -70,7 +65,7 @@ public class HediffComp_PsiCoinMining : HediffComp
         return toggleMiningModeCommand;
     }
 
-    public Command_Action GenExtractCommand()
+    private Command_Action genExtractCommand()
     {
         var extractCommand = new Command_Action
         {
@@ -84,7 +79,7 @@ public class HediffComp_PsiCoinMining : HediffComp
                 var poorSoul = parent.pawn;
                 GenPlace.TryPlaceThing(coin, poorSoul.Position, poorSoul.Map, ThingPlaceMode.Near);
 
-                StartMiningNewCoin();
+                startMiningNewCoin();
             }
         };
 
@@ -112,9 +107,9 @@ public class HediffComp_PsiCoinMining : HediffComp
 
     public override IEnumerable<Gizmo> CompGetGizmos()
     {
-        yield return GenToggleCommand();
+        yield return genToggleCommand();
 
-        var extractCommand = GenExtractCommand();
+        var extractCommand = genExtractCommand();
         if (!psiCoinReady)
         {
             extractCommand.Disable(
@@ -129,12 +124,12 @@ public class HediffComp_PsiCoinMining : HediffComp
             yield break;
         }
 
-        var debug_setCoinsReady = new Command_Action
+        var debugSetCoinsReady = new Command_Action
         {
             action = () => _ticksTillNextPsiCoinInLightMode = 0,
             defaultLabel = "Set psicoin ready"
         };
-        yield return debug_setCoinsReady;
+        yield return debugSetCoinsReady;
     }
 
     public override void CompExposeData()

@@ -9,10 +9,10 @@ namespace DynamicEconomy;
 /// </summary>
 public class ComplexPriceModifier : IExposable
 {
-    public List<ThingCategoryPriceModifier> thingCategoryPriceModifiers;
-    public List<ThingPriceModifier> thingPriceModifiers;
+    private List<ThingCategoryPriceModifier> thingCategoryPriceModifiers;
+    private List<ThingPriceModifier> thingPriceModifiers;
 
-    public ComplexPriceModifier()
+    protected ComplexPriceModifier()
     {
         //this.faction = faction;
         thingPriceModifiers = [];
@@ -81,7 +81,7 @@ public class ComplexPriceModifier : IExposable
     }
 
 
-    public virtual TradeablePriceModifier
+    protected virtual TradeablePriceModifier
         GetOrCreateIfNeededTradeablePriceModifier(ThingDef thingDef) //returns null for ModifierCategory.None
     {
         if (thingDef == null)
@@ -162,7 +162,7 @@ public class ComplexPriceModifier : IExposable
         // Changed so both modifiers applies
 
         var result = 1f;
-        result *= thingPriceModifiers.Find(priceMod => priceMod.Def == thingDef)?.GetPriceMultipiler(action, factor) ??
+        result *= thingPriceModifiers.Find(priceMod => priceMod.Def == thingDef)?.GetPriceMultiplier(action, factor) ??
                   1f;
 
         if (thingDef.thingCategories == null)
@@ -178,7 +178,7 @@ public class ComplexPriceModifier : IExposable
                 var modifier = thingCategoryPriceModifiers.Find(priceMod => priceMod.Def == current);
                 if (modifier != null)
                 {
-                    return result * modifier.GetPriceMultipiler(action, factor);
+                    return result * modifier.GetPriceMultiplier(action, factor);
                 }
 
                 current = current.parent;
@@ -231,7 +231,7 @@ public class ComplexPriceModifier : IExposable
         modifier.SetBaseFactors(baseSellFactor, baseBuyFactor);
     }
 
-    public void RegisterThingModifiers(List<BaseThingPriceMultipilerInfo> thingPriceMultipilers)
+    protected void RegisterThingModifiers(List<BaseThingPriceMultipilerInfo> thingPriceMultipilers)
     {
         if (thingPriceMultipilers == null)
         {
@@ -252,7 +252,7 @@ public class ComplexPriceModifier : IExposable
         }
     }
 
-    public void RegisterCategoryModifiers(List<BaseCategoryPriceMultipilerInfo> categoryPriceMultipilers)
+    protected void RegisterCategoryModifiers(List<BaseCategoryPriceMultipilerInfo> categoryPriceMultipilers)
     {
         if (categoryPriceMultipilers == null)
         {

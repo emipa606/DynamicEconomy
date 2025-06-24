@@ -3,8 +3,8 @@ using RimWorld;
 
 namespace DynamicEconomy;
 
-[HarmonyPatch(typeof(TradeShip), "Depart")]
-public class NotifyEconomyStateTrackerOfDeparture
+[HarmonyPatch(typeof(TradeShip), nameof(TradeShip.Depart))]
+public class TradeShip_Depart
 {
     public static void Postfix(TradeShip __instance)
     {

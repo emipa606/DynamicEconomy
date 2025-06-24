@@ -6,13 +6,13 @@ namespace DynamicEconomy;
 
 public class EconomicEventsManager : IExposable
 {
-    public const int EconomicEventRollCooldownTicks = 60000;
-    public const int DaysTillMaxTimeBonus = 60;
-    public const int XPBonus = 1250;
+    private const int EconomicEventRollCooldownTicks = 60000;
+    private const int DaysTillMaxTimeBonus = 60;
+    private const int XPBonus = 1250;
 
 
-    public float daysSinceLastEconomicEvent;
-    public float failedEventRollsBonus;
+    private float daysSinceLastEconomicEvent;
+    private float failedEventRollsBonus;
     public int ticksSinceLastEventRoll;
 
     public bool CanRollForEconomicEvent => ticksSinceLastEventRoll >= EconomicEventRollCooldownTicks;

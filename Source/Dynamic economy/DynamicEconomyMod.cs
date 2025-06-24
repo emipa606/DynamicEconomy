@@ -7,14 +7,14 @@ namespace DynamicEconomy;
 
 internal class DynamicEconomyMod : Mod
 {
-    public static Harmony harmonyInstance;
-    public static string currentVersion;
+    public static Harmony HarmonyInstance;
+    public static string CurrentVersion;
 
     public DynamicEconomyMod(ModContentPack content) : base(content)
     {
         GetSettings<DESettings>().Write();
-        harmonyInstance = new Harmony("saloid.DynamicEconomy");
-        currentVersion = VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
+        HarmonyInstance = new Harmony("saloid.DynamicEconomy");
+        CurrentVersion = VersionFromManifest.GetVersionFromModMetaData(content.ModMetaData);
     }
 
     public override void DoSettingsWindowContents(Rect inRect)

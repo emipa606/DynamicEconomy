@@ -5,8 +5,8 @@ using Verse;
 
 namespace DynamicEconomy;
 
-[HarmonyPatch(typeof(Tradeable), "GetPriceTooltip")]
-public class AddGlobalFactorsToTooltip
+[HarmonyPatch(typeof(Tradeable), nameof(Tradeable.GetPriceTooltip))]
+public class Tradeable_GetPriceTooltip
 {
     public static void Postfix(ref string __result, Tradeable __instance, TradeAction action)
     {
