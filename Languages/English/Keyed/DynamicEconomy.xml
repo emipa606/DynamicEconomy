@@ -4,6 +4,7 @@
   <DE_GatherInfo_UnavailableCooldown>Gather info (unavailable, {0} till next attempt)</DE_GatherInfo_UnavailableCooldown>
   <DE_GatherInfo_UnavailablePawnIsIncapable>Gather info (unavailable, {0} is incapable of social interactions)</DE_GatherInfo_UnavailablePawnIsIncapable>
   <DE_GatherInfo>Gather info ({0} success chance)</DE_GatherInfo>
+  <DE_GatherInfo_Failed>No useful information gathered this time.</DE_GatherInfo_Failed>
   <!-- Events -->
   <DE_HighDemandQuest_LetterLabel>Shortage</DE_HighDemandQuest_LetterLabel>
   <DE_HighDemandQuest_LetterBody>One of your colonists found out that one of nearby settlements requires specific supplies and pays much more for them. This can be a good opportunity to make some profitable trades.\n\nCheck quest log for more info.</DE_HighDemandQuest_LetterBody>

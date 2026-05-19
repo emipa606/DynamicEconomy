@@ -1,5 +1,9 @@
 # Changelog for DynamicEconomy
 
+1.6.2 - Fixed gathering info job and the resulting quest
+Used DeepL to update translations for ChineseSimplified, French, German, Russian
+
+
 1.6.1 - Fixed log-spam
 
 

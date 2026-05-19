@@ -8,7 +8,7 @@ public class EconomicEventsManager : IExposable
 {
     private const int EconomicEventRollCooldownTicks = 60000;
     private const int DaysTillMaxTimeBonus = 60;
-    private const int XPBonus = 1250;
+    private const int XPBonus = 175;
 
 
     private float daysSinceLastEconomicEvent;
@@ -50,7 +50,7 @@ public class EconomicEventsManager : IExposable
 
             else
             {
-                QuestUtility.GenerateQuestAndMakeAvailable(DynamicEconomyDefOf.HighDemandQuest, 50);
+                QuestUtility.GenerateQuestAndMakeAvailable(DynamicEconomyDefOf.HighSupplyQuest, 50);
                 Find.LetterStack.ReceiveLetter("DE_HighSupplyQuest_LetterLabel".Translate(),
                     "DE_HighSupplyQuest_LetterBody".Translate(), DynamicEconomyDefOf.NewQuest);
             }
@@ -58,9 +58,9 @@ public class EconomicEventsManager : IExposable
         else
         {
             failedEventRollsBonus += pawn.GetStatValue(StatDefOf.NegotiationAbility) * 0.025f;
+            Messages.Message("DE_GatherInfo_Failed".Translate(), pawn, MessageTypeDefOf.NeutralEvent);
         }
 
-        //Log.Message("Roll");
         pawn.skills.Learn(SkillDefOf.Social, XPBonus);
         ticksSinceLastEventRoll = 0;
 

@@ -63,10 +63,6 @@
           <requestedCategoryDef>$category</requestedCategoryDef>
           <settlement>$settlement</settlement>
         </li>
-        <!-- auto end. yep, thats it-->
-        <li Class="QuestNode_End">
-          <outcome>Success</outcome>
-        </li>
       </nodes>
     </root>
   </QuestScriptDef>
@@ -130,10 +126,6 @@
           <playerBuysFactor>$buyFactor</playerBuysFactor>
           <requestedCategoryDef>$category</requestedCategoryDef>
           <settlement>$settlement</settlement>
-        </li>
-        <!-- auto end. yep, thats it-->
-        <li Class="QuestNode_End">
-          <outcome>Success</outcome>
         </li>
       </nodes>
     </root>

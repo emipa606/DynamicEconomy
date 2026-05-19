@@ -3,4 +3,26 @@
     <BuildType Name="Release" />
   </Configurations>
   <Project Path="Dynamic economy/Dynamic economy.csproj" />
+  <Folder Name="/.github/">
+    <File Path="../.github/copilot-instructions.md" />
+  </Folder>
+  <Folder Name="/XML/1.6/Patches/">
+    <File Path="../1.6/Patches/AddBiomeModifiersPatch.xml" />
+    <File Path="../1.6/Patches/AddCompsPatch.xml" />
+    <File Path="../1.6/Patches/AddModifierCategoryPatch.xml" />
+  </Folder>
+  <Folder Name="/XML/About/">
+    <File Path="../About/about.xml" />
+  </Folder>
+  <Folder Name="/XML/Languages/English/Keyed/">
+    <File Path="../Languages/English/Keyed/DynamicEconomy.xml" />
+  </Folder>
+  <Folder Name="/XML/1.6/Defs/">
+    <File Path="../1.6/Defs/Hediffs.xml" />
+    <File Path="../1.6/Defs/Jobs.xml" />
+    <File Path="../1.6/Defs/PriceModifiers.xml" />
+    <File Path="../1.6/Defs/QuestScripts.xml" />
+    <File Path="../1.6/Defs/Things.xml" />
+    <File Path="../1.6/Defs/Thoughts.xml" />
+  </Folder>
 </Solution>

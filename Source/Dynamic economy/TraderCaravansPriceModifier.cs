@@ -1,10 +1,13 @@
-﻿using RimWorld;
+﻿using System.Collections.Generic;
+using RimWorld;
 using Verse;
 
 namespace DynamicEconomy;
 
 public class TraderCaravansPriceModifier : ComplexPriceModifier
 {
+    private static readonly HashSet<string> WarnedFactionDefs = [];
+
     public Faction faction;
 
     public TraderCaravansPriceModifier()
@@ -27,7 +30,10 @@ public class TraderCaravansPriceModifier : ComplexPriceModifier
             return;
         }
 
-        Log.Warning($"Havent found any faction modifier for {faction.def.defName}");
+        if (WarnedFactionDefs.Add(faction.def.defName))
+        {
+            Log.Warning($"Havent found any faction modifier for {faction.def.defName}");
+        }
     }
 
     public override float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action,

@@ -43,4 +43,7 @@
   <DE_Setting_PsicoinRandomness>Multiplicateur aléatoire du prix du psicoin : {0}</DE_Setting_PsicoinRandomness>
   <DE_Setting_OrbitalTrader>Fourchette de prix de l'opérateur orbital : {0}</DE_Setting_OrbitalTrader>
   <DE_Setting_CurrentModVersion>Version installée du mod : {0}</DE_Setting_CurrentModVersion>
+  <DE_GatherInfo_Failed>Aucune information utile n'a été recueillie pour l'instant.</DE_GatherInfo_Failed>
+  <!-- PsiCoin and related -->
+  <!-- Settings -->
 </LanguageData>

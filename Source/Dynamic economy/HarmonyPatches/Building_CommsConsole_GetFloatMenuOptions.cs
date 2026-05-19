@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using HarmonyLib;
 using RimWorld;
 using Verse;
@@ -11,13 +12,15 @@ public class Building_CommsConsole_GetFloatMenuOptions
     public static IEnumerable<FloatMenuOption> Postfix(IEnumerable<FloatMenuOption> res,
         Building_CommsConsole __instance, Pawn myPawn)
     {
-        var itWorks = __instance.CanUseCommsNow;
-        foreach (var op in res)
+        var existingOptions = res.ToList();
+        var existingLabels = new HashSet<string>(existingOptions.Select(op => op.Label));
+
+        foreach (var op in existingOptions)
         {
             yield return op;
         }
 
-        if (!itWorks)
+        if (!__instance.CanUseCommsNow)
         {
             yield break;
         }
@@ -30,6 +33,11 @@ public class Building_CommsConsole_GetFloatMenuOptions
 
         foreach (var op in comp.CompFloatMenuOptions(myPawn))
         {
+            if (!existingLabels.Add(op.Label))
+            {
+                continue;
+            }
+
             yield return op;
         }
     }
