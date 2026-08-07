@@ -22,6 +22,4 @@ public static class DynamicEconomyDefOf
     public static ConstantPriceModsDef Hillness_Mountainous;
 
     public static LetterDef NewQuest;
-    public static MemeDef Rancher;
-    public static MemeDef Nudism;
 }

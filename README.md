@@ -61,4 +61,4 @@ Adds local prices, brain mining and adaptive traders.
 
  
 
-[![Image](https://img.shields.io/github/v/release/emipa606/DynamicEconomy?label=latest%20version&style=plastic&color=9f1111&labelColor=black)](https://steamcommunity.com/sharedfiles/filedetails/changelog/2974182214) | tags: orbital traders
+[![Image](https://img.shields.io/github/v/release/emipa606/DynamicEconomy?label=latest%20version&style=plastic&color=9f1111&labelColor=black)](https://steamcommunity.com/sharedfiles/filedetails/changelog/2974182214) | orbital traders

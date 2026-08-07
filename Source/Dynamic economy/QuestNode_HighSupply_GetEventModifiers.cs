@@ -46,7 +46,7 @@ public class QuestNode_HighSupply_GetEventModifiers : QuestNode
                     allowedCats.Add(ThingCategoryDefOf.MeatRaw);
                 }
 
-                if (!primaIdeo.HasMeme(DynamicEconomyDefOf.Rancher))
+                if (!primaIdeo.HasMeme(DefDatabase<MemeDef>.GetNamed("Rancher")))
                 {
                     allowedCats.Add(ThingCategoryDefOf.PlantFoodRaw);
                 }

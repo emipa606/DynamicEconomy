@@ -1,38 +1,44 @@
-# GitHub Copilot Instructions for Dynamic Economy (Continued)
+# GitHub Copilot Instructions for RimWorld Mod: Dynamic Economy (Continued)
 
 ## Mod Overview and Purpose
-**Dynamic Economy (Continued)** is a mod designed to enhance the trading and economic experience in RimWorld. By introducing fluctuating local prices, brain mining, and adaptive traders, it aims to create a more dynamic and engaging trading system. The mod expands on the original concept by Saloid, with updates and new features to address player feedback and enrich gameplay.
+Dynamic Economy (Continued), originally by saloid, is a RimWorld mod that introduces a dynamic trade system where prices adapt according to supply and demand, brain mining for psicoin production, and interactions with orbital traders. This mod aims to enrich the trading experience in RimWorld by implementing localized economy mechanics.
 
 ## Key Features and Systems
-- **Trade Caravan Changes**: The mod introduces variable pricing based on player interactions with caravans. Prices change due to supply and demand, influencing what caravans bring next time.
-- **Trading with Settlements**: Encourages sending player caravans to settlements that have their own unique price multipliers. Information gathering through comms consoles allows players to make informed trading decisions.
-- **Orbital Trade Ships**: Orbital traders have dynamically randomized prices, providing varying trade opportunities.
-- **Brain Mining**: Players can install psicoin miner implants in pawns to generate coins from their brain activity. The market price of these psicoins fluctuates randomly.
-- **Price Multipliers**: Buying and selling price multipliers act independently. Growth occurs linearly, while the drop is exponential.
+1. **Trade Caravan Changes**: Prices fluctuate based on your transactions with caravans. Frequent sales of specific goods will lower their purchase price over time, while buying in bulk leads to higher selling prices in the future.
+   
+2. **Trading with Settlements**: Each settlement has its own unique multiplier for buys and sells, encouraging players to embark on caravans for potentially better deals. Players can gather market intelligence via the comms console to spot short-term price changes.
+
+3. **Trade Ships**: Orbital traders operate with randomized prices, representing different markets away from the RimWorld. This randomness offers opportunities for profit through strategic buying and selling.
+
+4. **Brain Mining**: Enables the crafting of psicoin miner implants after bionics research, turning pawns into psicoin producers. Psicoin values are volatile, providing a fluctuating source of income.
+
+5. **Price Multiplier Mechanics**: Growth is linear, and decrease in multipliers is exponential. Prices gradually normalize over time, and these parameters are configurable in the mod settings.
 
 ## Coding Patterns and Conventions
-- **Class Definitions**: Follow a naming pattern starting with class type and purpose (e.g., `Building_CommsConsole_GetFloatMenuOptions`).
-- **Method Naming**: Follow proper C# conventions with camelCase for private methods and PascalCase for public methods.
-- **Modular Design**: Each feature is encapsulated within its specific class, following a single responsibility principle.
-- **XML Handling**: `LoadDataFromXmlCustom` methods handle custom XML loading for data classes.
+- **Consistent Naming**: Class, method, and variable names follow PascalCase and camelCase conventions, ensuring code readability and consistency.
+- **Code Modularity**: Classes are designed to encapsulate specific functionalities (e.g., `ComplexPriceModifier` handles price dynamics) for maintainability.
+- **Error Handling**: Logging is consistently used to capture exceptions and game state changes, aiding in debugging.
 
 ## XML Integration
-- XML files are used to define various price multipliers and settings within the mod. 
-- Classes like `BaseThingPriceMultipilerInfo` and `BaseCategoryPriceMultipilerInfo` have custom XML loading logic to integrate game data with XML definitions.
+- **Defs Usage**: XML files define game aspects such as `HediffDef`, `JobDef`, `DynamicEconomy.ConstantPriceModsDef`, etc., used to extend and modify RimWorld gameplay elements.
+- **Custom XML Loading**: The method `LoadDataFromXmlCustom` in `BaseThingPriceMultipilerInfo` processes custom XML data entries, integrating seamlessly with existing game data structures.
 
 ## Harmony Patching
-- **Harmony**: Utilized for runtime method modification without altering the original game code.
-- **Patching Strategy**: Ensure that methods from core game functions are carefully patched to enhance or modify behavior pertinent to dynamic pricing and trade interactions.
+- **Patch Integration**: The mod utilizes Harmony (brrainz.harmony) for method patches, allowing dynamic alterations of game behaviors without modifying the original source code.
+- **Patch Structure**: Patches are clearly documented and separated, with pre/postfix methods applied judiciously to modify game functions.
 
 ## Suggestions for Copilot
-To assist with the development and extension of Dynamic Economy, consider the following suggestions:
-1. **Predictive Refactoring**: Where code may benefit from cleanup or restructuring, suggest alternative patterns while maintaining functionality.
-2. **Automated XML Suggestions**: Provide suggestions for XML data structures based on detected patterns and existing files, helping to keep XML consistent and adhering to existing conventions.
-3. **Harmony Patch Examples**: Copilot should recognize when a method might benefit from patching and suggest potential pre/postfix logic relevant to trading operations.
-4. **Debugging Support**: Suggest test methods or instrumentation for monitoring changes in price vectors, especially when experimenting with new economic models.
-5. **Integration Testing**: Propose strategies for testing compatibility with base game features and other mods to ensure stability and compatibility.
+1. **Auto-Completion and Snippets**: Use Copilot to provide code snippets for XML data parsing and Harmony patches, following existing patterns in the mod.
+   
+2. **Refactoring Assistance**: Suggest improvements or refactorings, especially in complex methods like `ComplexPriceModifier.GetPriceMultipilerFor` to enhance performance and readability.
 
-By following these guidelines, Copilot can effectively aid the ongoing development and extension of the Dynamic Economy mod, ensuring both stability and new feature integration are accomplished smoothly.
+3. **Error Message Suggestions**: Recommend detailed error messages and logging improvements to handle potential exceptions and runtime errors more effectively.
+
+4. **Configuration and Setting Management**: Offer code examples for extending and managing the mod's in-game settings through the `DESettings` class.
+
+5. **XML Def Management**: Assist in generating XML templates that maintain consistency across newly added defs and existing ones.
+
+Use these instructions to guide Copilot in generating relevant and cohesive code that aligns with the mod’s structure and mechanics.
 
 ## Project Solution Guidelines
 - Relevant mod XML files are included as Solution Items under the solution folder named XML, these can be read and modified from within the solution.
@@ -41,3 +47,9 @@ By following these guidelines, Copilot can effectively aid the ongoing developme
 - When making functional changes in this mod, ensure the documented features stay in sync with implementation; use the in-solution `.github` copy as the primary file.
 - In the solution is also a project called Assembly-CSharp, containing a read-only version of the decompiled game source, for reference and debugging purposes.
 - For any new documentation, update this copilot-instructions.md file rather than creating separate documentation files.
+
+
+## Hard rules (must follow)
+- Do NOT run commands that modify the repo (no git commit, git apply, dotnet format) unless explicitly asked.
+- Prefer minimal reads: read only the smallest code region needed (around the suspicious lines).
+
