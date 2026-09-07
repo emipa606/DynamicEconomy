@@ -6,8 +6,11 @@
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <DebugType>None</DebugType>
     <LangVersion>latest</LangVersion>
-    <FileVersion>1.6.3</FileVersion>
+    <FileVersion>1.6.4</FileVersion>
     <Copyright>© saloid 2026 - MIT License</Copyright>
+    <AssemblyVersion>1.6</AssemblyVersion>
+    <Product>Dynamic economy (Continued)</Product>
+    <Nullable>warnings</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Krafs.Rimworld.Ref">

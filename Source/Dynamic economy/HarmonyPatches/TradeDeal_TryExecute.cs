@@ -6,7 +6,7 @@ using Verse;
 namespace DynamicEconomy;
 
 [HarmonyPatch(typeof(TradeDeal), nameof(TradeDeal.TryExecute))]
-public class TradeDeal_TryExecute
+public static class TradeDeal_TryExecute
 {
     public static void Prefix(List<Tradeable> ___tradeables,
         out List<List<Pair<ThingDef, float>>> __state) //first sublist is for purchased items, 2nd is for sold ones

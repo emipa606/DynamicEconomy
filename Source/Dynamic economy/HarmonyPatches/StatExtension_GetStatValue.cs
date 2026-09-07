@@ -5,7 +5,7 @@ using Verse;
 namespace DynamicEconomy;
 
 [HarmonyPatch(typeof(StatExtension), nameof(StatExtension.GetStatValue))]
-public class StatExtension_GetStatValue
+public static class StatExtension_GetStatValue
 {
     public static void Postfix(ref float __result, Thing thing, StatDef stat)
     {

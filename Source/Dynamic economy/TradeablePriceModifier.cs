@@ -64,7 +64,6 @@ public class TradeablePriceModifier : IExposable
                 };
         }
     }
-    //public bool HasNoEffect =>playerBuysFactor == 1f && playerSellsFactor == 1f && playerBuysFactorEvent==1f && playerSellsFactorEvent==1f;
 
 
     private void resetFactors()

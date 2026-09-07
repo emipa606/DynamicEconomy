@@ -82,7 +82,6 @@ public class GameComponent_EconomyStateTracker : GameComponent
                     return modifier;
                 }
 
-                //Log.Message("Created modifier for " + settlement.Label);
                 modifier = new SettlementPriceModifier(settlement);
                 settlementPriceModifiers.Add(modifier);
 
@@ -97,7 +96,6 @@ public class GameComponent_EconomyStateTracker : GameComponent
                     return modifier;
                 }
 
-                //Log.Message("Created modifier for " + tradeShip.name);
                 modifier = new OrbitalTraderPriceModifier(tradeShip);
                 orbitalTraderPriceModifiers.Add(modifier);
 
@@ -154,13 +152,6 @@ public class GameComponent_EconomyStateTracker : GameComponent
         var modifier = GetOrCreateIfNeededComplexModifier(targetSettlement);
 
         modifier.AddEventModifier(thingCategoryDef, playerSellsFactor, playerBuysFactor);
-
-        /*var debugMod = GetOrCreateIfNeededSettlementModifier(targetSettlement).thingCategoryPriceModifiers.Find(mod => mod.Def == thingCategoryDef);
-
-        if (debugMod == null)
-            Log.Message("modifier was not created");
-        else
-            Log.Message("DEBUG sell=" + debugMod.playerSellsFactor + " buy=" + debugMod.playerBuysFactor + " sellEv=" + debugMod.playerSellsFactorEvent + " buyEv=" + debugMod.playerBuysFactorEvent + "TOTAL SELL MUL = " + debugMod.GetPriceMultipiler(TradeAction.PlayerSells));*/
     }
 
 

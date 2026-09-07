@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Defs>
-  <HediffDef ParentName="DiseaseBase">
+  <HediffDef ParentName="ImplantHediffBase">
     <defName>PsiCoinMining</defName>
     <label>psiCoin mining</label>
     <initialSeverity>0.25</initialSeverity>
+    <scenarioCanAdd>false</scenarioCanAdd>
     <description>Psi-coin mining.</description>
     <descriptionHyperlinks>
       <ThingDef>PsiCoin</ThingDef>
@@ -40,8 +41,8 @@
       <li Class="HediffCompProperties_DamageBrain">
         <damageAmount>1~5</damageAmount>
         <mtbDaysPerStage>
-          <li>-1</li>
-          <li>5</li>
+          <li>1000000</li>
+          <li>300</li>
         </mtbDaysPerStage>
       </li>
     </comps>
@@ -50,7 +51,7 @@
     <defName>PsiCoinMiner</defName>
     <label>psicoin miner</label>
     <description>A device that can utilize a part of or even a whole user mind to write down on chips Shreddinger-class data, or, to put it simple, it mines psicoins.
-            \nWhile light mode allows user to stay consciouness, hard mode will make them fall in catatonia and will slowly turn their brains into a porrige in exchange for much higher psicoin output.</description>
+            \nWhile light mode allows user to stay consciousness, hard mode will make them fall in catatonia and will slowly turn their brains into a porridge in exchange for much higher psicoin output.</description>
     <descriptionHyperlinks>
       <RecipeDef>InstallPsiCoinMiner</RecipeDef>
     </descriptionHyperlinks>

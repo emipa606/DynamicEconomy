@@ -1,5 +1,8 @@
 # Changelog for DynamicEconomy
 
+1.6.4 - Fixed psicoin-miner interval and removed natural spawn-chance
+
+
 1.6.3 - Fixed startup error when not using ideology
 
 

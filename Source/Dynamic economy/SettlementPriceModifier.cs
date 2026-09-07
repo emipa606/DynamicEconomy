@@ -51,21 +51,6 @@ public class SettlementPriceModifier : ComplexPriceModifier
                 // it is safe to add mods directly since lists are empty at this moment
                 RegisterCategoryModifiers(hillModDef.categoryPriceMultipilers);
                 RegisterThingModifiers(hillModDef.thingPriceMultipilers);
-                //foreach (var mod in hillModDef.categoryPriceMultipilers)
-                //{
-                //    thingCategoryPriceModifiers.Add(new ThingCategoryPriceModifier(
-                //        DefDatabase<ThingCategoryDef>.GetNamed(mod.categoryDefName),
-                //        mod.baseMultipiler,
-                //        mod.baseMultipiler));
-                //}
-
-                //foreach (var mod in hillModDef.thingPriceMultipilers)
-                //{
-                //    thingPriceModifiers.Add(new ThingPriceModifier(
-                //        DefDatabase<ThingDef>.GetNamed(mod.thingDefName),
-                //        mod.baseMultipiler,
-                //        mod.baseMultipiler));
-                //}
             }
 
 
@@ -90,26 +75,6 @@ public class SettlementPriceModifier : ComplexPriceModifier
             }
 
             Log.Warning($"Havent found any faction modifier for {settlement.Faction.def.defName}");
-
-            //foreach (var biomeMod in extension.thingPriceMultipilers)
-            //{
-            //    var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingDef>.GetNamed(biomeMod.thingDefName));
-            //    if (mod != null)
-            //    {
-            //        mod.baseBuyFactor *= biomeMod.baseMultipiler;
-            //        mod.baseSellFactor *= biomeMod.baseMultipiler;
-            //    }
-            //}
-
-            //foreach (var biomeMod in extension.categoryPriceMultipilers)
-            //{
-            //    var mod = GetOrCreateIfNeededTradeablePriceModifier(DefDatabase<ThingCategoryDef>.GetNamed(biomeMod.categoryDefName));
-            //    if (mod != null)
-            //    {
-            //        mod.baseBuyFactor *= biomeMod.baseMultipiler;
-            //        mod.baseSellFactor *= biomeMod.baseMultipiler;
-            //    }
-            //}
         }
         else
         {
@@ -122,12 +87,8 @@ public class SettlementPriceModifier : ComplexPriceModifier
     {
         var result = base.GetPriceMultipilerFor(thingDef, action, factor);
 
-        if (settlement?.Faction == null)
-        {
-            return result;
-        }
-
-        if (action != TradeAction.PlayerBuys || factor != ConsideredFactors.All && factor != ConsideredFactors.Base)
+        if (settlement?.Faction == null || action != TradeAction.PlayerBuys ||
+            factor != ConsideredFactors.All && factor != ConsideredFactors.Base)
         {
             return result;
         }

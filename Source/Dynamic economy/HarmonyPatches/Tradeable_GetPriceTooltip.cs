@@ -6,7 +6,7 @@ using Verse;
 namespace DynamicEconomy;
 
 [HarmonyPatch(typeof(Tradeable), nameof(Tradeable.GetPriceTooltip))]
-public class Tradeable_GetPriceTooltip
+public static class Tradeable_GetPriceTooltip
 {
     public static void Postfix(ref string __result, Tradeable __instance, TradeAction action)
     {
@@ -36,7 +36,7 @@ public class Tradeable_GetPriceTooltip
 
         __result += "\n";
         var baseMul = mod.GetPriceMultipilerFor(__instance.ThingDef, action, ConsideredFactors.Base);
-        if (baseMul != 1f)
+        if (!baseMul.Equals(1f))
         {
             switch (TradeSession.trader)
             {
@@ -59,13 +59,13 @@ public class Tradeable_GetPriceTooltip
             case TradeAction.PlayerBuys:
             {
                 var factorDynamic = mod.GetPriceMultipilerFor(__instance.ThingDef, action, ConsideredFactors.Dynamic);
-                if (factorDynamic != 1f)
+                if (!factorDynamic.Equals(1f))
                 {
                     __result += "\n" + "DE_PlayerPurchasesFactor".Translate() + ": x" + factorDynamic.ToString("F2");
                 }
 
                 var factorEvent = mod.GetPriceMultipilerFor(__instance.ThingDef, action, ConsideredFactors.Event);
-                if (factorEvent != 1f)
+                if (!factorEvent.Equals(1f))
                 {
                     __result += "\n" + "DE_EventFactor".Translate() + ": x" + factorEvent.ToString("F2");
                 }
@@ -75,13 +75,13 @@ public class Tradeable_GetPriceTooltip
             case TradeAction.PlayerSells:
             {
                 var factorDynamic = mod.GetPriceMultipilerFor(__instance.ThingDef, action, ConsideredFactors.Dynamic);
-                if (factorDynamic != 1f)
+                if (!factorDynamic.Equals(1f))
                 {
                     __result += "\n" + "DE_PlayerSalesFactor".Translate() + ": x" + factorDynamic.ToString("F2");
                 }
 
                 var factorEvent = mod.GetPriceMultipilerFor(__instance.ThingDef, action, ConsideredFactors.Event);
-                if (factorEvent != 1f)
+                if (!factorEvent.Equals(1f))
                 {
                     __result += "\n" + "DE_EventFactor".Translate() + ": x" + factorEvent.ToString("F2");
                 }

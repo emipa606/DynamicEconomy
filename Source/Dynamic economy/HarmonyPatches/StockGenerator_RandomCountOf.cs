@@ -6,7 +6,7 @@ using Verse;
 namespace DynamicEconomy;
 
 [HarmonyPatch(typeof(StockGenerator), "RandomCountOf")]
-public class StockGenerator_RandomCountOf
+public static class StockGenerator_RandomCountOf
 {
     public static int Postfix(int __result, TraderKindDef ___trader, ThingDef def)
     {

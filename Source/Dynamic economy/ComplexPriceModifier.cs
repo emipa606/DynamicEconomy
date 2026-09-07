@@ -14,7 +14,6 @@ public class ComplexPriceModifier : IExposable
 
     protected ComplexPriceModifier()
     {
-        //this.faction = faction;
         thingPriceModifiers = [];
         thingCategoryPriceModifiers = [];
     }
@@ -103,7 +102,6 @@ public class ComplexPriceModifier : IExposable
 
                 modifier = new ThingPriceModifier(thingDef);
                 thingPriceModifiers.Add((ThingPriceModifier)modifier);
-                //Log.Message("Found modifier for " + thingDef.defName);
                 break;
             }
             case ModifierCategory.Group:
@@ -115,7 +113,6 @@ public class ComplexPriceModifier : IExposable
                     thingCategoryPriceModifiers.Add((ThingCategoryPriceModifier)modifier);
                 }
 
-                //Log.Message("Found modifier for " + thingDef.defName);
                 break;
             }
         }
@@ -133,11 +130,6 @@ public class ComplexPriceModifier : IExposable
             return null;
         }
 
-        //var modCategory = GetModifierCategoryFor(thingCategoryDef);
-        //ThingCategoryPriceModifier modifier;
-
-        //if (modCategory == ModifierCategory.Group)
-        //{
         var modifier = thingCategoryPriceModifiers.Find(mod => mod.Def == thingCategoryDef);
         if (modifier != null)
         {
@@ -148,12 +140,6 @@ public class ComplexPriceModifier : IExposable
         thingCategoryPriceModifiers.Add(modifier);
 
         return modifier;
-        //}
-        //else
-        //{
-        //    Log.Error("Cant get modifier for " + modCategory.ToString() + "-type thing category defName=" + thingCategoryDef.defName);
-        //    return null;
-        //}
     }
 
     public virtual float GetPriceMultipilerFor(ThingDef thingDef, TradeAction action,

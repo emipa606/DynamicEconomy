@@ -25,7 +25,6 @@ public class HediffComp_PsiCoinMining : HediffComp
 
     private bool HardMiningOn => parent.Severity > 0.5f;
 
-    //public int ApproxTicksTillPsiCoinOnLightMode => (int)((GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice / Props.silverPerDayLight) * 60000);
     private int PsiCoinDropCooldown =>
         (int)(GameComponent_EconomyStateTracker.CurGameInstance.PsiCoinManager.psiCoinPrice / Props.silverPerDayLight *
               60000);

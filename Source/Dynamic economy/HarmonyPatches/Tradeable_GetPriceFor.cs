@@ -4,7 +4,7 @@ using RimWorld;
 namespace DynamicEconomy;
 
 [HarmonyPatch(typeof(Tradeable), nameof(Tradeable.GetPriceFor))]
-public class Tradeable_GetPriceFor
+public static class Tradeable_GetPriceFor
 {
     public static float Postfix(float __result, Tradeable __instance, TradeAction action)
     {

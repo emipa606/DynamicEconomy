@@ -26,7 +26,7 @@ public class OrbitalTraderPriceModifier : ComplexPriceModifier
         }
 
         if (DESettings.OrbitalTraderRandomPriceOffset == 0f ||
-            res.GetPriceMultiplier(TradeAction.PlayerBuys, ConsideredFactors.Base) != 1f) //if newly created
+            !res.GetPriceMultiplier(TradeAction.PlayerBuys, ConsideredFactors.Base).Equals(1f)) //if newly created
         {
             return res;
         }
@@ -45,7 +45,7 @@ public class OrbitalTraderPriceModifier : ComplexPriceModifier
             return null;
         }
 
-        if (res.GetPriceMultiplier(TradeAction.PlayerBuys, ConsideredFactors.Base) != 1f) //if newly created
+        if (!res.GetPriceMultiplier(TradeAction.PlayerBuys, ConsideredFactors.Base).Equals(1f)) //if newly created
         {
             return res;
         }
