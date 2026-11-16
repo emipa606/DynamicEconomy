@@ -38,7 +38,7 @@ internal class DESettings : ModSettings
 
         BuyingPriceFactorDropRate =
             listingStandard.Slider(BuyingPriceFactorDropRate / DefaultBuyingPriceFactorDropRate, 0.01f, 10f) *
-            DefaultBuyingPriceFactorDropRate; //TODO make it logarithmic
+            DefaultBuyingPriceFactorDropRate;
 
         listingStandard.Label(
             "DE_Setting_GrowthFactor".Translate(

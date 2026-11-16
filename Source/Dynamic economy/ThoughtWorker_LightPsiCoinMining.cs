@@ -23,6 +23,11 @@ public class ThoughtWorker_LightPsiCoinMining : ThoughtWorker
             }
         }
 
-        return stage < 0 ? false : ThoughtState.ActiveAtStage(Math.Min(stage, 3));
+        if (stage < 0)
+        {
+            return false;
+        }
+
+        return ThoughtState.ActiveAtStage(Math.Min(stage, 3));
     }
 }

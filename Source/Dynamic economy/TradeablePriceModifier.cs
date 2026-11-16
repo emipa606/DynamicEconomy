@@ -41,16 +41,23 @@ public class TradeablePriceModifier : IExposable
         switch (factor)
         {
             case ConsideredFactors.Dynamic:
-                return action == TradeAction.PlayerBuys ? playerBuysFactor :
-                    action == TradeAction.PlayerSells ? playerSellsFactor : 1f;
+                return action switch
+                {
+                    TradeAction.PlayerBuys => playerBuysFactor, TradeAction.PlayerSells => playerSellsFactor, _ => 1f
+                };
 
             case ConsideredFactors.Event:
-                return action == TradeAction.PlayerBuys ? playerBuysFactorEvent :
-                    action == TradeAction.PlayerSells ? playerSellsFactorEvent : 1f;
+                return action switch
+                {
+                    TradeAction.PlayerBuys => playerBuysFactorEvent, TradeAction.PlayerSells => playerSellsFactorEvent,
+                    _ => 1f
+                };
 
             case ConsideredFactors.Base:
-                return action == TradeAction.PlayerBuys ? baseBuyFactor :
-                    action == TradeAction.PlayerSells ? baseSellFactor : 1f;
+                return action switch
+                {
+                    TradeAction.PlayerBuys => baseBuyFactor, TradeAction.PlayerSells => baseSellFactor, _ => 1f
+                };
 
             case ConsideredFactors.Stockpile:
                 return playerBuysFactorEvent * baseStockpileFactor;

@@ -27,15 +27,16 @@ public static class TradeDeal_TryExecute
                 continue;
             }
 
-            if (tradeable.ActionToDo == TradeAction.PlayerBuys)
+            switch (tradeable.ActionToDo)
             {
-                __state[0].Add(new Pair<ThingDef, float>(tradeable.ThingDef,
-                    tradeable.CurTotalCurrencyCostForDestination));
-            }
-            else if (tradeable.ActionToDo == TradeAction.PlayerSells)
-            {
-                __state[1].Add(new Pair<ThingDef, float>(tradeable.ThingDef,
-                    tradeable.CurTotalCurrencyCostForDestination));
+                case TradeAction.PlayerBuys:
+                    __state[0].Add(new Pair<ThingDef, float>(tradeable.ThingDef,
+                        tradeable.CurTotalCurrencyCostForDestination));
+                    break;
+                case TradeAction.PlayerSells:
+                    __state[1].Add(new Pair<ThingDef, float>(tradeable.ThingDef,
+                        tradeable.CurTotalCurrencyCostForDestination));
+                    break;
             }
         }
     }

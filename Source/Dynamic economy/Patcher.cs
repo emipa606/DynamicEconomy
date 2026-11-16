@@ -1,13 +1,14 @@
-﻿using Verse;
+﻿using System.Reflection;
+using Verse;
 
 namespace DynamicEconomy;
 
 [StaticConstructorOnStartup]
-internal class Patcher
+internal static class Patcher
 {
     static Patcher()
     {
-        DynamicEconomyMod.HarmonyInstance.PatchAll();
+        DynamicEconomyMod.HarmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
     }
 }
 

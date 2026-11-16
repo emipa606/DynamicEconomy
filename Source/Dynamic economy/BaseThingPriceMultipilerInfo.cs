@@ -19,9 +19,9 @@ public class BaseThingPriceMultipilerInfo
         }
 
         thingDefName = xmlRoot.Name;
-        buyMultiplier = ParseHelper.ParseFloat(xmlRoot.FirstChild.Value);
+        buyMultiplier = ParseHelper.ParseFloat(xmlRoot.FirstChild?.Value);
         sellMultiplier = xmlRoot.Attributes is { Count: > 0 }
-            ? ParseHelper.ParseFloat(xmlRoot.Attributes["Sell"].Value)
+            ? ParseHelper.ParseFloat(xmlRoot.Attributes["Sell"]?.Value)
             : buyMultiplier;
     }
 }

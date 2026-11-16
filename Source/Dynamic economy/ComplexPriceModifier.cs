@@ -189,8 +189,7 @@ public class ComplexPriceModifier : IExposable
     public virtual void TickLong()
     {
         thingPriceModifiers.RemoveAll(mod =>
-            mod == null); //I have no idea where those null mods are coming from. TODO, but for now let it be. Its O(n) after all 
-
+            mod == null); //I have no idea where those null mods are coming from.
         foreach (var thingPriceModifier in thingPriceModifiers)
         {
             thingPriceModifier.TickLongUpdate();
@@ -210,7 +209,7 @@ public class ComplexPriceModifier : IExposable
         if (modifier == null)
         {
             Log.Error(
-                "tried to set base multipilers for None- or constant-category thing"); //TODO make const category available for setting base mods
+                "tried to set base multipilers for None- or constant-category thing");
             return;
         }
 

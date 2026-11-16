@@ -99,8 +99,6 @@ public class QuestNode_HighSupply_GetEventModifiers : QuestNode
 
     protected override bool TestRunInt(Slate slate)
     {
-        //TODO checks for empty strings
-
         if (settlement.GetValue(slate) == null)
         {
             return false;

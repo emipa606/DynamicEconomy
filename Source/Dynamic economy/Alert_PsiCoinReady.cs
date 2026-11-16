@@ -26,6 +26,11 @@ public class Alert_PsiCoinReady : Alert
             }
         }
 
-        return pawnsWithCoinReady.Count == 0 ? false : AlertReport.CulpritsAre(pawnsWithCoinReady);
+        if (pawnsWithCoinReady.Count == 0)
+        {
+            return false;
+        }
+
+        return AlertReport.CulpritsAre(pawnsWithCoinReady);
     }
 }

@@ -97,7 +97,7 @@ public class HediffComp_PsiCoinMining : HediffComp
         _ticksTillNextPsiCoinInLightMode -=
             HardMiningOn
                 ? Props.hardMiningMultipiler
-                : 1; // psicoin price shift correction? TODO. If got time. And a will.
+                : 1; // psicoin price shift correction?
         if (_ticksTillNextPsiCoinInLightMode <= 0)
         {
             psiCoinReady = true;
